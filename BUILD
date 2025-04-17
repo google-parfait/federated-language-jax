@@ -21,7 +21,7 @@ package(
 
 license(
     name = "package_license",
-    package_name = "federated_jax",
+    package_name = "federated_language_jax",
 )
 
 licenses(["notice"])
