@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Python - C extension
+*.so
+
+# Python - distribution
+build/
+dist/
+
+# Python - environment
+venv/
+
+# Python - sphinx
+docs/_build/
+
+# Bazel
+/bazel-*

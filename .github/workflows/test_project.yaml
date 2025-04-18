@@ -34,6 +34,26 @@ concurrency:
 
 jobs:
 
+  test-tools:
+    name: Test Tools
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v4.2.2
+
+    - name: Setup Bazel
+      uses: bazel-contrib/setup-bazel@0.9.1
+      with:
+        bazelisk-cache: true
+        disk-cache: ${{ github.workflow }}
+        repository-cache: true
+
+    - name: Test Bazel dependencies
+      run: |
+        bazelisk mod deps --lockfile_mode=error
+
   test-project:
     name: Test PY ${{ matrix.python-version }}
     runs-on: ubuntu-latest
