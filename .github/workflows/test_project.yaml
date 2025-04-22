@@ -1,4 +1,4 @@
-# Copyright 2025 Google LLC
+# Copyright 2024 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -54,6 +54,15 @@ jobs:
       run: |
         bazelisk mod deps --lockfile_mode=error
 
+    - name: Test tools
+      run: |
+        bazelisk test //:*
+
+    - name: Test examples
+      run: |
+        cd "examples"
+        bazelisk --bazelrc="../.bazelrc" test //...
+
   test-project:
     name: Test PY ${{ matrix.python-version }}
     runs-on: ubuntu-latest
@@ -74,12 +83,13 @@ jobs:
         disk-cache: ${{ github.workflow }}
         repository-cache: true
 
-    # - name: Setup Python
-    #   uses: actions/setup-python@v5.3.0
-    #   with:
-    #     python-version: ${{ matrix.python-version }}
-    #     cache: "pip"
+    - name: Setup Python
+      uses: actions/setup-python@v5.3.0
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: "pip"
 
     - name: Test project
       run: |
-        bazelisk --version
+        bazelisk test //federated_language_jax/... \
+            --@rules_python//python/config_settings:python_version="${{ matrix.python-version }}"
