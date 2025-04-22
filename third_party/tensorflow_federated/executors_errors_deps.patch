@@ -1,0 +1,16 @@
+diff --git tensorflow_federated/python/core/impl/executors/BUILD tensorflow_federated/python/core/impl/executors/BUILD
+index 03c597916..cfb0b9b1f 100644
+--- tensorflow_federated/python/core/impl/executors/BUILD
++++ tensorflow_federated/python/core/impl/executors/BUILD
+@@ -126,7 +126,10 @@ py_test(
+ py_library(
+     name = "executors_errors",
+     srcs = ["executors_errors.py"],
+-    deps = ["@federated_language//federated_language"],
++    deps = [
++        "@federated_language//federated_language",
++        "@federated_language_jax_pypi//grpcio",
++    ],
+ )
+ 
+ py_library(

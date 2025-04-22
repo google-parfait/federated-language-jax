@@ -11,27 +11,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-load("@rules_python//python:defs.bzl", "py_library")
-
-package(
-    default_applicable_licenses = ["//:package_license"],
-    default_visibility = ["//visibility:private"],
-)
-
-licenses(["notice"])
-
-py_library(
-    name = "federated_language_jax",
-    srcs = ["__init__.py"],
-    visibility = ["//visibility:public"],
-    deps = [
-        "//federated_language_jax/backend:execution_contexts",
-        "//federated_language_jax/computation:jax_computation",
-    ],
-)
-
-py_library(
-    name = "version",
-    srcs = ["version.py"],
-)
