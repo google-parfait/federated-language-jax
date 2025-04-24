@@ -12,4 +12,108 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module(name = "federated_language_jax")
+module(
+    name = "federated_language_jax",
+    version = "0.3.1",
+    compatibility_level = 0,
+)
+
+# Dependencies - Modules
+bazel_dep(name = "federated_language", version = "0.3.1")
+bazel_dep(name = "rules_license", version = "1.0.0")
+bazel_dep(name = "rules_python", version = "1.0.0")
+
+# Dependencies - Workspaces
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "org_tensorflow_federated",
+    sha256 = "8b03017559e551f33b82604cf154157f1734bf8eb64ddc4301cf9e4b3d798767",
+    strip_prefix = "tensorflow-federated-e7616d61f343986c64fb7b1c19d5d3c75a3c6226",
+    url = "https://github.com/google-parfait/tensorflow-federated/archive/e7616d61f343986c64fb7b1c19d5d3c75a3c6226.tar.gz",
+)
+
+# Dependencies - Transative
+bazel_dep(name = "abseil-cpp", version = "20250127.1", repo_name = "com_google_absl")  # Required by org_tensorflow_federated
+bazel_dep(name = "bazel_skylib", version = "1.7.1")  # Required by org_tensorflow_federated
+bazel_dep(name = "grpc", version = "1.41.0", repo_name = "com_github_grpc_grpc")  # Required by org_tensorflow_federated
+bazel_dep(name = "protobuf", version = "29.0", repo_name = "com_google_protobuf")  # Required by org_tensorflow_federated
+bazel_dep(name = "pybind11_bazel", version = "2.12.0")  # Required by org_tensorflow_federated
+bazel_dep(name = "rules_cc", version = "0.0.17")  # Required by org_tensorflow_federated
+bazel_dep(name = "platforms", version = "0.0.10")  # Required by pybind11_bazel
+
+# Toolchains
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    python_version = "3.9",
+)
+python.toolchain(
+    python_version = "3.10",
+)
+python.toolchain(
+    python_version = "3.11",
+)
+python.toolchain(
+    is_default = True,
+    python_version = "3.12",
+)
+python.toolchain(
+    python_version = "3.13",
+)
+use_repo(python, python = "python_versions")
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "federated_language_jax_pypi",
+    python_version = "3.9",
+    requirements_lock = "//:requirements_lock_3_9.txt",
+)
+pip.parse(
+    hub_name = "federated_language_jax_pypi",
+    python_version = "3.10",
+    requirements_lock = "//:requirements_lock_3_10.txt",
+)
+pip.parse(
+    hub_name = "federated_language_jax_pypi",
+    python_version = "3.11",
+    requirements_lock = "//:requirements_lock_3_11.txt",
+)
+pip.parse(
+    hub_name = "federated_language_jax_pypi",
+    python_version = "3.12",
+    requirements_lock = "//:requirements_lock_3_12.txt",
+)
+pip.parse(
+    hub_name = "federated_language_jax_pypi",
+    python_version = "3.13",
+    requirements_lock = "//:requirements_lock_3_13.txt",
+)
+use_repo(pip, "federated_language_jax_pypi")
+
+# Transitive Dependencies
+# pip.parse(
+#     hub_name = "federated_language_pypi",
+#     python_version = "3.9",
+#     requirements_lock = "@federated_language//:requirements_lock_3_9.txt",
+# )
+# pip.parse(
+#     hub_name = "federated_language_pypi",
+#     python_version = "3.10",
+#     requirements_lock = "@federated_language//:requirements_lock_3_10.txt",
+# )
+# pip.parse(
+#     hub_name = "federated_language_pypi",
+#     python_version = "3.11",
+#     requirements_lock = "@federated_language//:requirements_lock_3_11.txt",
+# )
+# pip.parse(
+#     hub_name = "federated_language_pypi",
+#     python_version = "3.12",
+#     requirements_lock = "@federated_language//:requirements_lock_3_12.txt",
+# )
+# pip.parse(
+#     hub_name = "federated_language_pypi",
+#     python_version = "3.13",
+#     requirements_lock = "@federated_language//:requirements_lock_3_13.txt",
+# )
+# use_repo(pip, "federated_language_pypi")
