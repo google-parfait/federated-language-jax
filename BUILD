@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("//tools/build_defs/license:license.bzl", "license")
+load("@rules_license//rules:license.bzl", "license")
 
 package(
     default_applicable_licenses = [":package_license"],
@@ -22,6 +22,7 @@ package(
 license(
     name = "package_license",
     package_name = "federated_language_jax",
+    license_kinds = ["@rules_license//licenses/spdx:Apache-2.0"],
 )
 
 licenses(["notice"])
