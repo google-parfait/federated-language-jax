@@ -54,6 +54,10 @@ jobs:
       run: |
         bazelisk mod deps --lockfile_mode=error
 
+    - name: Test tools
+      run: |
+        bazelisk test //:*
+
   test-project:
     name: Test PY ${{ matrix.python-version }}
     runs-on: ubuntu-latest
@@ -74,11 +78,10 @@ jobs:
         disk-cache: ${{ github.workflow }}
         repository-cache: true
 
-    # - name: Setup Python
-    #   uses: actions/setup-python@v5.3.0
-    #   with:
-    #     python-version: ${{ matrix.python-version }}
-    #     cache: "pip"
+    - name: Setup Python
+      uses: actions/setup-python@v5.3.0
+      with:
+        python-version: ${{ matrix.python-version }}
 
     - name: Test project
       run: |

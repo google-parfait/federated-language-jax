@@ -18,4 +18,55 @@ module(
     compatibility_level = 0,
 )
 
+# Dependencies
 bazel_dep(name = "rules_license", version = "1.0.0")
+bazel_dep(name = "rules_python", version = "1.0.0")
+
+# Python Toolchain
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    python_version = "3.9",
+)
+python.toolchain(
+    python_version = "3.10",
+)
+python.toolchain(
+    python_version = "3.11",
+)
+python.toolchain(
+    is_default = True,
+    python_version = "3.12",
+)
+python.toolchain(
+    python_version = "3.13",
+)
+use_repo(python, python = "python_versions")
+
+# Python Dependencies
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "federated_language_jax_pypi",
+    python_version = "3.9",
+    requirements_lock = "//:requirements_lock_3_9.txt",
+)
+pip.parse(
+    hub_name = "federated_language_jax_pypi",
+    python_version = "3.10",
+    requirements_lock = "//:requirements_lock_3_10.txt",
+)
+pip.parse(
+    hub_name = "federated_language_jax_pypi",
+    python_version = "3.11",
+    requirements_lock = "//:requirements_lock_3_11.txt",
+)
+pip.parse(
+    hub_name = "federated_language_jax_pypi",
+    python_version = "3.12",
+    requirements_lock = "//:requirements_lock_3_12.txt",
+)
+pip.parse(
+    hub_name = "federated_language_jax_pypi",
+    python_version = "3.13",
+    requirements_lock = "//:requirements_lock_3_13.txt",
+)
+use_repo(pip, "federated_language_jax_pypi")

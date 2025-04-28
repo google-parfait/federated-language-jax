@@ -1,0 +1,8 @@
+# Python development requirements.
+#
+# IMPORTANT: If you add or update a dependency and it is required by the
+# `federated-language-jax` package, also add or update the dependency in the
+# `pyproject.toml` configuration.
+#
+# See https://packaging.python.org/en/latest/specifications/version-specifiers/
+# for more information.
