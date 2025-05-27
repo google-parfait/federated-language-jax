@@ -16,22 +16,15 @@ load("@rules_python//python:defs.bzl", "py_library")
 
 package(
     default_applicable_licenses = ["//:package_license"],
-    default_visibility = ["//visibility:private"],
+    default_visibility = [
+        "//federated_language_jax:__pkg__",
+        "//federated_language_jax/backend:__subpackages__",
+    ],
 )
 
 licenses(["notice"])
 
 py_library(
-    name = "federated_language_jax",
+    name = "compiler",
     srcs = ["__init__.py"],
-    visibility = ["//visibility:public"],
-    deps = [
-        "//federated_language_jax/backend:execution_contexts",
-        "//federated_language_jax/computation:jax_computation",
-    ],
-)
-
-py_library(
-    name = "version",
-    srcs = ["version.py"],
 )

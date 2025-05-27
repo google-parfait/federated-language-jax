@@ -12,26 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@rules_python//python:defs.bzl", "py_library")
-
 package(
-    default_applicable_licenses = ["//:package_license"],
     default_visibility = ["//visibility:private"],
 )
 
 licenses(["notice"])
 
-py_library(
-    name = "federated_language_jax",
-    srcs = ["__init__.py"],
-    visibility = ["//visibility:public"],
-    deps = [
-        "//federated_language_jax/backend:execution_contexts",
-        "//federated_language_jax/computation:jax_computation",
+cc_library(
+    name = "eigen",
+    srcs = [],
+    hdrs = glob(["Eigen/**"]),
+    defines = [
+        "EIGEN_MAX_ALIGN_BYTES=64",
     ],
-)
-
-py_library(
-    name = "version",
-    srcs = ["version.py"],
+    includes = ["."],
+    visibility = ["//visibility:public"],
 )

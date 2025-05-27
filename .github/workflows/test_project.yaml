@@ -44,15 +44,16 @@ jobs:
       uses: actions/checkout@v4.2.2
 
     - name: Setup Bazel
-      uses: bazel-contrib/setup-bazel@0.9.1
+      uses: bazel-contrib/setup-bazel@0.15.0
       with:
         bazelisk-cache: true
         disk-cache: ${{ github.workflow }}
         repository-cache: true
 
-    - name: Test Bazel dependencies
-      run: |
-        bazelisk mod deps --lockfile_mode=error
+    # TODO: b/419549636 - Enable Bzlmod.
+    # - name: Test Bazel dependencies
+    #   run: |
+    #     bazelisk mod deps --lockfile_mode=error
 
     - name: Test tools
       run: |
@@ -61,28 +62,36 @@ jobs:
   test-project:
     name: Test PY ${{ matrix.python-version }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 240
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        # TODO: b/419584204 - Enable all supported versions of Python.
+        python-version: [
+          # "3.9",
+          # "3.10",
+          "3.11",
+          # "3.12",
+          # "3.13",
+        ]
     steps:
 
     - name: Checkout repository
       uses: actions/checkout@v4.2.2
 
     - name: Setup Bazel
-      uses: bazel-contrib/setup-bazel@0.9.1
+      uses: bazel-contrib/setup-bazel@0.15.0
       with:
         bazelisk-cache: true
         disk-cache: ${{ github.workflow }}
         repository-cache: true
 
     - name: Setup Python
-      uses: actions/setup-python@v5.3.0
+      uses: actions/setup-python@v5.6.0
       with:
         python-version: ${{ matrix.python-version }}
 
     - name: Test project
       run: |
-        bazelisk --version
+        bazelisk test //federated_language_jax/... \
+            --@rules_python//python/config_settings:python_version="${{ matrix.python-version }}"

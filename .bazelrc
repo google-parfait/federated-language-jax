@@ -3,6 +3,9 @@
 # See https://docs.bazel.build/versions/master/user-manual.html#config for more
 # information.
 
+# TODO: b/419549636 - Enable Bzlmod.
+common --noenable_bzlmod
+
 # Enable logging rc options.
 common --announce_rc
 
@@ -24,3 +27,19 @@ build --compilation_mode=opt
 
 # Do not automatically create `__init__.py` in the runfiles of Python targets.
 build --incompatible_default_to_explicit_init_py
+
+# Suppress C compiler warnings.
+build --copt=-w
+build --host_copt=-w
+
+# Compile using the C++17 standard.
+build --cxxopt=-std=c++17
+build --host_cxxopt=-std=c++17
+
+build --repo_env=CC="/usr/bin/clang"
+
+# Do not use C-Ares when building gRPC.
+build --define=grpc_no_ares=true
+
+# Enables some remote execution capabilities.
+common --experimental_repo_remote_exec
