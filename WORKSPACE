@@ -47,6 +47,13 @@ http_archive(
 )
 
 http_archive(
+    name = "rules_license",
+    sha256 = "75759939aef3aeb726e801417a883deefadadb7fea49946a1f5bb74a5162e81e",
+    strip_prefix = "rules_license-1.0.0",
+    url = "https://github.com/bazelbuild/rules_license/archive/refs/tags/1.0.0.tar.gz",
+)
+
+http_archive(
     name = "xla",
     sha256 = "4d935ee2dac97cf55da02b2305decce0fde6a1f5c9f78b0db821104d6440b67f",
     strip_prefix = "xla-661559150498be4c186e74af3a0c60b1aae0c991",
