@@ -47,7 +47,7 @@ jobs:
       uses: bazel-contrib/setup-bazel@0.15.0
       with:
         bazelisk-cache: true
-        disk-cache: ${{ github.workflow }}
+        disk-cache: ${{ github.workflow }}-${{ github.job }}
         repository-cache: true
 
     # TODO: b/419549636 - Enable Bzlmod.
@@ -83,7 +83,7 @@ jobs:
       uses: bazel-contrib/setup-bazel@0.15.0
       with:
         bazelisk-cache: true
-        disk-cache: ${{ github.workflow }}
+        disk-cache: ${{ github.workflow }}-${{ github.job }}-${{ matrix.python-version }}
         repository-cache: true
 
     - name: Setup Python
