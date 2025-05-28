@@ -28,6 +28,7 @@ http_archive(
         "@federated_language_pypi": "@federated_language_jax_pypi",
         "@protobuf": "@com_google_protobuf",
     },
+    sha256 = "927a692e698068a44df691713f6dd74a54eddc536e90c6b1c4e557d3ca7cb9e7",
     strip_prefix = "federated-language-bfc8b09943883cc425d82fd331888e8244a8f4c0",
     url = "https://github.com/google-parfait/federated-language/archive/bfc8b09943883cc425d82fd331888e8244a8f4c0.tar.gz",
 )
@@ -40,12 +41,14 @@ http_archive(
         "//third_party/tensorflow_federated:cpp_to_python_executor_visibility.patch",
         "//third_party/tensorflow_federated:executors_errors_deps.patch",
     ],
+    sha256 = "fc887d436c2857acafcf5e44c136c041d99ad874b48e90aaac7e69a117e09bfc",
     strip_prefix = "tensorflow-federated-23792d84ad9ab6b1bfe28aed893be85d9c4374c3",
     url = "https://github.com/google-parfait/tensorflow-federated/archive/23792d84ad9ab6b1bfe28aed893be85d9c4374c3.tar.gz",
 )
 
 http_archive(
     name = "xla",
+    sha256 = "4d935ee2dac97cf55da02b2305decce0fde6a1f5c9f78b0db821104d6440b67f",
     strip_prefix = "xla-661559150498be4c186e74af3a0c60b1aae0c991",
     url = "https://github.com/openxla/xla/archive/661559150498be4c186e74af3a0c60b1aae0c991.zip",
 )
@@ -56,6 +59,7 @@ http_archive(
 # `rules_python` that XLA depends on.
 http_archive(
     name = "rules_proto",
+    sha256 = "6fb6767d1bef535310547e03247f7518b03487740c11b6c6adb7952033fe1295",
     strip_prefix = "rules_proto-6.0.2",
     url = "https://github.com/bazelbuild/rules_proto/archive/refs/tags/6.0.2.tar.gz",
 )
