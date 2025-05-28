@@ -47,6 +47,13 @@ http_archive(
 )
 
 http_archive(
+    name = "rules_cc",
+    sha256 = "b26168b9a13f094794982b832975eaf53cefc5dced5b3be7df6b8b794dc2744b",
+    strip_prefix = "rules_cc-0.0.12",
+    url = "https://github.com/bazelbuild/rules_cc/archive/refs/tags/0.0.12.tar.gz",
+)
+
+http_archive(
     name = "rules_license",
     sha256 = "75759939aef3aeb726e801417a883deefadadb7fea49946a1f5bb74a5162e81e",
     strip_prefix = "rules_license-1.0.0",
