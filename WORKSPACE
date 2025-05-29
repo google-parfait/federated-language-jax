@@ -47,6 +47,20 @@ http_archive(
 )
 
 http_archive(
+    name = "pybind11_abseil",
+    sha256 = "1496b112e86416e2dcf288569a3e7b64f3537f0b18132224f492266e9ff76c44",
+    strip_prefix = "pybind11_abseil-202402.0",
+    url = "https://github.com/pybind/pybind11_abseil/archive/v202402.0.tar.gz",
+)
+
+http_archive(
+    name = "pybind11_bazel",
+    sha256 = "cae680670bfa6e82703c03f2a3c995408cdcbf43616d7bdd198ef45d3c327731",
+    strip_prefix = "pybind11_bazel-2.13.6",
+    url = "https://github.com/pybind/pybind11_bazel/archive/refs/tags/v2.13.6.tar.gz",
+)
+
+http_archive(
     name = "rules_cc",
     sha256 = "b26168b9a13f094794982b832975eaf53cefc5dced5b3be7df6b8b794dc2744b",
     strip_prefix = "rules_cc-0.0.12",
@@ -69,8 +83,17 @@ http_archive(
 
 # Transitive Dependencies, inlined
 
-# The version of `rules_proto` that XLA depends on is incompatible with the version of
-# `rules_python` that XLA depends on.
+# Required by `pybind11_bazel`
+http_archive(
+    name = "pybind11",
+    build_file = "@pybind11_bazel//:pybind11-BUILD.bazel",
+    sha256 = "d0a116e91f64a4a2d8fb7590c34242df92258a61ec644b79127951e821b47be6",
+    strip_prefix = "pybind11-2.13.6",
+    url = "https://github.com/pybind/pybind11/archive/v2.13.6.zip",
+)
+
+# Required by `xla`, the version of `rules_proto` that XLA depends on is incompatible with the
+# version of `rules_python` that XLA depends on.
 http_archive(
     name = "rules_proto",
     sha256 = "6fb6767d1bef535310547e03247f7518b03487740c11b6c6adb7952033fe1295",
@@ -78,7 +101,7 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_proto/archive/refs/tags/6.0.2.tar.gz",
 )
 
-# Transitive Dependencies, required by xla
+# Transitive Dependencies, required by `xla`
 
 load("@xla//third_party/py:python_init_rules.bzl", "python_init_rules")
 
