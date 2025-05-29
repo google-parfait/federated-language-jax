@@ -19,6 +19,14 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # Direct Dependencies
 
 http_archive(
+    name = "eigen",
+    build_file = "//third_party:eigen.BUILD",
+    sha256 = "eba3f3d414d2f8cba2919c78ec6daab08fc71ba2ba4ae502b7e5d4d99fc02cda",
+    strip_prefix = "eigen-3.4.0",
+    url = "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip",
+)
+
+http_archive(
     name = "googletest",
     sha256 = "65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c",
     strip_prefix = "googletest-1.17.0",
@@ -51,9 +59,9 @@ http_archive(
     repo_mapping = {
         "@com_google_googletest": "@googletest",
     },
-    sha256 = "fc887d436c2857acafcf5e44c136c041d99ad874b48e90aaac7e69a117e09bfc",
-    strip_prefix = "tensorflow-federated-23792d84ad9ab6b1bfe28aed893be85d9c4374c3",
-    url = "https://github.com/google-parfait/tensorflow-federated/archive/23792d84ad9ab6b1bfe28aed893be85d9c4374c3.tar.gz",
+    sha256 = "fe5bb43b67f06468a051e6ac8d31c2e8f598421c27fd9ee6067158dcd03c7871",
+    strip_prefix = "tensorflow-federated-1bf676525dce346636d86c6917e7a76a84807fb8",
+    url = "https://github.com/google-parfait/tensorflow-federated/archive/1bf676525dce346636d86c6917e7a76a84807fb8.tar.gz",
 )
 
 http_archive(
