@@ -19,6 +19,13 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # Direct Dependencies
 
 http_archive(
+    name = "googletest",
+    sha256 = "65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c",
+    strip_prefix = "googletest-1.17.0",
+    url = "https://github.com/google/googletest/archive/refs/tags/v1.17.0.tar.gz",
+)
+
+http_archive(
     name = "federated_language",
     patches = [
         "//third_party/federated_language:proto_library_loads.patch",
@@ -41,6 +48,9 @@ http_archive(
         "//third_party/tensorflow_federated:cpp_to_python_executor_visibility.patch",
         "//third_party/tensorflow_federated:executors_errors_deps.patch",
     ],
+    repo_mapping = {
+        "@com_google_googletest": "@googletest",
+    },
     sha256 = "fc887d436c2857acafcf5e44c136c041d99ad874b48e90aaac7e69a117e09bfc",
     strip_prefix = "tensorflow-federated-23792d84ad9ab6b1bfe28aed893be85d9c4374c3",
     url = "https://github.com/google-parfait/tensorflow-federated/archive/23792d84ad9ab6b1bfe28aed893be85d9c4374c3.tar.gz",
