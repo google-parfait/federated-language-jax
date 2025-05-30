@@ -125,7 +125,7 @@ absl::StatusOr<xla::Shape> ShapeWithUnknownDims(
   xla::PrimitiveType element_type =
       TFF_TRY(PrimitiveTypeFromDataType(data_type));
   std::vector<int64_t> dimensions(num_dims, 0);
-  return xla::ShapeUtil::MakeShape(element_type, dimensions);
+  return xla::ShapeUtil::MakeValidatedShape(element_type, dimensions).value();
 }
 
 class XLAExecutorTest : public ::testing::Test {
@@ -353,7 +353,9 @@ TEST_F(XLAExecutorTest, CreateSelectionOOBImmediate) {
 
 TEST_F(XLAExecutorTest, CreateValueComputationTensorNonFunctionalTypeFails) {
   xla::XlaBuilder builder("float_unk_shape_tensor_identity");
-  xla::Parameter(&builder, 0, xla::ShapeUtil::MakeScalarShape(xla::F32), "x");
+  xla::Parameter(&builder, 0,
+                 xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+                 "x");
   absl::StatusOr<xla::XlaComputation> xla_computation = builder.Build();
   ASSERT_TRUE(xla_computation.ok());
   federated_language::Type float_tensor_type;
@@ -381,7 +383,9 @@ TEST_F(XLAExecutorTest, CreateValueComputationTensorNonFunctionalTypeFails) {
 TEST_F(XLAExecutorTest,
        CreateValueComputationTensorMismatchedTypeAndBindingFails) {
   xla::XlaBuilder builder("float_unk_shape_tensor_identity");
-  xla::Parameter(&builder, 0, xla::ShapeUtil::MakeScalarShape(xla::F32), "x");
+  xla::Parameter(&builder, 0,
+                 xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+                 "x");
   absl::StatusOr<xla::XlaComputation> xla_computation = builder.Build();
   ASSERT_TRUE(xla_computation.ok());
   federated_language::Type float_tensor;
@@ -592,7 +596,9 @@ TEST_F(XLAExecutorTest, CreateAndMaterializeNoArgCallNestedTensorStructure) {
 
 TEST_F(XLAExecutorTest, CreateAndMaterializeIdentityScalar) {
   xla::XlaBuilder builder("float_scalar_identity");
-  xla::Parameter(&builder, 0, xla::ShapeUtil::MakeScalarShape(xla::F32), "x");
+  xla::Parameter(&builder, 0,
+                 xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+                 "x");
   absl::StatusOr<xla::XlaComputation> xla_computation = builder.Build();
   ASSERT_TRUE(xla_computation.ok());
   federated_language::Type float_tensor_type =
@@ -621,7 +627,9 @@ TEST_F(XLAExecutorTest, CreateAndMaterializeIdentityScalar) {
 
 TEST_F(XLAExecutorTest, CreateAndMaterializeIdentitySingletonStruct) {
   xla::XlaBuilder builder("float_scalar_singleton_struct");
-  xla::Parameter(&builder, 0, xla::ShapeUtil::MakeScalarShape(xla::F32), "x");
+  xla::Parameter(&builder, 0,
+                 xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+                 "x");
   absl::StatusOr<xla::XlaComputation> xla_computation = builder.Build();
   ASSERT_TRUE(xla_computation.ok());
   federated_language::Type single_float_struct_type =
@@ -652,12 +660,15 @@ TEST_F(XLAExecutorTest, CreateAndMaterializeIdentitySingletonStruct) {
 
 TEST_F(XLAExecutorTest, CreateAndMaterializeIdentityNestedStruct) {
   xla::XlaBuilder builder("float_nested_struct_identity");
-  auto x = xla::Parameter(&builder, 0,
-                          xla::ShapeUtil::MakeScalarShape(xla::F32), "x");
-  auto y = xla::Parameter(&builder, 1,
-                          xla::ShapeUtil::MakeScalarShape(xla::F32), "y");
-  auto z = xla::Parameter(&builder, 2,
-                          xla::ShapeUtil::MakeScalarShape(xla::F32), "z");
+  auto x = xla::Parameter(
+      &builder, 0, xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+      "x");
+  auto y = xla::Parameter(
+      &builder, 1, xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+      "y");
+  auto z = xla::Parameter(
+      &builder, 2, xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+      "z");
   xla::Tuple(&builder, {x, y, z});
   absl::StatusOr<xla::XlaComputation> xla_computation = builder.Build();
   ASSERT_TRUE(xla_computation.ok());
@@ -699,10 +710,12 @@ TEST_F(XLAExecutorTest, CreateAndMaterializeIdentityNestedStruct) {
 
 TEST_F(XLAExecutorTest, CallAndMaterializeIdentityPartiallyNonScalarStruct) {
   xla::XlaBuilder builder("partially_non_scalar_struct_identity");
-  auto x = xla::Parameter(&builder, 0,
-                          xla::ShapeUtil::MakeScalarShape(xla::F32), "x");
-  auto y = xla::Parameter(&builder, 1,
-                          xla::ShapeUtil::MakeShape(xla::F32, {2, 3}), "y");
+  auto x = xla::Parameter(
+      &builder, 0, xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+      "x");
+  auto y = xla::Parameter(
+      &builder, 1, xla::ShapeUtil::MakeValidatedShape(xla::F32, {2, 3}).value(),
+      "y");
   xla::Tuple(&builder, {x, y});
   absl::StatusOr<xla::XlaComputation> xla_computation = builder.Build();
   ASSERT_TRUE(xla_computation.ok());
@@ -742,12 +755,15 @@ TEST_F(XLAExecutorTest, CallAndMaterializeIdentityPartiallyNonScalarStruct) {
 TEST_F(XLAExecutorTest,
        CreateCallAndMaterializeDifferentParameterAndResultTypes) {
   xla::XlaBuilder builder("float_nested_struct_partial_sum");
-  auto x = xla::Parameter(&builder, 0,
-                          xla::ShapeUtil::MakeScalarShape(xla::F32), "x");
-  auto y = xla::Parameter(&builder, 1,
-                          xla::ShapeUtil::MakeScalarShape(xla::F32), "y");
-  auto z = xla::Parameter(&builder, 2,
-                          xla::ShapeUtil::MakeScalarShape(xla::F32), "z");
+  auto x = xla::Parameter(
+      &builder, 0, xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+      "x");
+  auto y = xla::Parameter(
+      &builder, 1, xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+      "y");
+  auto z = xla::Parameter(
+      &builder, 2, xla::ShapeUtil::MakeValidatedScalarShape(xla::F32).value(),
+      "z");
   xla::Tuple(&builder, {x, xla::Add(y, z)});
   absl::StatusOr<xla::XlaComputation> xla_computation = builder.Build();
   ASSERT_TRUE(xla_computation.ok());
