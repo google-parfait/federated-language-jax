@@ -27,13 +27,6 @@ http_archive(
 )
 
 http_archive(
-    name = "googletest",
-    sha256 = "65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c",
-    strip_prefix = "googletest-1.17.0",
-    url = "https://github.com/google/googletest/archive/refs/tags/v1.17.0.tar.gz",
-)
-
-http_archive(
     name = "federated_language",
     patches = [
         "//third_party/federated_language:proto_library_loads.patch",
@@ -46,6 +39,13 @@ http_archive(
     sha256 = "927a692e698068a44df691713f6dd74a54eddc536e90c6b1c4e557d3ca7cb9e7",
     strip_prefix = "federated-language-bfc8b09943883cc425d82fd331888e8244a8f4c0",
     url = "https://github.com/google-parfait/federated-language/archive/bfc8b09943883cc425d82fd331888e8244a8f4c0.tar.gz",
+)
+
+http_archive(
+    name = "googletest",
+    sha256 = "65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c",
+    strip_prefix = "googletest-1.17.0",
+    url = "https://github.com/google/googletest/archive/refs/tags/v1.17.0.tar.gz",
 )
 
 # TODO: b/417987844 - Federated Language JAX should not depend on TFF.
@@ -99,9 +99,11 @@ http_archive(
     url = "https://github.com/openxla/xla/archive/661559150498be4c186e74af3a0c60b1aae0c991.zip",
 )
 
-# Transitive Dependencies, inlined
+#
+# Inlined Transitive Dependencies
+#
 
-# Required by `pybind11_bazel`
+# Required by `pybind11_bazel`.
 http_archive(
     name = "pybind11",
     build_file = "@pybind11_bazel//:pybind11-BUILD.bazel",
@@ -119,8 +121,11 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_proto/archive/refs/tags/6.0.2.tar.gz",
 )
 
-# Transitive Dependencies, required by `xla`
+#
+# Transitive Dependencies
+#
 
+# Required by `xla`.
 load("@xla//third_party/py:python_init_rules.bzl", "python_init_rules")
 
 python_init_rules()
