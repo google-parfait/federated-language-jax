@@ -45,7 +45,6 @@ py_library(
 pybind_extension(
     name = "xla_bindings",
     srcs = ["xla_bindings.cc"],
-    visibility = ["//visibility:public"],
     deps = [
         ":xla_executor",
         "@federated_language//federated_language/proto:computation_cc_proto",
