@@ -209,40 +209,24 @@ def serialize_jax_computation(
   tensor_indexes = list(np.argsort([x.tensor_index for x in flattened_obj]))
 
   context = jax_computation_context.JaxComputationContext()
-  # TODO: b/347811116 - Remove this version check when the JAX version can be
-  # upgraded.
-  if jax.__version_info__ > (0, 4, 29):
-    with context_stack.install(context):
-      lowered = jax.jit(fn, keep_unused=True).lower(*args, **kwargs)
-      compiled_xla = lowered.compiler_ir('hlo')
+  with context_stack.install(context):
+    lowered = jax.jit(fn, keep_unused=True).lower(*args, **kwargs)
+    compiled_xla = lowered.compiler_ir('hlo')
 
-    # Test if the output is a tuple, or a single array and construct the
-    # return spec accordingly.
-    if isinstance(lowered.out_info, jax.stages.OutInfo):
-      returned_type_spec = _jax_shape_dtype_struct_to_tff_tensor(
-          jax.ShapeDtypeStruct(
-              shape=lowered.out_info.shape, dtype=lowered.out_info.dtype
-          )
-      )
-    else:
-      returned_type_spec = federated_language.to_type(
-          jax.tree_util.tree_map(
-              _jax_shape_dtype_struct_to_tff_tensor, lowered.out_info
-          )
-      )
+  # Test if the output is a tuple, or a single array and construct the
+  # return spec accordingly.
+  if isinstance(lowered.out_info, jax.stages.OutInfo):
+    returned_type_spec = _jax_shape_dtype_struct_to_tff_tensor(
+        jax.ShapeDtypeStruct(
+            shape=lowered.out_info.shape, dtype=lowered.out_info.dtype
+        )
+    )
   else:
-    with context_stack.install(context):
-      tracer_callable = jax.xla_computation(fn, return_shape=True)  # type: ignore
-      compiled_xla, returned_shape = tracer_callable(*args, **kwargs)
-
-    if isinstance(returned_shape, jax.ShapeDtypeStruct):
-      returned_type_spec = _jax_shape_dtype_struct_to_tff_tensor(returned_shape)
-    else:
-      returned_type_spec = federated_language.to_type(
-          jax.tree_util.tree_map(
-              _jax_shape_dtype_struct_to_tff_tensor, returned_shape
-          )
-      )
+    returned_type_spec = federated_language.to_type(
+        jax.tree_util.tree_map(
+            _jax_shape_dtype_struct_to_tff_tensor, lowered.out_info
+        )
+    )
 
   computation_type = federated_language.FunctionType(
       parameter_type, returned_type_spec
