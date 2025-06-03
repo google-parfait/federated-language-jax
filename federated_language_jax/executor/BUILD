@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+load("@local_config_cuda//cuda:build_defs.bzl", "if_cuda")
 load("@pybind11_bazel//:build_defs.bzl", "pybind_extension")
 load("@rules_python//python:defs.bzl", "py_library")
+load("@xla//xla/tsl:tsl.bzl", "if_cuda_or_rocm", "if_with_tpu_support")
 
 package(
     default_applicable_licenses = ["//:package_license"],
@@ -42,10 +44,26 @@ py_library(
     ],
 )
 
+# Target that bundles the CPU, GPU, or TPU plugin and platform dependencies.
+cc_library(
+    name = "platform_support",
+    deps = [
+        "@xla//xla/service:cpu_plugin",
+        "@xla//xla/stream_executor/host:host_platform",
+    ] + if_cuda_or_rocm([
+        "//third_party/tensorflow/compiler/xla/service:gpu_plugin",
+    ]) + if_cuda([
+        "//third_party/tensorflow/compiler/xla/stream_executor/cuda:cuda_platform",
+    ]) + if_with_tpu_support([
+    ]),
+    alwayslink = 1,
+)
+
 pybind_extension(
     name = "xla_bindings",
     srcs = ["xla_bindings.cc"],
     deps = [
+        ":platform_support",
         ":xla_executor",
         "@federated_language//federated_language/proto:computation_cc_proto",
         "@org_tensorflow_federated//tensorflow_federated/proto/v0:executor_cc_proto",
@@ -80,7 +98,6 @@ cc_library(
         "@xla//xla/client:client_library",
         "@xla//xla/hlo/builder:xla_computation",
         "@xla//xla/service",
-        "@xla//xla/service:cpu_plugin",  # buildcleaner: keep # TODO: b/419576470 - Move to test/binary targets.
         "@xla//xla/service:hlo_proto_cc",
         "@xla//xla/stream_executor:platform",
         "@xla//xla/stream_executor:platform_manager",
@@ -93,6 +110,7 @@ cc_test(
     args = ["--tff_xla_executor_test_platform=Host"],
     copts = ["-Wthread-safety-analysis"],
     deps = [
+        ":platform_support",
         ":xla_executor",
         ":xla_utils",
         "@com_google_absl//absl/flags:flag",
