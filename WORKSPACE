@@ -112,6 +112,14 @@ http_archive(
 # Inlined Transitive Dependencies
 #
 
+# Required by `googletest`.
+http_archive(
+    name = "re2",
+    sha256 = "eb2df807c781601c14a260a507a5bb4509be1ee626024cb45acbd57cb9d4032b",
+    strip_prefix = "re2-2024-07-02",
+    url = "https://github.com/google/re2/archive/refs/tags/2024-07-02.tar.gz",
+)
+
 # Required by `pybind11_bazel`.
 http_archive(
     name = "pybind11",

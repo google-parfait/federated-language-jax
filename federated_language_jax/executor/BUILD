@@ -104,9 +104,9 @@ cc_library(
 )
 
 cc_test(
-    name = "xla_executor_test",
+    name = "xla_executor_cpu_test",
     srcs = ["xla_executor_test.cc"],
-    args = ["--tff_xla_executor_test_platform=Host"],
+    args = ["--platform_name=cpu"],
     deps = [
         ":platform_support",
         ":xla_executor",
@@ -116,6 +116,7 @@ cc_test(
         "@com_google_absl//absl/log:check",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/status:statusor",
+        "@com_google_absl//absl/strings",
         "@federated_language//federated_language/proto:array_cc_proto",
         "@federated_language//federated_language/proto:computation_cc_proto",
         "@federated_language//federated_language/proto:data_type_cc_proto",
@@ -133,7 +134,45 @@ cc_test(
         "@xla//xla/hlo/builder:xla_builder",
         "@xla//xla/hlo/builder:xla_computation",
         "@xla//xla/service:platform_util",
-        "@xla//xla/stream_executor:platform",
+    ],
+)
+
+# TODO: b/419576243 - Enable GPU tests.
+cc_test(
+    name = "xla_executor_gpu_test",
+    srcs = ["xla_executor_test.cc"],
+    args = ["--platform_name=gpu"],
+    tags = [
+        "manual",
+        "requires-gpu-nvidia",
+    ],
+    deps = [
+        ":platform_support",
+        ":xla_executor",
+        ":xla_utils",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:check",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/status:statusor",
+        "@com_google_absl//absl/strings",
+        "@federated_language//federated_language/proto:array_cc_proto",
+        "@federated_language//federated_language/proto:computation_cc_proto",
+        "@federated_language//federated_language/proto:data_type_cc_proto",
+        "@googletest//:gtest_main",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:array_shape_test_utils",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:array_test_utils",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:executor",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:status_macros",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:type_test_utils",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:value_test_utils",
+        "@org_tensorflow_federated//tensorflow_federated/cc/testing:protobuf_matchers",
+        "@org_tensorflow_federated//tensorflow_federated/cc/testing:status_matchers",
+        "@xla//xla:shape_util",
+        "@xla//xla:xla_data_proto_cc",
+        "@xla//xla/hlo/builder:xla_builder",
+        "@xla//xla/hlo/builder:xla_computation",
+        "@xla//xla/service:platform_util",
     ],
 )
 

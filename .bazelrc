@@ -41,5 +41,8 @@ build --repo_env=CC="/usr/bin/clang"
 # Do not use C-Ares when building gRPC.
 build --define=grpc_no_ares=true
 
+# Enable Abseil for GoogleTest.
+build --define=absl=1
+
 # Enables some remote execution capabilities.
 common --experimental_repo_remote_exec
