@@ -43,3 +43,7 @@ build --define=grpc_no_ares=true
 
 # Enables some remote execution capabilities.
 common --experimental_repo_remote_exec
+
+# This config refers to building CUDA op kernels with nvcc.
+build:cuda --crosstool_top=@local_config_cuda//crosstool:toolchain
+build:cuda --@local_config_cuda//:enable_cuda
