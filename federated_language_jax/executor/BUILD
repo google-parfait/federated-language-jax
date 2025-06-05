@@ -105,9 +105,9 @@ cc_library(
 )
 
 cc_test(
-    name = "xla_executor_test",
+    name = "xla_executor_cpu_test",
     srcs = ["xla_executor_test.cc"],
-    args = ["--tff_xla_executor_test_platform=Host"],
+    args = ["--platform_name=cpu"],
     copts = ["-Wthread-safety-analysis"],
     deps = [
         ":platform_support",
@@ -118,6 +118,7 @@ cc_test(
         "@com_google_absl//absl/log:check",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/status:statusor",
+        "@com_google_absl//absl/strings",
         "@federated_language//federated_language/proto:array_cc_proto",
         "@federated_language//federated_language/proto:computation_cc_proto",
         "@federated_language//federated_language/proto:data_type_cc_proto",
