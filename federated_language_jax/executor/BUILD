@@ -106,9 +106,9 @@ cc_library(
 )
 
 cc_test(
-    name = "xla_executor_test",
+    name = "xla_executor_cpu_test",
     srcs = ["xla_executor_test.cc"],
-    args = ["--tff_xla_executor_test_platform=Host"],
+    args = ["--platform_name=cpu"],
     deps = [
         ":platform_support",
         ":xla_executor",
@@ -118,6 +118,7 @@ cc_test(
         "@abseil-cpp//absl/log:check",
         "@abseil-cpp//absl/status",
         "@abseil-cpp//absl/status:statusor",
+        "@abseil-cpp//absl/strings",
         "@federated_language//federated_language/proto:array_cc_proto",
         "@federated_language//federated_language/proto:computation_cc_proto",
         "@federated_language//federated_language/proto:data_type_cc_proto",
@@ -135,7 +136,6 @@ cc_test(
         "@xla//xla/hlo/builder:xla_builder",
         "@xla//xla/hlo/builder:xla_computation",
         "@xla//xla/service:platform_util",
-        "@xla//xla/stream_executor:platform",
     ],
 )
 
