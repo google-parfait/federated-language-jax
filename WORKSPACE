@@ -45,6 +45,9 @@ http_archive(
 
 http_archive(
     name = "googletest",
+    repo_mapping = {
+        "@abseil-cpp": "@com_google_absl",
+    },
     sha256 = "65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c",
     strip_prefix = "googletest-1.17.0",
     url = "https://github.com/google/googletest/archive/refs/tags/v1.17.0.tar.gz",
@@ -116,6 +119,17 @@ http_archive(
 #
 # Inlined Transitive Dependencies
 #
+
+# Required by `googletest`.
+http_archive(
+    name = "re2",
+    repo_mapping = {
+        "@abseil-cpp": "@com_google_absl",
+    },
+    sha256 = "eb2df807c781601c14a260a507a5bb4509be1ee626024cb45acbd57cb9d4032b",
+    strip_prefix = "re2-2024-07-02",
+    url = "https://github.com/google/re2/archive/refs/tags/2024-07-02.tar.gz",
+)
 
 # Required by `pybind11_bazel`.
 http_archive(

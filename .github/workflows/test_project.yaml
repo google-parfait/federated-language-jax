@@ -94,4 +94,5 @@ jobs:
     - name: Test project
       run: |
         bazelisk test //federated_language_jax/... \
+            --test_tag_filters="-requires-gpu-nvidia" \
             --@rules_python//python/config_settings:python_version="${{ matrix.python-version }}"

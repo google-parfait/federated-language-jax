@@ -31,6 +31,7 @@ limitations under the License.
 #include "absl/log/log.h"
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
+#include "absl/strings/ascii.h"
 #include "federated_language/proto/array.pb.h"
 #include "federated_language/proto/computation.pb.h"
 #include "federated_language/proto/data_type.pb.h"
@@ -40,7 +41,6 @@ limitations under the License.
 #include "xla/service/platform_util.h"
 #include "xla/shape.h"
 #include "xla/shape_util.h"
-#include "xla/stream_executor/platform.h"
 #include "xla/xla_data.pb.h"
 #include "tensorflow_federated/cc/core/impl/executors/array_shape_test_utils.h"
 #include "tensorflow_federated/cc/core/impl/executors/array_test_utils.h"
@@ -51,9 +51,8 @@ limitations under the License.
 #include "tensorflow_federated/cc/testing/protobuf_matchers.h"
 #include "tensorflow_federated/cc/testing/status_matchers.h"
 
-ABSL_FLAG(std::string, tff_xla_executor_test_platform, "Host",
-          "The name of the XLA platform to run the tests on. By default will "
-          "run on 'Host' (CPU).");
+ABSL_FLAG(std::string, platform_name, "",
+          "The name of the XLA platform to run the tests on.");
 
 namespace tensorflow_federated {
 namespace {
@@ -131,25 +130,13 @@ absl::StatusOr<xla::Shape> ShapeWithUnknownDims(
 class XLAExecutorTest : public ::testing::Test {
  public:
   XLAExecutorTest() {
-    absl::StatusOr<std::vector<xla::se::Platform*>> platforms =
-        xla::PlatformUtil::GetSupportedPlatforms();
-    if (!platforms.ok()) {
-      LOG(FATAL) << "Could not enumerate supported XLA platforms";
-    }
-    LOG(INFO) << "Found " << platforms->size() << " platforms";
-    const std::string requested_platform_name =
-        absl::GetFlag(FLAGS_tff_xla_executor_test_platform);
-    for (auto* platform : *platforms) {
-      LOG(INFO) << "Platform: " << platform->Name();
-      if (platform->Name() == requested_platform_name) {
-        if (platform->VisibleDeviceCount() > 0) {
-          test_executor_ = CreateXLAExecutor(platform->Name()).value();
-        }
-      }
-    }
+    const std::string platform_name = absl::GetFlag(FLAGS_platform_name);
+    auto canonical_platform_name = absl::AsciiStrToUpper(
+        xla::PlatformUtil::CanonicalPlatformName(platform_name).value());
+    test_executor_ = CreateXLAExecutor(canonical_platform_name).value();
     // Fail the test if we couldn't find the requested platform.
     CHECK(test_executor_ != nullptr)
-        << "Could not find platform " << requested_platform_name
+        << "Could not find platform " << canonical_platform_name
         << ", missing build dependency, or no devices for platform found. See "
         << "logs for registered platforms.";
   }
