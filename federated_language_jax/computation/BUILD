@@ -105,6 +105,7 @@ py_library(
     deps = [
         "@federated_language//federated_language/common_libs:structure",
         "@federated_language//federated_language/proto:computation_py_pb2",
+        "@federated_language_jax_pypi//dm_tree",
         "@federated_language_jax_pypi//federated_language",
         "@federated_language_jax_pypi//protobuf",
         "@xla//xla/python:xla_client",

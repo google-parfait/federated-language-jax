@@ -19,6 +19,7 @@ from typing import Optional, TypeVar, Union
 import federated_language
 from federated_language.common_libs import structure
 from federated_language.proto import computation_pb2 as pb
+import tree
 
 from google.protobuf import any_pb2
 # TODO: b/419592615 - Remove usage of deprecated JAX/XLA API.
@@ -160,9 +161,12 @@ def create_xla_tff_computation(
   parameter_binding = _make_xla_binding_for_type(
       tensor_indexes, type_spec.parameter
   )
+  if isinstance(type_spec.result, federated_language.StructType):
+    flattened = tree.flatten(structure.to_odict_or_tuple(type_spec.result))
+  else:
+    flattened = [type_spec.result]
   result_binding = _make_xla_binding_for_type(
-      list(range(len(structure.flatten(type_spec.result)))),
-      type_spec.result,
+      list(range(len(flattened))), type_spec.result
   )
   reconstructed_type = _xla_computation_and_bindings_to_tff_type(
       xla_computation, parameter_binding, result_binding
