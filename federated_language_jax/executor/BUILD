@@ -77,7 +77,6 @@ cc_library(
     name = "xla_executor",
     srcs = ["xla_executor.cc"],
     hdrs = ["xla_executor.h"],
-    copts = ["-Wthread-safety-analysis"],
     deps = [
         ":xla_utils",
         "@com_google_absl//absl/log",
@@ -108,7 +107,6 @@ cc_test(
     name = "xla_executor_test",
     srcs = ["xla_executor_test.cc"],
     args = ["--tff_xla_executor_test_platform=Host"],
-    copts = ["-Wthread-safety-analysis"],
     deps = [
         ":platform_support",
         ":xla_executor",
@@ -143,7 +141,6 @@ cc_library(
     name = "xla_utils",
     srcs = ["xla_utils.cc"],
     hdrs = ["xla_utils.h"],
-    copts = ["-Wthread-safety-analysis"],
     deps = [
         "@com_google_absl//absl/log",
         "@com_google_absl//absl/status",
@@ -164,7 +161,6 @@ cc_library(
 cc_test(
     name = "xla_utils_test",
     srcs = ["xla_utils_test.cc"],
-    copts = ["-Wthread-safety-analysis"],
     deps = [
         ":xla_utils",
         "@com_google_absl//absl/status",
