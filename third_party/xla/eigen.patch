@@ -1,0 +1,1044 @@
+diff --git third_party/tsl/tsl/platform/BUILD third_party/tsl/tsl/platform/BUILD
+index 6b43f1b94b..dc1a810798 100644
+--- third_party/tsl/tsl/platform/BUILD
++++ third_party/tsl/tsl/platform/BUILD
+@@ -860,7 +860,7 @@ cc_library(
+     hdrs = ["bfloat16.h"],
+     compatible_with = get_compatible_with_portable(),
+     deps = [
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@xla//xla/tsl/platform:byte_order",
+     ],
+ )
+diff --git xla/BUILD xla/BUILD
+index 8a0c3b6d4c..49a4b92533 100644
+--- xla/BUILD
++++ xla/BUILD
+@@ -117,7 +117,7 @@ cc_library(
+     deps = [
+         ":types",
+         "@com_google_absl//absl/base",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:bfloat16",
+     ],
+ )
+@@ -130,7 +130,7 @@ xla_cc_test(
+         "//xla/hlo/testlib:test",
+         "//xla/tsl/platform:test_main",
+         "@com_google_googletest//:gtest",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:bfloat16",
+     ],
+ )
+@@ -243,7 +243,7 @@ cc_library(
+     visibility = internal_visibility([":friends"]),
+     deps = [
+         "@com_google_absl//absl/strings",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:ml_dtypes",
+     ],
+ )
+@@ -367,7 +367,7 @@ cc_library(
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:bfloat16",
+         "@tsl//tsl/platform:casts",
+         "@tsl//tsl/platform:ml_dtypes",
+@@ -671,7 +671,7 @@ cc_library(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:ml_dtypes",
+         "@tsl//tsl/platform:platform_port",
+     ],
+@@ -812,7 +812,7 @@ cc_library(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -857,7 +857,7 @@ xla_cc_test(
+         "@com_google_absl//absl/log:check",
+         "@com_google_absl//absl/strings:string_view",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -882,7 +882,7 @@ xla_cc_test(
+         "//xla/hlo/testlib:test",
+         "//xla/tsl/platform:test_main",
+         "@com_google_googletest//:gtest",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:ml_dtypes",
+     ],
+ )
+@@ -935,7 +935,7 @@ xla_cc_test(
+         "@com_google_absl//absl/log",
+         "@com_google_absl//absl/types:span",
+         "@com_google_googletest//:gtest",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+diff --git xla/backends/cpu/BUILD xla/backends/cpu/BUILD
+index a2210dfcb6..71cc37071c 100644
+--- xla/backends/cpu/BUILD
++++ xla/backends/cpu/BUILD
+@@ -28,7 +28,7 @@ filegroup(
+ cc_library(
+     name = "alignment",
+     hdrs = ["alignment.h"],
+-    deps = ["@eigen_archive//:eigen3"],
++    deps = ["@eigen"],
+ )
+ 
+ onednn_graph_cc_library(
+diff --git xla/backends/cpu/nanort/BUILD xla/backends/cpu/nanort/BUILD
+index d8c3aef48c..d98bb68882 100644
+--- xla/backends/cpu/nanort/BUILD
++++ xla/backends/cpu/nanort/BUILD
+@@ -76,7 +76,7 @@ xla_cc_test(
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings:string_view",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -118,7 +118,7 @@ cc_library(
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:casts",
+         "@tsl//tsl/platform:platform_port",
+         "@tsl//tsl/profiler/lib:traceme",
+diff --git xla/backends/cpu/runtime/BUILD xla/backends/cpu/runtime/BUILD
+index 7c767df395..cf75052640 100644
+--- xla/backends/cpu/runtime/BUILD
++++ xla/backends/cpu/runtime/BUILD
+@@ -71,7 +71,7 @@ cc_library(
+     hdrs = ["thread_pool_task_runner.h"],
+     deps = [
+         ":thunk",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -99,7 +99,7 @@ cc_library(
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -119,7 +119,7 @@ xla_cc_test(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/types:span",
+         "@com_google_googletest//:gtest",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:platform_port",
+     ],
+ )
+@@ -151,7 +151,7 @@ cc_library(
+         "@com_google_absl//absl/log:check",
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -168,7 +168,7 @@ xla_cc_test(
+         "@com_google_absl//absl/algorithm:container",
+         "@com_google_absl//absl/cleanup",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -306,7 +306,7 @@ xla_cc_test(
+         "@com_google_absl//absl/status",
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -421,7 +421,7 @@ cc_library(
+         "//xla/tsl/framework/contraction:eigen_contraction_kernel",
+         "//xla/tsl/framework/convolution:eigen_helpers",
+         "//xla/tsl/platform:logging",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -446,7 +446,7 @@ cc_library(
+         "@com_google_absl//absl/memory",
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings:str_format",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -480,7 +480,7 @@ xla_cc_test(
+         "@com_google_absl//absl/status",
+         "@com_google_absl//absl/types:span",
+         "@com_google_googletest//:gtest_main",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -656,7 +656,7 @@ cc_library(
+         "@com_google_absl//absl/memory",
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings:str_format",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -712,7 +712,7 @@ cc_library(
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/strings:string_view",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@llvm-project//mlir:AsmParser",
+         "@llvm-project//mlir:IR",
+         "@llvm-project//mlir:Support",
+@@ -770,7 +770,7 @@ cc_library(
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/strings:str_format",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -790,7 +790,7 @@ xla_cc_test(
+         "//xla/tsl/platform:statusor",
+         "//xla/tsl/platform:test",
+         "@com_google_absl//absl/strings",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:test_main",
+     ],
+ )
+@@ -950,7 +950,7 @@ cc_library(
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/strings:string_view",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1126,7 +1126,7 @@ xla_cc_test(
+         "//xla/tsl/platform:statusor",
+         "//xla/tsl/platform:test",
+         "@com_google_googletest//:gtest_main",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1242,7 +1242,7 @@ cc_library(
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/container:fixed_array",
+         "@com_google_absl//absl/status",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1258,7 +1258,7 @@ xla_cc_test(
+         "//xla/tsl/platform:test_main",
+         "@com_google_absl//absl/algorithm:container",
+         "@com_google_absl//absl/synchronization",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+diff --git xla/backends/cpu/runtime/onednn/BUILD xla/backends/cpu/runtime/onednn/BUILD
+index e880435888..044e461786 100644
+--- xla/backends/cpu/runtime/onednn/BUILD
++++ xla/backends/cpu/runtime/onednn/BUILD
+@@ -69,7 +69,7 @@ onednn_graph_cc_library(
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/time",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@onednn//:mkl_dnn",
+         "@tsl//tsl/profiler/lib:traceme",
+     ],
+@@ -103,7 +103,7 @@ onednn_graph_cc_test(
+         "@com_google_absl//absl/status",
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/synchronization",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@onednn//:mkl_dnn",
+     ],
+ )
+diff --git xla/backends/cpu/runtime/xnnpack/BUILD xla/backends/cpu/runtime/xnnpack/BUILD
+index 7e72258c27..7816cdc502 100644
+--- xla/backends/cpu/runtime/xnnpack/BUILD
++++ xla/backends/cpu/runtime/xnnpack/BUILD
+@@ -49,7 +49,7 @@ cc_library(
+         "@com_google_absl//absl/log",
+         "@com_google_absl//absl/log:check",
+         "@com_google_absl//absl/strings:str_format",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@pthreadpool",
+         "@tsl//tsl/platform:platform_port",
+     ],
+@@ -68,7 +68,7 @@ xla_cc_test(
+         "//xla/tsl/platform:test_main",
+         "@XNNPACK",
+         "@com_google_absl//absl/algorithm:container",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@pthreadpool",
+     ],
+ )
+@@ -127,7 +127,7 @@ xla_cc_test(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/types:span",
+         "@com_google_googletest//:gtest_main",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -174,7 +174,7 @@ xla_cc_test(
+         "//xla/tsl/platform:test",
+         "@com_google_absl//absl/strings",
+         "@com_google_googletest//:gtest_main",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:platform_port",
+     ],
+ )
+@@ -234,6 +234,6 @@ xla_cc_test(
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/types:span",
+         "@com_google_googletest//:gtest_main",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+diff --git xla/backends/gpu/codegen/triton/BUILD xla/backends/gpu/codegen/triton/BUILD
+index c8a20375c5..68b3424b81 100644
+--- xla/backends/gpu/codegen/triton/BUILD
++++ xla/backends/gpu/codegen/triton/BUILD
+@@ -739,7 +739,7 @@ xla_test(
+         "@com_google_absl//absl/status",
+         "@com_google_absl//absl/strings",
+         "@com_google_googletest//:gtest",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@llvm-project//llvm:ir_headers",
+         "@llvm-project//mlir:IR",
+         "@llvm-project//mlir:Pass",
+diff --git xla/backends/gpu/runtime/BUILD xla/backends/gpu/runtime/BUILD
+index 250e8fd7b3..09e80fdf4c 100644
+--- xla/backends/gpu/runtime/BUILD
++++ xla/backends/gpu/runtime/BUILD
+@@ -1602,7 +1602,7 @@ cc_library(
+         "//xla/stream_executor/gpu:buffer_comparator_kernel",
+         "//xla/stream_executor/gpu:gpu_kernel_registry",
+         "@com_google_absl//absl/status:statusor",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+diff --git xla/ffi/BUILD xla/ffi/BUILD
+index 0964189695..027daa8bb8 100644
+--- xla/ffi/BUILD
++++ xla/ffi/BUILD
+@@ -182,7 +182,7 @@ cc_library(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/strings:string_view",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -230,7 +230,7 @@ xla_cc_test(
+         "@com_google_absl//absl/strings:string_view",
+         "@com_google_absl//absl/types:span",
+         "@com_google_googletest//:gtest",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:status_matchers",
+         "@tsl//tsl/platform:statusor",
+diff --git xla/ffi/api/BUILD xla/ffi/api/BUILD
+index f42c71a4e2..0ed5bf54a8 100644
+--- xla/ffi/api/BUILD
++++ xla/ffi/api/BUILD
+@@ -105,6 +105,6 @@ xla_cc_test(
+         "@com_google_absl//absl/strings:string_view",
+         "@com_google_absl//absl/synchronization",
+         "@com_google_googletest//:gtest",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+diff --git xla/hlo/evaluator/BUILD xla/hlo/evaluator/BUILD
+index d3992af818..e4c3789750 100644
+--- xla/hlo/evaluator/BUILD
++++ xla/hlo/evaluator/BUILD
+@@ -89,7 +89,7 @@ cc_library(
+         "@com_google_absl//absl/strings:cord",
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:ml_dtypes",
+         "@tsl//tsl/platform:platform_port",
+     ],
+diff --git xla/hlo/parser/BUILD xla/hlo/parser/BUILD
+index 5926290f56..e00fe92308 100644
+--- xla/hlo/parser/BUILD
++++ xla/hlo/parser/BUILD
+@@ -59,7 +59,7 @@ cc_library(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:protobuf",
+     ],
+ )
+diff --git xla/pjrt/BUILD xla/pjrt/BUILD
+index 4922ef2b40..6111b26b34 100644
+--- xla/pjrt/BUILD
++++ xla/pjrt/BUILD
+@@ -867,7 +867,7 @@ xla_cc_test(
+         "@com_google_absl//absl/container:inlined_vector",
+         "@com_google_absl//absl/numeric:int128",
+         "@com_google_googletest//:gtest_main",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:statusor",
+         "@tsl//tsl/platform:test_benchmark",
+diff --git xla/pjrt/cpu/BUILD xla/pjrt/cpu/BUILD
+index 45fc57e725..10603b3158 100644
+--- xla/pjrt/cpu/BUILD
++++ xla/pjrt/cpu/BUILD
+@@ -246,7 +246,7 @@ cc_library(
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",  # TODO(zhangqiaorjc): Remove if use TFRT threadpool.
++        "@eigen",  # TODO(zhangqiaorjc): Remove if use TFRT threadpool.
+         "@llvm-project//mlir:IR",
+         "@tsl//tsl/platform:casts",
+         "@tsl//tsl/platform:denormal",
+diff --git xla/pjrt/gpu/tfrt/BUILD xla/pjrt/gpu/tfrt/BUILD
+index fed466bca2..39a57665e9 100644
+--- xla/pjrt/gpu/tfrt/BUILD
++++ xla/pjrt/gpu/tfrt/BUILD
+@@ -114,7 +114,7 @@ cc_library(
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/time",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@llvm-project//mlir:IR",
+         "@tsl//tsl/platform:casts",
+         "@tsl//tsl/platform:fingerprint",
+diff --git xla/service/BUILD xla/service/BUILD
+index 594667ae6b..f76b740f53 100644
+--- xla/service/BUILD
++++ xla/service/BUILD
+@@ -1046,7 +1046,7 @@ cc_library(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:platform_port",
+         "@tsl//tsl/platform:statusor",
+@@ -4333,7 +4333,7 @@ cc_library(
+         "@com_google_absl//absl/strings:string_view",
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+diff --git xla/service/cpu/BUILD xla/service/cpu/BUILD
+index 82a11b9157..6963c80714 100644
+--- xla/service/cpu/BUILD
++++ xla/service/cpu/BUILD
+@@ -705,7 +705,7 @@ cc_library(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:logging",
+         "@tsl//tsl/platform:statusor",
+@@ -1153,7 +1153,7 @@ cc_library(
+         "//xla/backends/cpu/runtime:convolution_thunk_internal",
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/synchronization",  # build_cleaner: keep
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1169,7 +1169,7 @@ cc_library(
+         "//xla/backends/cpu/runtime:convolution_thunk_internal",
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/synchronization",  # build_cleaner: keep
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1197,7 +1197,7 @@ cc_library(
+         "//xla:executable_run_options",
+         "@com_google_absl//absl/base:core_headers",
+         "@ducc//:fft_wrapper",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1222,7 +1222,7 @@ cc_library(
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/base:dynamic_annotations",
+         "@com_google_absl//absl/synchronization",  # build_cleaner: keep
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1238,7 +1238,7 @@ cc_library(
+         "//xla:executable_run_options",
+         "//xla/tsl/platform:dynamic_annotations",
+         "@com_google_absl//absl/base",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:logging",
+         "@tsl//tsl/platform:types",
+     ] + acl_deps(),
+@@ -1260,7 +1260,7 @@ cc_library(
+         "//xla/tsl/framework/convolution:eigen_helpers",
+         "//xla/tsl/platform:dynamic_annotations",
+         "@com_google_absl//absl/base",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:logging",
+         "@tsl//tsl/platform:types",
+     ] + acl_deps(),
+@@ -1276,7 +1276,7 @@ cc_library(
+         "//xla/backends/cpu/runtime:convolution_thunk_internal",
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/synchronization",  # build_cleaner: keep
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1290,7 +1290,7 @@ cc_library(
+         "//xla/backends/cpu/runtime:convolution_thunk_internal",
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/synchronization",  # build_cleaner: keep
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1329,7 +1329,7 @@ cc_library(
+     deps = [
+         "//xla/tsl/framework/contraction:eigen_contraction_kernel_no_mkl",
+         "@com_google_absl//absl/base:core_headers",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:ml_dtypes",
+     ],
+ )
+@@ -1342,7 +1342,7 @@ cc_library(
+     visibility = ["//visibility:public"],
+     deps = [
+         ":runtime_single_threaded_matmul_impl",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:ml_dtypes",
+     ],
+ )
+@@ -1356,7 +1356,7 @@ cc_library(
+         ":runtime_single_threaded_matmul_impl",
+         "//xla/tsl/framework/contraction:eigen_contraction_kernel_no_mkl",
+         "@com_google_absl//absl/base:core_headers",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1369,7 +1369,7 @@ cc_library(
+     deps = [
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/base:dynamic_annotations",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1399,7 +1399,7 @@ cc_library(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/synchronization",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:logging",
+     ],
+ )
+@@ -1454,7 +1454,7 @@ xla_cc_test(
+         "//xla/service:custom_call_status_internal",
+         "//xla/tests:xla_internal_test_main",
+         "@com_google_absl//absl/strings:str_format",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:logging",
+         "@tsl//tsl/platform:test",
+@@ -1819,7 +1819,7 @@ cc_library(
+         "//xla/hlo/ir:hlo",
+         "//xla/tsl/platform:env",
+         "@com_google_absl//absl/synchronization",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:platform_port",
+     ] + mkl_deps(),
+@@ -1873,7 +1873,7 @@ cc_library(
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/base:dynamic_annotations",
+         "@com_google_absl//absl/synchronization",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:logging",
+         "@tsl//tsl/platform:platform_port",
+@@ -1898,7 +1898,7 @@ cc_library(
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/base:dynamic_annotations",
+         "@com_google_absl//absl/synchronization",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:logging",
+         "@tsl//tsl/platform:platform_port",
+@@ -1924,7 +1924,7 @@ cc_library(
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/base:dynamic_annotations",
+         "@com_google_absl//absl/synchronization",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:platform_port",
+     ] + mkl_deps(),
+@@ -1949,7 +1949,7 @@ cc_library(
+         "@com_google_absl//absl/base:core_headers",
+         "@com_google_absl//absl/base:dynamic_annotations",
+         "@com_google_absl//absl/synchronization",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:platform_port",
+     ] + mkl_deps(),
+@@ -1998,7 +1998,7 @@ cc_library(
+         "@com_google_absl//absl/algorithm:container",
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/synchronization",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:env",
+         "@tsl//tsl/platform:logging",
+         "@tsl//tsl/platform:platform_port",
+diff --git xla/service/gpu/BUILD xla/service/gpu/BUILD
+index 9783653a40..5730ff1434 100644
+--- xla/service/gpu/BUILD
++++ xla/service/gpu/BUILD
+@@ -1017,7 +1017,7 @@ cc_library(
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:ml_dtypes",
+         "@tsl//tsl/platform:statusor",
+     ],
+@@ -2351,7 +2351,7 @@ cc_library(
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/time",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:ml_dtypes",
+         "@tsl//tsl/platform:status",
+         "@tsl//tsl/platform:statusor",
+diff --git xla/service/gpu/tests/BUILD xla/service/gpu/tests/BUILD
+index e079e9bd89..1154dfe9bd 100644
+--- xla/service/gpu/tests/BUILD
++++ xla/service/gpu/tests/BUILD
+@@ -572,7 +572,7 @@ xla_test(
+         "@com_google_absl//absl/log:check",
+         "@com_google_absl//absl/strings",
+         "@com_google_googletest//:gtest_main",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+diff --git xla/stream_executor/BUILD xla/stream_executor/BUILD
+index f1865a9ec1..a0824ea5ba 100644
+--- xla/stream_executor/BUILD
++++ xla/stream_executor/BUILD
+@@ -351,7 +351,7 @@ cc_library(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",  # buildcleaner: keep
++        "@eigen",  # buildcleaner: keep
+         "@tsl//tsl/platform:errors",
+         "@tsl//tsl/platform:logging",
+         "@tsl//tsl/platform:ml_dtypes",
+diff --git xla/stream_executor/cuda/BUILD xla/stream_executor/cuda/BUILD
+index 6b4152b276..855a385048 100644
+--- xla/stream_executor/cuda/BUILD
++++ xla/stream_executor/cuda/BUILD
+@@ -304,7 +304,7 @@ cc_library(
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/time",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@local_config_cuda//cuda:cuda_headers",
+         "@tsl//tsl/platform:errors",
+         "@tsl//tsl/platform:logging",
+@@ -465,7 +465,7 @@ cc_library(
+         "@com_google_absl//absl/time",
+         "@com_google_absl//absl/types:span",
+         "@cudnn_frontend_archive//:cudnn_frontend",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@local_config_cuda//cuda:cuda_headers",
+         "@local_config_cuda//cuda:cudnn_header",  # build_cleaner: keep
+         "@tsl//tsl/platform:errors",
+diff --git xla/stream_executor/rocm/BUILD xla/stream_executor/rocm/BUILD
+index 0c8b6bfbb6..ace2cccab7 100644
+--- xla/stream_executor/rocm/BUILD
++++ xla/stream_executor/rocm/BUILD
+@@ -396,7 +396,7 @@ cc_library(
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/time",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@local_config_rocm//rocm:rocm_headers",
+     ],
+     alwayslink = True,
+@@ -535,7 +535,7 @@ cc_library(
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/time",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@local_config_rocm//rocm:rocm_headers",
+         "@tsl//tsl/platform:dso_loader",
+         "@tsl//tsl/platform:hash",
+@@ -697,7 +697,7 @@ cc_library(
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/time",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@local_config_rocm//rocm:rocm_headers",
+         "@tsl//tsl/platform:dso_loader",
+         "@tsl//tsl/platform:ml_dtypes",
+@@ -1155,7 +1155,7 @@ rocm_library(
+         "//xla/stream_executor/rocm:rocm_status",
+         "@com_google_absl//absl/base",
+         "@com_google_absl//absl/status",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@local_config_rocm//rocm:rocprim",
+         "@tsl//tsl/platform:bfloat16",
+     ],
+diff --git xla/tests/BUILD xla/tests/BUILD
+index 912df0cef6..dfcc159a0a 100644
+--- xla/tests/BUILD
++++ xla/tests/BUILD
+@@ -462,7 +462,7 @@ cc_library(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1081,7 +1081,7 @@ xla_test(
+         "@com_google_absl//absl/strings",
+         "@com_google_absl//absl/types:span",
+         "@com_google_googletest//:gtest",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:ml_dtypes",
+         "@tsl//tsl/platform:statusor",
+         "@tsl//tsl/platform:test",
+@@ -1402,7 +1402,7 @@ xla_test(
+         "//xla/stream_executor:device_description",
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1439,7 +1439,7 @@ xla_test(
+         "//xla/hlo/builder:padding",
+         "//xla/hlo/builder:xla_builder",
+         "//xla/tsl/platform:test",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1473,7 +1473,7 @@ xla_test(
+         "//xla/hlo/builder:padding",
+         "//xla/hlo/builder:xla_builder",
+         "//xla/tsl/platform:test",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1513,7 +1513,7 @@ xla_test(
+         "//xla/stream_executor:device_description",
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1544,7 +1544,7 @@ xla_test(
+         "//xla/hlo/builder:padding",
+         "//xla/hlo/builder:xla_builder",
+         "//xla/tsl/platform:test",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1577,7 +1577,7 @@ xla_test(
+         "//xla/stream_executor:device_description",
+         "@com_google_absl//absl/status:statusor",
+         "@com_google_absl//absl/strings",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1607,7 +1607,7 @@ xla_test(
+         "//xla/hlo/builder:padding",
+         "//xla/hlo/builder:xla_builder",
+         "//xla/tsl/platform:test",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -1800,7 +1800,7 @@ xla_test(
+         "//xla/tsl/platform:test",
+         "@com_google_absl//absl/log:check",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -2308,7 +2308,7 @@ xla_test(
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+@@ -2474,7 +2474,7 @@ xla_test(
+         "//xla/hlo/builder:xla_builder",
+         "//xla/hlo/testlib:test",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:protobuf",
+         "@tsl//tsl/platform:test",
+     ],
+@@ -3184,7 +3184,7 @@ xla_test(
+         "@com_google_absl//absl/log",
+         "@com_google_absl//absl/types:span",
+         "@com_google_benchmark//:benchmark",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform:protobuf",
+     ],
+ )
+diff --git xla/tsl/framework/BUILD xla/tsl/framework/BUILD
+index 4039092924..fd9b9f388f 100644
+--- xla/tsl/framework/BUILD
++++ xla/tsl/framework/BUILD
+@@ -327,7 +327,7 @@ cc_library(
+     compatible_with = get_compatible_with_portable(),
+     visibility = ["//visibility:public"],
+     deps = [
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+diff --git xla/tsl/framework/contraction/BUILD xla/tsl/framework/contraction/BUILD
+index f34116d0b6..5691e0e0c4 100644
+--- xla/tsl/framework/contraction/BUILD
++++ xla/tsl/framework/contraction/BUILD
+@@ -107,7 +107,7 @@ cc_library(
+         "//xla/tsl/framework/fixedpoint",
+         "//xla/tsl/platform:dynamic_annotations",
+         "@com_google_absl//absl/base",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ] + select({
+         ":disable_onednn_contraction_kernel_config": [],
+         "//xla/tsl:android_x86": [],
+@@ -144,7 +144,7 @@ cc_library(
+         "//xla/tsl/framework/fixedpoint",
+         "//xla/tsl/platform:dynamic_annotations",
+         "@com_google_absl//absl/base",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+diff --git xla/tsl/framework/convolution/BUILD xla/tsl/framework/convolution/BUILD
+index 9687b8a9fd..5fcd58a2f4 100644
+--- xla/tsl/framework/convolution/BUILD
++++ xla/tsl/framework/convolution/BUILD
+@@ -48,7 +48,7 @@ cc_library(
+         ":eigen_convolution_helpers",
+         ":eigen_spatial_convolutions-inl",
+         "//xla/tsl/framework/contraction:eigen_contraction_kernel",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+diff --git xla/tsl/framework/fixedpoint/BUILD xla/tsl/framework/fixedpoint/BUILD
+index c1ec1d9e17..da4323c05e 100644
+--- xla/tsl/framework/fixedpoint/BUILD
++++ xla/tsl/framework/fixedpoint/BUILD
+@@ -29,7 +29,7 @@ cc_library(
+     compatible_with = get_compatible_with_portable(),
+     deps = [
+         "//xla/tsl/framework:fixedpoint_types",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+diff --git xla/tsl/lib/random/BUILD xla/tsl/lib/random/BUILD
+index 3b4b420f15..9a4cda459a 100644
+--- xla/tsl/lib/random/BUILD
++++ xla/tsl/lib/random/BUILD
+@@ -44,7 +44,7 @@ cc_library(
+         "//xla/tsl/platform:macros",
+         "//xla/tsl/platform:types",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+     alwayslink = 1,
+ )
+diff --git xla/tsl/platform/BUILD xla/tsl/platform/BUILD
+index f241be0ba9..615ce36b97 100644
+--- xla/tsl/platform/BUILD
++++ xla/tsl/platform/BUILD
+@@ -697,7 +697,7 @@ cc_library(
+     compatible_with = get_compatible_with_portable(),
+     deps = [
+         ":types",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+     ],
+ )
+ 
+diff --git xla/tsl/platform/default/BUILD xla/tsl/platform/default/BUILD
+index e7b48bfaf8..17c6de5c48 100644
+--- xla/tsl/platform/default/BUILD
++++ xla/tsl/platform/default/BUILD
+@@ -158,7 +158,7 @@ cc_library(
+         "@com_google_absl//absl/strings:str_format",
+         "@com_google_absl//absl/synchronization",
+         "@com_google_absl//absl/types:span",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform",
+         "@tsl//tsl/platform:blocking_counter",
+         "@tsl//tsl/platform:context",
+diff --git xla/tsl/platform/windows/BUILD xla/tsl/platform/windows/BUILD
+index e8c1cb4f44..61d4654522 100644
+--- xla/tsl/platform/windows/BUILD
++++ xla/tsl/platform/windows/BUILD
+@@ -57,7 +57,7 @@ cc_library(
+         "//xla/tsl/protobuf:error_codes_proto_impl_cc",
+         "@com_google_absl//absl/functional:any_invocable",
+         "@com_google_absl//absl/time",
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@tsl//tsl/platform",
+         "@tsl//tsl/platform:blocking_counter",
+         "@tsl//tsl/platform:context",

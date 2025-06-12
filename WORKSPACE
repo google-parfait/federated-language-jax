@@ -18,12 +18,14 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # Direct Dependencies
 
+# Commit determined by:
+# https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/third_party/eigen3/workspace.bzl#L10
 http_archive(
     name = "eigen",
     build_file = "//third_party:eigen.BUILD",
-    sha256 = "eba3f3d414d2f8cba2919c78ec6daab08fc71ba2ba4ae502b7e5d4d99fc02cda",
-    strip_prefix = "eigen-3.4.0",
-    url = "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip",
+    sha256 = "1a432ccbd597ea7b9faa1557b1752328d6adc1a3db8969f6fe793ff704be3bf0",
+    strip_prefix = "eigen-4c38131a16803130b66266a912029504f2cf23cd",
+    url = "https://gitlab.com/libeigen/eigen/-/archive/4c38131a16803130b66266a912029504f2cf23cd/eigen-4c38131a16803130b66266a912029504f2cf23cd.tar.gz",
 )
 
 http_archive(
@@ -78,7 +80,7 @@ http_archive(
     url = "https://github.com/pybind/pybind11_bazel/archive/refs/tags/v2.13.6.tar.gz",
 )
 
-# From `xla` at commit 661559150498be4c186e74af3a0c60b1aae0c991,
+# Commit determined by
 # https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/workspace2.bzl#L154
 http_archive(
     name = "pybind11_protobuf",
@@ -103,6 +105,9 @@ http_archive(
 
 http_archive(
     name = "xla",
+    patches = [
+        "//third_party/xla:eigen.patch",
+    ],
     sha256 = "4d935ee2dac97cf55da02b2305decce0fde6a1f5c9f78b0db821104d6440b67f",
     strip_prefix = "xla-661559150498be4c186e74af3a0c60b1aae0c991",
     url = "https://github.com/openxla/xla/archive/661559150498be4c186e74af3a0c60b1aae0c991.zip",
