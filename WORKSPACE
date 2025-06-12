@@ -18,6 +18,15 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # Direct Dependencies
 
+# Commit determined by:
+# https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/third_party/absl/workspace.bzl#L10
+http_archive(
+    name = "abseil-cpp",
+    sha256 = "0320586856674d16b0b7a4d4afb22151bdc798490bb7f295eddd8f6a62b46fea",
+    strip_prefix = "abseil-cpp-fb3621f4f897824c0dbe0615fa94543df6192f30",
+    url = "https://github.com/abseil/abseil-cpp/archive/fb3621f4f897824c0dbe0615fa94543df6192f30.tar.gz",
+)
+
 http_archive(
     name = "eigen",
     build_file = "//third_party:eigen.BUILD",
@@ -78,7 +87,7 @@ http_archive(
     url = "https://github.com/pybind/pybind11_bazel/archive/refs/tags/v2.13.6.tar.gz",
 )
 
-# From `xla` at commit 661559150498be4c186e74af3a0c60b1aae0c991,
+# Commit determined by:
 # https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/workspace2.bzl#L154
 http_archive(
     name = "pybind11_protobuf",
@@ -103,6 +112,9 @@ http_archive(
 
 http_archive(
     name = "xla",
+    repo_mapping = {
+        "@com_google_absl": "@abseil-cpp",
+    },
     sha256 = "4d935ee2dac97cf55da02b2305decce0fde6a1f5c9f78b0db821104d6440b67f",
     strip_prefix = "xla-661559150498be4c186e74af3a0c60b1aae0c991",
     url = "https://github.com/openxla/xla/archive/661559150498be4c186e74af3a0c60b1aae0c991.zip",
