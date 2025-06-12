@@ -124,6 +124,13 @@ http_archive(
 )
 
 http_archive(
+    name = "rules_python",
+    sha256 = "4f7e2aa1eb9aa722d96498f5ef514f426c1f55161c3c9ae628c857a7128ceb07",
+    strip_prefix = "rules_python-1.0.0",
+    url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/1.0.0.tar.gz",
+)
+
+http_archive(
     name = "xla",
     patches = [
         "//third_party/ducc:bazel_deps.patch",
@@ -166,22 +173,6 @@ http_archive(
 #
 
 # Required by `xla`.
-load("@xla//third_party/py:python_init_rules.bzl", "python_init_rules")
-
-python_init_rules()
-
-load("@xla//third_party/py:python_init_repositories.bzl", "python_init_repositories")
-
-python_init_repositories(
-    requirements = {
-        "3.12": "//:requirements_lock_3_12.txt",
-    },
-)
-
-load("@xla//third_party/py:python_init_toolchains.bzl", "python_init_toolchains")
-
-python_init_toolchains()
-
 load("@xla//:workspace4.bzl", "xla_workspace4")
 
 xla_workspace4()
@@ -249,14 +240,45 @@ load(
 
 nccl_configure(name = "local_config_nccl")
 
+# Python Toolchains
+
+load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_multi_toolchains")
+
+py_repositories()
+
+python_register_multi_toolchains(
+    name = "python",
+    default_version = "3.12",
+    python_versions = [
+        "3.9",
+        "3.10",
+        "3.11",
+        "3.12",
+        "3.13",
+    ],
+)
+
 # Python Dependencies
 
-load("@rules_python//python:pip.bzl", "pip_parse")
+load("@python//:pip.bzl", "multi_pip_parse")
 
-pip_parse(
+multi_pip_parse(
     name = "federated_language_jax_pypi",
-    python_interpreter_target = "@python_host//:python",
-    requirements_lock = "//:requirements_lock_3_12.txt",
+    default_version = "3.12",
+    python_interpreter_target = {
+        "3.9": "@python_3_9_host//:python",
+        "3.10": "@python_3_10_host//:python",
+        "3.11": "@python_3_11_host//:python",
+        "3.12": "@python_3_12_host//:python",
+        "3.13": "@python_3_13_host//:python",
+    },
+    requirements_lock = {
+        "3.9": "//:requirements_lock_3_9.txt",
+        "3.10": "//:requirements_lock_3_10.txt",
+        "3.11": "//:requirements_lock_3_11.txt",
+        "3.12": "//:requirements_lock_3_12.txt",
+        "3.13": "//:requirements_lock_3_13.txt",
+    },
 )
 
 load("@federated_language_jax_pypi//:requirements.bzl", "install_deps")
