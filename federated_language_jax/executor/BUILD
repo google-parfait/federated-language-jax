@@ -14,6 +14,8 @@
 
 load("@local_config_cuda//cuda:build_defs.bzl", "if_cuda")
 load("@pybind11_bazel//:build_defs.bzl", "pybind_extension")
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("@rules_python//python:defs.bzl", "py_library")
 load("@xla//xla/tsl:tsl.bzl", "if_cuda_or_rocm", "if_with_tpu_support")
 
