@@ -136,6 +136,13 @@ http_archive(
 )
 
 http_archive(
+    name = "rules_python",
+    sha256 = "4f7e2aa1eb9aa722d96498f5ef514f426c1f55161c3c9ae628c857a7128ceb07",
+    strip_prefix = "rules_python-1.0.0",
+    url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/1.0.0.tar.gz",
+)
+
+http_archive(
     name = "rules_shell",
     sha256 = "99bfc7aaefd1ed69613bbd25e24bf7871d68aeafca3a6b79f5f85c0996a41355",
     strip_prefix = "rules_shell-0.5.1",
