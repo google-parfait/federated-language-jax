@@ -101,6 +101,15 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_license/archive/refs/tags/1.0.0.tar.gz",
 )
 
+# Version determined by
+# https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/third_party/py/python_init_rules.bzl#L6
+http_archive(
+    name = "rules_python",
+    sha256 = "62ddebb766b4d6ddf1712f753dac5740bea072646f630eb9982caa09ad8a7687",
+    strip_prefix = "rules_python-0.39.0",
+    url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.39.0.tar.gz",
+)
+
 http_archive(
     name = "xla",
     sha256 = "4d935ee2dac97cf55da02b2305decce0fde6a1f5c9f78b0db821104d6440b67f",
