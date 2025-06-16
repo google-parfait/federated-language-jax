@@ -19,6 +19,15 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # Direct Dependencies
 
 # Commit determined by:
+# https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/third_party/absl/workspace.bzl#L10
+http_archive(
+    name = "abseil-cpp",
+    sha256 = "0320586856674d16b0b7a4d4afb22151bdc798490bb7f295eddd8f6a62b46fea",
+    strip_prefix = "abseil-cpp-fb3621f4f897824c0dbe0615fa94543df6192f30",
+    url = "https://github.com/abseil/abseil-cpp/archive/fb3621f4f897824c0dbe0615fa94543df6192f30.tar.gz",
+)
+
+# Commit determined by:
 # https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/third_party/eigen3/workspace.bzl#L10
 http_archive(
     name = "eigen",
