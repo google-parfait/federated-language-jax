@@ -26,9 +26,9 @@ http_archive(
     patches = [
         "@xla//third_party/absl:nullability_macros.patch",
     ],
-    sha256 = "0320586856674d16b0b7a4d4afb22151bdc798490bb7f295eddd8f6a62b46fea",
-    strip_prefix = "abseil-cpp-fb3621f4f897824c0dbe0615fa94543df6192f30",
-    url = "https://github.com/abseil/abseil-cpp/archive/fb3621f4f897824c0dbe0615fa94543df6192f30.tar.gz",
+    sha256 = "733726b8c3a6d39a4120d7e45ea8b41a434cdacde401cba500f14236c49b39dc",
+    strip_prefix = "abseil-cpp-20240116.2",
+    url = "https://github.com/abseil/abseil-cpp/archive/refs/tags/20240116.2.tar.gz",
 )
 
 # Commit determined by:
@@ -139,6 +139,14 @@ http_archive(
 #
 # Inlined Transitive Dependencies
 #
+
+# Required by `googletest`.
+http_archive(
+    name = "re2",
+    sha256 = "eb2df807c781601c14a260a507a5bb4509be1ee626024cb45acbd57cb9d4032b",
+    strip_prefix = "re2-2024-07-02",
+    url = "https://github.com/google/re2/archive/refs/tags/2024-07-02.tar.gz",
+)
 
 # Required by `pybind11_bazel`.
 http_archive(
