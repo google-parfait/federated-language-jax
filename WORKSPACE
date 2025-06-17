@@ -22,6 +22,10 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/third_party/absl/workspace.bzl#L10
 http_archive(
     name = "abseil-cpp",
+    patch_args = ["-p1"],
+    patches = [
+        "@xla//third_party/absl:nullability_macros.patch",
+    ],
     sha256 = "0320586856674d16b0b7a4d4afb22151bdc798490bb7f295eddd8f6a62b46fea",
     strip_prefix = "abseil-cpp-fb3621f4f897824c0dbe0615fa94543df6192f30",
     url = "https://github.com/abseil/abseil-cpp/archive/fb3621f4f897824c0dbe0615fa94543df6192f30.tar.gz",
@@ -68,6 +72,7 @@ http_archive(
         "//third_party/tensorflow_federated:executors_errors_deps.patch",
     ],
     repo_mapping = {
+        "@com_google_absl": "@abseil-cpp",
         "@com_google_googletest": "@googletest",
     },
     sha256 = "fe5bb43b67f06468a051e6ac8d31c2e8f598421c27fd9ee6067158dcd03c7871",
@@ -77,6 +82,9 @@ http_archive(
 
 http_archive(
     name = "pybind11_abseil",
+    repo_mapping = {
+        "@com_google_absl": "@abseil-cpp",
+    },
     sha256 = "1496b112e86416e2dcf288569a3e7b64f3537f0b18132224f492266e9ff76c44",
     strip_prefix = "pybind11_abseil-202402.0",
     url = "https://github.com/pybind/pybind11_abseil/archive/v202402.0.tar.gz",
@@ -93,6 +101,9 @@ http_archive(
 # https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/workspace2.bzl#L154
 http_archive(
     name = "pybind11_protobuf",
+    repo_mapping = {
+        "@com_google_absl": "@abseil-cpp",
+    },
     sha256 = "c7ab64b1ccf9a678694a89035a8c865a693e4e872803778f91f0965c2f281d78",
     strip_prefix = "pybind11_protobuf-80f3440cd8fee124e077e2e47a8a17b78b451363",
     url = "https://github.com/pybind/pybind11_protobuf/archive/80f3440cd8fee124e077e2e47a8a17b78b451363.zip",
@@ -117,6 +128,9 @@ http_archive(
     patches = [
         "//third_party/xla:eigen.patch",
     ],
+    repo_mapping = {
+        "@com_google_absl": "@abseil-cpp",
+    },
     sha256 = "4d935ee2dac97cf55da02b2305decce0fde6a1f5c9f78b0db821104d6440b67f",
     strip_prefix = "xla-661559150498be4c186e74af3a0c60b1aae0c991",
     url = "https://github.com/openxla/xla/archive/661559150498be4c186e74af3a0c60b1aae0c991.zip",
