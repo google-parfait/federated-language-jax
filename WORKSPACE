@@ -75,9 +75,9 @@ http_archive(
         "@com_google_absl": "@abseil-cpp",
         "@com_google_googletest": "@googletest",
     },
-    sha256 = "fe5bb43b67f06468a051e6ac8d31c2e8f598421c27fd9ee6067158dcd03c7871",
-    strip_prefix = "tensorflow-federated-1bf676525dce346636d86c6917e7a76a84807fb8",
-    url = "https://github.com/google-parfait/tensorflow-federated/archive/1bf676525dce346636d86c6917e7a76a84807fb8.tar.gz",
+    sha256 = "21ef65738f3ed1e3a0b9261f9374bd9d8f9219b9e8b41e1770955ec174f9f048",
+    strip_prefix = "tensorflow-federated-fc32ea5c0c22dff1445b311b85c5a6d3b4eacd8c",
+    url = "https://github.com/google-parfait/tensorflow-federated/archive/fc32ea5c0c22dff1445b311b85c5a6d3b4eacd8c.tar.gz",
 )
 
 http_archive(
