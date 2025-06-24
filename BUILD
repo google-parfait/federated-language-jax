@@ -68,26 +68,26 @@ exports_files([
 #     requirements_txt = "//:requirements_lock_3_10.txt",
 # )
 
-compile_pip_requirements(
-    name = "requirements_3_11",
-    srcs = ["//:requirements.in"],
-    extra_args = [
-        "--allow-unsafe",
-        "--resolver=backtracking",
-    ],
-    requirements_txt = "//:requirements_lock_3_11.txt",
-)
-
 # TODO: b/419584204 - Enable all supported versions of Python.
-# compile_pip_requirements_3_12(
-#     name = "requirements_3_12",
+# compile_pip_requirements_3_11(
+#     name = "requirements_3_11",
 #     src = "//:requirements.in",
 #     extra_args = [
 #         "--allow-unsafe",
 #         "--resolver=backtracking",
 #     ],
-#     requirements_txt = "//:requirements_lock_3_12.txt",
+#     requirements_txt = "//:requirements_lock_3_11.txt",
 # )
+
+compile_pip_requirements(
+    name = "requirements_3_12",
+    src = "//:requirements.in",
+    extra_args = [
+        "--allow-unsafe",
+        "--resolver=backtracking",
+    ],
+    requirements_txt = "//:requirements_lock_3_12.txt",
+)
 
 # TODO: b/419584204 - Enable all supported versions of Python.
 # compile_pip_requirements_3_13(

@@ -171,7 +171,7 @@ load("@xla//third_party/py:python_init_repositories.bzl", "python_init_repositor
 
 python_init_repositories(
     requirements = {
-        "3.11": "//:requirements_lock_3_11.txt",
+        "3.12": "//:requirements_lock_3_12.txt",
     },
 )
 
@@ -253,7 +253,7 @@ load("@rules_python//python:pip.bzl", "pip_parse")
 pip_parse(
     name = "federated_language_jax_pypi",
     python_interpreter_target = "@python_host//:python",
-    requirements_lock = "//:requirements_lock_3_11.txt",
+    requirements_lock = "//:requirements_lock_3_12.txt",
 )
 
 load("@federated_language_jax_pypi//:requirements.bzl", "install_deps")
