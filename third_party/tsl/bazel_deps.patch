@@ -1,0 +1,13 @@
+diff --git third_party/tsl/tsl/platform/BUILD third_party/tsl/tsl/platform/BUILD
+index 6b43f1b94b..dc1a810798 100644
+--- third_party/tsl/tsl/platform/BUILD
++++ third_party/tsl/tsl/platform/BUILD
+@@ -860,7 +860,7 @@ cc_library(
+     hdrs = ["bfloat16.h"],
+     compatible_with = get_compatible_with_portable(),
+     deps = [
+-        "@eigen_archive//:eigen3",
++        "@eigen",
+         "@xla//xla/tsl/platform:byte_order",
+     ],
+ )

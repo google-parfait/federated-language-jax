@@ -126,7 +126,8 @@ http_archive(
 http_archive(
     name = "xla",
     patches = [
-        "//third_party/xla:eigen.patch",
+        "//third_party/tsl:bazel_deps.patch",
+        "//third_party/xla:bazel_deps.patch",
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
