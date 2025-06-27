@@ -1,0 +1,31 @@
+diff --git third_party/py/ml_dtypes/ml_dtypes.BUILD third_party/py/ml_dtypes/ml_dtypes.BUILD
+index 6e3b504c62..12ec1c8886 100644
+--- third_party/py/ml_dtypes/ml_dtypes.BUILD
++++ third_party/py/ml_dtypes/ml_dtypes.BUILD
+@@ -10,7 +10,7 @@ package(
+ cc_library(
+     name = "float8",
+     hdrs = ["include/float8.h"],
+-    deps = ["@eigen_archive//:eigen3"],
++    deps = ["@@eigen//:eigen"],
+ )
+ 
+ cc_library(
+@@ -23,7 +23,7 @@ cc_library(
+     hdrs = ["include/mxfloat.h"],
+     deps = [
+         ":float8",
+-        "@eigen_archive//:eigen3",
++        "@@eigen//:eigen",
+     ],
+ )
+ 
+@@ -43,7 +43,7 @@ pybind_extension(
+         ":float8",
+         ":intn",
+         ":mxfloat",
+-        "@eigen_archive//:eigen3",
++        "@@eigen//:eigen",
+         "@xla//third_party/py/numpy:headers",
+     ],
+ )
