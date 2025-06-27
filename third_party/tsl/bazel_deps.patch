@@ -1,7 +1,93 @@
 diff --git third_party/tsl/tsl/platform/BUILD third_party/tsl/tsl/platform/BUILD
-index 6b43f1b94b..dc1a810798 100644
+index 6b43f1b94b..e2b74bf186 100644
 --- third_party/tsl/tsl/platform/BUILD
 +++ third_party/tsl/tsl/platform/BUILD
+@@ -41,7 +41,7 @@ cc_library(
+     hdrs = ["base64.h"],
+     deps = [
+         ":stringpiece",
+-        "@com_google_absl//absl/status",
++        "@abseil-cpp//absl/status",
+         "@xla//xla/tsl/platform:errors",
+         "@xla//xla/tsl/platform:macros",
+         "@xla//xla/tsl/platform:status",
+@@ -155,9 +155,9 @@ cc_library(
+     textual_hdrs = ["mutex.h"],
+     deps = [
+         ":thread_annotations",
+-        "@com_google_absl//absl/base:core_headers",
+-        "@com_google_absl//absl/synchronization",
+-        "@com_google_absl//absl/time",
++        "@abseil-cpp//absl/base:core_headers",
++        "@abseil-cpp//absl/synchronization",
++        "@abseil-cpp//absl/time",
+     ],
+ )
+ 
+@@ -169,8 +169,8 @@ cc_library(
+         ":str_util",
+         ":stringpiece",
+         ":stringprintf",
+-        "@com_google_absl//absl/base:core_headers",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/base:core_headers",
++        "@abseil-cpp//absl/strings",
+         "@xla//xla/tsl/platform:logging",
+         "@xla//xla/tsl/platform:macros",
+         "@xla//xla/tsl/platform:types",
+@@ -187,7 +187,7 @@ cc_library(
+         ":str_util",
+         ":strcat",
+         ":stringpiece",
+-        "@com_google_absl//absl/algorithm:container",
++        "@abseil-cpp//absl/algorithm:container",
+         "@xla//xla/tsl/platform:logging",
+         "@xla//xla/tsl/platform:types",
+     ],
+@@ -764,8 +764,8 @@ cc_library(
+     hdrs = ["str_util.h"],
+     deps = [
+         ":stringpiece",
+-        "@com_google_absl//absl/base:core_headers",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/base:core_headers",
++        "@abseil-cpp//absl/strings",
+         "@xla//xla/tsl/platform:logging",
+         "@xla//xla/tsl/platform:macros",
+         "@xla//xla/tsl/platform:types",
+@@ -779,9 +779,9 @@ cc_library(
+     deps = [
+         ":numbers",
+         ":stringpiece",
+-        "@com_google_absl//absl/base:core_headers",
+-        "@com_google_absl//absl/meta:type_traits",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/base:core_headers",
++        "@abseil-cpp//absl/meta:type_traits",
++        "@abseil-cpp//absl/strings",
+         "@xla//xla/tsl/platform:logging",
+         "@xla//xla/tsl/platform:macros",
+         "@xla//xla/tsl/platform:types",
+@@ -793,8 +793,8 @@ cc_library(
+     hdrs = ["stringpiece.h"],
+     compatible_with = get_compatible_with_portable(),
+     deps = [
+-        "@com_google_absl//absl/base:core_headers",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/base:core_headers",
++        "@abseil-cpp//absl/strings",
+     ],
+ )
+ 
+@@ -813,7 +813,7 @@ cc_library(
+     hdrs = ["cord.h"],
+     compatible_with = get_compatible_with_portable(),
+     deps = [
+-        "@com_google_absl//absl/strings:cord",
++        "@abseil-cpp//absl/strings:cord",
+     ],
+ )
+ 
 @@ -860,7 +860,7 @@ cc_library(
      hdrs = ["bfloat16.h"],
      compatible_with = get_compatible_with_portable(),
@@ -9,5 +95,231 @@ index 6b43f1b94b..dc1a810798 100644
 -        "@eigen_archive//:eigen3",
 +        "@eigen",
          "@xla//xla/tsl/platform:byte_order",
+     ],
+ )
+@@ -904,8 +904,8 @@ cc_library(
+         "//visibility:public",
+     ],
+     deps = [
+-        "@com_google_absl//absl/status",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/status",
++        "@abseil-cpp//absl/strings",
+     ] + tf_error_logging_deps(),
+ )
+ 
+@@ -1124,7 +1124,7 @@ tsl_cc_test(
+         ":platform",
+         ":stringpiece",
+         ":tstring",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/strings",
+         "@com_google_googletest//:gtest_main",
+         "@xla//xla/tsl/platform:test",
+     ],
+@@ -1144,9 +1144,9 @@ cc_library(
+     hdrs = ["notification.h"],
+     compatible_with = get_compatible_with_portable(),
+     deps = [
+-        "@com_google_absl//absl/base:core_headers",
+-        "@com_google_absl//absl/synchronization",
+-        "@com_google_absl//absl/time",
++        "@abseil-cpp//absl/base:core_headers",
++        "@abseil-cpp//absl/synchronization",
++        "@abseil-cpp//absl/time",
+     ],
+ )
+ 
+@@ -1175,7 +1175,7 @@ tsl_cc_test(
+         ":blocking_counter",
+         ":random",
+         ":unbounded_work_queue",
+-        "@com_google_absl//absl/memory",
++        "@abseil-cpp//absl/memory",
+         "@com_google_googletest//:gtest_main",
+         "@xla//xla/tsl/platform:env",
+         "@xla//xla/tsl/platform:env_impl",
+@@ -1377,7 +1377,7 @@ tsl_cc_test(
+         ":bfloat16",
+         ":strcat",
+         ":stringprintf",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/strings",
+         "@com_google_googletest//:gtest_main",
+         "@xla//xla/tsl/platform:test",
+         "@xla//xla/tsl/platform:types",
+@@ -1418,7 +1418,7 @@ tsl_cc_test(
+     ],
+     deps = [
+         ":numbers",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/strings",
+         "@com_google_googletest//:gtest_main",
+         "@xla//xla/tsl/platform:test",
+         "@xla//xla/tsl/platform:types",
+@@ -1436,7 +1436,7 @@ cc_library(
+     copts = tsl_copts(),
+     deps = [
+         ":random",
+-        "@com_google_absl//absl/time",
++        "@abseil-cpp//absl/time",
+         "@xla//xla/tsl/platform:env",
+         "@xla//xla/tsl/platform:errors",
+         "@xla//xla/tsl/platform:logging",
+@@ -1480,7 +1480,7 @@ tsl_cc_test(
+     deps = [
+         ":retrying_utils",
+         ":str_util",
+-        "@com_google_absl//absl/time",
++        "@abseil-cpp//absl/time",
+         "@com_google_googletest//:gtest_main",
+         "@xla//xla/tsl/lib/core:status_test_util",
+         "@xla//xla/tsl/platform:env",
+diff --git third_party/tsl/tsl/profiler/lib/BUILD third_party/tsl/tsl/profiler/lib/BUILD
+index c92b2ff199..a81b25fdb7 100644
+--- third_party/tsl/tsl/profiler/lib/BUILD
++++ third_party/tsl/tsl/profiler/lib/BUILD
+@@ -63,7 +63,7 @@ cc_library(
+     deps = [
+         ":profiler_interface",
+         "//tsl/profiler/protobuf:xplane_proto_cc",
+-        "@com_google_absl//absl/status",
++        "@abseil-cpp//absl/status",
+         "@xla//xla/tsl/platform:errors",
+         "@xla//xla/tsl/platform:logging",
+         "@xla//xla/tsl/platform:status",
+@@ -102,8 +102,8 @@ cc_library(
+         ":profiler_controller",
+         ":profiler_interface",
+         "//tsl/profiler/protobuf:profiler_options_proto_cc",
+-        "@com_google_absl//absl/base:core_headers",
+-        "@com_google_absl//absl/synchronization",
++        "@abseil-cpp//absl/base:core_headers",
++        "@abseil-cpp//absl/synchronization",
+     ],
+     alwayslink = True,
+ )
+@@ -117,8 +117,8 @@ tsl_cc_test(
+         ":profiler_interface",
+         "//tsl/profiler/protobuf:profiler_options_proto_cc",
+         "//tsl/profiler/protobuf:xplane_proto_cc",
+-        "@com_google_absl//absl/memory",
+-        "@com_google_absl//absl/status",
++        "@abseil-cpp//absl/memory",
++        "@abseil-cpp//absl/status",
+         "@com_google_googletest//:gtest_main",
+         "@xla//xla/tsl/platform:macros",
+         "@xla//xla/tsl/platform:test",
+@@ -150,8 +150,8 @@ cc_library(
+         "@xla//xla/tsl/profiler:xla_internal",
+     ]),
+     deps = [
+-        "@com_google_absl//absl/status:statusor",
+-        "@com_google_absl//absl/strings:string_view",
++        "@abseil-cpp//absl/status:statusor",
++        "@abseil-cpp//absl/strings:string_view",
+         "@xla//xla/tsl/platform:errors",
+         "@xla//xla/tsl/platform:macros",
+         "@xla//xla/tsl/platform:statusor",
+@@ -164,7 +164,7 @@ tsl_cc_test(
+     srcs = ["profiler_lock_test.cc"],
+     deps = [
+         ":profiler_lock",
+-        "@com_google_absl//absl/status:statusor",
++        "@abseil-cpp//absl/status:statusor",
+         "@com_google_googletest//:gtest_main",
+         "@xla//xla/tsl/platform:test",
+     ],
+@@ -182,8 +182,8 @@ cc_library(
+         "//tsl/platform:thread_annotations",
+         "//tsl/profiler/protobuf:profiler_options_proto_cc",
+         "//tsl/profiler/protobuf:xplane_proto_cc",
+-        "@com_google_absl//absl/status",
+-        "@com_google_absl//absl/synchronization",
++        "@abseil-cpp//absl/status",
++        "@abseil-cpp//absl/synchronization",
+         "@xla//xla/tsl/platform:errors",
+         "@xla//xla/tsl/platform:status",
+         "@xla//xla/tsl/platform:types",
+@@ -210,9 +210,9 @@ cc_library(
+         "//tsl/platform:thread_annotations",
+         "//tsl/profiler/protobuf:profiler_options_proto_cc",
+         "//tsl/profiler/protobuf:xplane_proto_cc",
+-        "@com_google_absl//absl/memory",
+-        "@com_google_absl//absl/status",
+-        "@com_google_absl//absl/synchronization",
++        "@abseil-cpp//absl/memory",
++        "@abseil-cpp//absl/status",
++        "@abseil-cpp//absl/synchronization",
+         "@xla//xla/tsl/platform:errors",
+         "@xla//xla/tsl/platform:logging",
+         "@xla//xla/tsl/platform:types",
+@@ -235,8 +235,8 @@ cc_library(
+     hdrs = ["traceme_encode.h"],
+     visibility = ["//visibility:public"],
+     deps = [
+-        "@com_google_absl//absl/base:core_headers",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/base:core_headers",
++        "@abseil-cpp//absl/strings",
+         "@xla//xla/tsl/platform:logging",
+         "@xla//xla/tsl/platform:macros",
+     ],
+@@ -248,8 +248,8 @@ tsl_cc_test(
+     deps = [
+         ":traceme_encode",
+         "//tsl/platform",
+-        "@com_google_absl//absl/strings",
+-        "@com_google_absl//absl/strings:str_format",
++        "@abseil-cpp//absl/strings",
++        "@abseil-cpp//absl/strings:str_format",
+         "@com_google_googletest//:gtest_main",
+         "@xla//xla/tsl/platform:test",
+         "@xla//xla/tsl/platform:test_benchmark",
+@@ -269,7 +269,7 @@ cc_library(
+     deps = [
+         ":traceme_encode",
+         "//tsl/platform",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/strings",
+         "@xla//xla/tsl/platform:logging",
+         "@xla//xla/tsl/platform:macros",
+         "@xla//xla/tsl/platform:types",
+@@ -325,7 +325,7 @@ cc_library(
+     deps = [
+         ":nvtx_utils",
+         "//tsl/platform",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/strings",
+         "@xla//xla/tsl/platform:macros",
+         "@xla//xla/tsl/platform:types",
+     ] + if_not_android([
+@@ -339,7 +339,7 @@ tsl_cc_test(
+     srcs = ["scoped_annotation_test.cc"],
+     deps = [
+         ":scoped_annotation",
+-        "@com_google_absl//absl/strings",
++        "@abseil-cpp//absl/strings",
+         "@com_google_googletest//:gtest_main",
+         "@xla//xla/tsl/platform:test",
+         "@xla//xla/tsl/platform:test_benchmark",
+@@ -356,8 +356,8 @@ cc_library(
+         ":context_types_hdrs",
+         ":traceme",
+         ":traceme_encode",
+-        "@com_google_absl//absl/strings",
+-        "@com_google_absl//absl/types:optional",
++        "@abseil-cpp//absl/strings",
++        "@abseil-cpp//absl/types:optional",
+         "@xla//xla/tsl/platform:types",
+     ],
+ )
+@@ -374,7 +374,7 @@ cc_library(
+     deps = [
+         ":profiler_interface",
+         "//tsl/profiler/protobuf:xplane_proto_cc",
+-        "@com_google_absl//absl/status",
++        "@abseil-cpp//absl/status",
+         "@xla//xla/tsl/platform:status",
      ],
  )

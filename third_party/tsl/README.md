@@ -23,6 +23,7 @@ https://github.com/openxla/xla/tree/main/third_party/tsl.
 
     ```shell
     $ buildozer 'replace deps @eigen_archive//:eigen3 @eigen//:eigen' //third_party/tsl/...:*
+    $ buildozer 'substitute deps @com_google_absl//(.*) @abseil-cpp//${1}' //third_party/tsl/...:*
     ```
 
     Create the patch.
