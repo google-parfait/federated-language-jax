@@ -1,0 +1,21 @@
+diff --git third_party/ducc/ducc.BUILD third_party/ducc/ducc.BUILD
+index 33b411e136..82dfb41482 100644
+--- third_party/ducc/ducc.BUILD
++++ third_party/ducc/ducc.BUILD
+@@ -64,7 +64,7 @@ cc_library(
+     visibility = ["//visibility:private"],
+     deps = [
+         # Required for custom threadpool usage:
+-        "@eigen_archive//:eigen3",
++        "@@eigen//:eigen",
+         "@tsl//tsl/platform:mutex",
+     ],
+ )
+@@ -80,6 +80,6 @@ cc_library(
+     visibility = ["//visibility:public"],
+     deps = [
+         ":fft",
+-        "@eigen_archive//:eigen3",
++        "@@eigen//:eigen",
+     ],
+ )
