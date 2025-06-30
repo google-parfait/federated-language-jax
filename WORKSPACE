@@ -133,6 +133,7 @@ http_archive(
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
+        "@com_googlesource_code_re2": "@re2",
     },
     sha256 = "4d935ee2dac97cf55da02b2305decce0fde6a1f5c9f78b0db821104d6440b67f",
     strip_prefix = "xla-661559150498be4c186e74af3a0c60b1aae0c991",
@@ -143,6 +144,18 @@ http_archive(
 # Inlined Transitive Dependencies
 #
 
+# Required by `org_tensorflow_federated` and `xla`, commit determined by
+# https://github.com/google-parfait/tensorflow-federated/blob/fc32ea5c0c22dff1445b311b85c5a6d3b4eacd8c/WORKSPACE#L26
+http_archive(
+    name = "com_github_grpc_grpc",
+    repo_mapping = {
+        "@com_googlesource_code_re2": "@re2",
+    },
+    sha256 = "76900ab068da86378395a8e125b5cc43dfae671e09ff6462ddfef18676e2165a",
+    strip_prefix = "grpc-1.50.0",
+    url = "https://github.com/grpc/grpc/archive/refs/tags/v1.50.0.tar.gz",
+)
+
 # Required by `pybind11_bazel`.
 http_archive(
     name = "pybind11",
@@ -152,6 +165,14 @@ http_archive(
     url = "https://github.com/pybind/pybind11/archive/v2.13.6.zip",
 )
 
+# Required by `googletest`.
+http_archive(
+    name = "re2",
+    sha256 = "eb2df807c781601c14a260a507a5bb4509be1ee626024cb45acbd57cb9d4032b",
+    strip_prefix = "re2-2024-07-02",
+    url = "https://github.com/google/re2/archive/refs/tags/2024-07-02.tar.gz",
+)
+
 # Required by `xla`, the version of `rules_proto` that XLA depends on is incompatible with the
 # version of `rules_python` that XLA depends on.
 http_archive(
@@ -159,6 +180,15 @@ http_archive(
     sha256 = "6fb6767d1bef535310547e03247f7518b03487740c11b6c6adb7952033fe1295",
     strip_prefix = "rules_proto-6.0.2",
     url = "https://github.com/bazelbuild/rules_proto/archive/refs/tags/6.0.2.tar.gz",
+)
+
+# Required by com_github_grpc_grpc. This commit is determined by
+# https://github.com/grpc/grpc/blob/v1.50.0/bazel/grpc_deps.bzl#L344.
+http_archive(
+    name = "upb",
+    sha256 = "017a7e8e4e842d01dba5dc8aa316323eee080cd1b75986a7d1f94d87220e6502",
+    strip_prefix = "upb-e4635f223e7d36dfbea3b722a4ca4807a7e882e2",
+    url = "https://github.com/protocolbuffers/upb/archive/e4635f223e7d36dfbea3b722a4ca4807a7e882e2.tar.gz",
 )
 
 #
