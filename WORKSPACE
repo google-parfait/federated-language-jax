@@ -104,9 +104,9 @@ http_archive(
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
     },
-    sha256 = "c7ab64b1ccf9a678694a89035a8c865a693e4e872803778f91f0965c2f281d78",
+    sha256 = "ba2c54a8b4d1dd0a68c58159e37b1f863c0d9d1dc815558288195493bcc31682",
     strip_prefix = "pybind11_protobuf-80f3440cd8fee124e077e2e47a8a17b78b451363",
-    url = "https://github.com/pybind/pybind11_protobuf/archive/80f3440cd8fee124e077e2e47a8a17b78b451363.zip",
+    url = "https://github.com/pybind/pybind11_protobuf/archive/80f3440cd8fee124e077e2e47a8a17b78b451363.tar.gz",
 )
 
 http_archive(
@@ -134,9 +134,9 @@ http_archive(
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
     },
-    sha256 = "4d935ee2dac97cf55da02b2305decce0fde6a1f5c9f78b0db821104d6440b67f",
+    sha256 = "73e9e5af531b816a800077910672e1902d77555b3d4ac637aca0ee189b368bd7",
     strip_prefix = "xla-661559150498be4c186e74af3a0c60b1aae0c991",
-    url = "https://github.com/openxla/xla/archive/661559150498be4c186e74af3a0c60b1aae0c991.zip",
+    url = "https://github.com/openxla/xla/archive/661559150498be4c186e74af3a0c60b1aae0c991.tar.gz",
 )
 
 #
@@ -147,9 +147,9 @@ http_archive(
 http_archive(
     name = "pybind11",
     build_file = "@pybind11_bazel//:pybind11-BUILD.bazel",
-    sha256 = "d0a116e91f64a4a2d8fb7590c34242df92258a61ec644b79127951e821b47be6",
+    sha256 = "e08cb87f4773da97fa7b5f035de8763abc656d87d5773e62f6da0587d1f0ec20",
     strip_prefix = "pybind11-2.13.6",
-    url = "https://github.com/pybind/pybind11/archive/v2.13.6.zip",
+    url = "https://github.com/pybind/pybind11/archive/refs/tags/v2.13.6.tar.gz",
 )
 
 # Required by `xla`, the version of `rules_proto` that XLA depends on is incompatible with the
