@@ -32,6 +32,15 @@ http_archive(
 )
 
 # Commit determined by:
+# https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/tsl_workspace2.bzl#L294
+http_archive(
+    name = "com_google_protobuf",
+    sha256 = "1add10f9bd92775b91f326da259f243881e904dd509367d5031d4c782ba82810",
+    strip_prefix = "protobuf-3.21.9",
+    url = "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v3.21.9.tar.gz",
+)
+
+# Commit determined by:
 # https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/third_party/eigen3/workspace.bzl#L10
 http_archive(
     name = "eigen",
