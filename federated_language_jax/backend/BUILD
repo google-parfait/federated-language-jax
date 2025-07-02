@@ -32,8 +32,8 @@ py_library(
     name = "execution_contexts",
     srcs = ["execution_contexts.py"],
     data = [
-        "//federated_language_jax/executor:xla_bindings.so",
-        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:executor_bindings.so",
+        "//federated_language_jax/executor:xla_bindings",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:executor_bindings",
     ],
     deps = [
         "//federated_language_jax/computation:jax_computation",
