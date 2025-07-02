@@ -37,7 +37,7 @@ py_library(
 py_library(
     name = "executor_factory",
     srcs = ["executor_factory.py"],
-    data = ["@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:executor_bindings"],
+    data = ["//third_party/tensorflow_federated/cc/core/impl/executors:executor_bindings"],
     deps = [
         "@federated_language_jax_pypi//absl_py",
         "@federated_language_jax_pypi//cachetools",
