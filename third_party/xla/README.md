@@ -27,3 +27,20 @@
     $ git diff --no-prefix \
         > "<CLIENT>/third_party/py/federated_language_jax/third_party/xla/bazel_deps.patch"
     ```
+
+1.  Create `zlib.patch`.
+
+    Make the changes.
+
+    ```shell
+    $ sed --in-place \
+        -e 's/hdrs = \[\"zlib\.h\"\],/hdrs = ["zconf.h", "zlib.h"],/g' \
+        "third_party/zlib.BUILD"
+    ```
+
+    Create the patch.
+
+    ```shell
+    $ git diff --no-prefix \
+        > "<CLIENT>/third_party/py/federated_language_jax/third_party/xla/zlib.patch"
+    ```
