@@ -54,7 +54,6 @@ http_archive(
     name = "federated_language",
     patches = [
         "//third_party/federated_language:proto_library_loads.patch",
-        "//third_party/federated_language:structure_visibility.patch",
     ],
     repo_mapping = {
         "@federated_language_pypi": "@federated_language_jax_pypi",
