@@ -32,18 +32,3 @@
     $ git diff --no-prefix \
         > "<CLIENT>/third_party/py/federated_language_jax/third_party/federated_language/proto_library_loads.patch"
     ```
-
-1.  Create `structure_visibility.patch`.
-
-    Make the changes.
-
-    ```shell
-    $ buildozer 'add visibility //visibility:public' //federated_language/common_libs:structure
-    ```
-
-    Create the patch.
-
-    ```shell
-    $ git diff --no-prefix \
-        > "<CLIENT>/third_party/py/federated_language_jax/third_party/federated_language/structure_visibility.patch"
-    ```
