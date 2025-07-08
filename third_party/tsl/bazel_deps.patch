@@ -176,7 +176,7 @@ index 6b43f1b94b..e2b74bf186 100644
          "@xla//xla/tsl/lib/core:status_test_util",
          "@xla//xla/tsl/platform:env",
 diff --git third_party/tsl/tsl/profiler/lib/BUILD third_party/tsl/tsl/profiler/lib/BUILD
-index c92b2ff199..a81b25fdb7 100644
+index a3c07948d7..54e5b43a29 100644
 --- third_party/tsl/tsl/profiler/lib/BUILD
 +++ third_party/tsl/tsl/profiler/lib/BUILD
 @@ -63,7 +63,7 @@ cc_library(
@@ -285,7 +285,7 @@ index c92b2ff199..a81b25fdb7 100644
          "@xla//xla/tsl/platform:logging",
          "@xla//xla/tsl/platform:macros",
          "@xla//xla/tsl/platform:types",
-@@ -325,7 +325,7 @@ cc_library(
+@@ -324,7 +324,7 @@ cc_library(
      deps = [
          ":nvtx_utils",
          "//tsl/platform",
@@ -294,7 +294,7 @@ index c92b2ff199..a81b25fdb7 100644
          "@xla//xla/tsl/platform:macros",
          "@xla//xla/tsl/platform:types",
      ] + if_not_android([
-@@ -339,7 +339,7 @@ tsl_cc_test(
+@@ -338,7 +338,7 @@ tsl_cc_test(
      srcs = ["scoped_annotation_test.cc"],
      deps = [
          ":scoped_annotation",
@@ -303,7 +303,7 @@ index c92b2ff199..a81b25fdb7 100644
          "@com_google_googletest//:gtest_main",
          "@xla//xla/tsl/platform:test",
          "@xla//xla/tsl/platform:test_benchmark",
-@@ -356,8 +356,8 @@ cc_library(
+@@ -355,8 +355,8 @@ cc_library(
          ":context_types_hdrs",
          ":traceme",
          ":traceme_encode",
@@ -314,12 +314,20 @@ index c92b2ff199..a81b25fdb7 100644
          "@xla//xla/tsl/platform:types",
      ],
  )
-@@ -374,7 +374,7 @@ cc_library(
+@@ -373,7 +373,7 @@ cc_library(
      deps = [
          ":profiler_interface",
          "//tsl/profiler/protobuf:xplane_proto_cc",
 -        "@com_google_absl//absl/status",
 +        "@abseil-cpp//absl/status",
          "@xla//xla/tsl/platform:status",
+     ],
+ )
+@@ -384,6 +384,6 @@ cc_library(
+     hdrs = ["scoped_memory_debug_annotation.h"],
+     visibility = ["//visibility:public"],
+     deps = [
+-        "@com_google_absl//absl/strings:string_view",
++        "@abseil-cpp//absl/strings:string_view",
      ],
  )

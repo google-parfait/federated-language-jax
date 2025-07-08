@@ -19,29 +19,29 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # Direct Dependencies
 
 # Commit determined by:
-# https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/third_party/absl/workspace.bzl#L10
+# https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/third_party/absl/workspace.bzl#L10
 http_archive(
     name = "abseil-cpp",
     patch_args = ["-p1"],
     patches = [
         "@xla//third_party/absl:nullability_macros.patch",
     ],
-    sha256 = "0320586856674d16b0b7a4d4afb22151bdc798490bb7f295eddd8f6a62b46fea",
-    strip_prefix = "abseil-cpp-fb3621f4f897824c0dbe0615fa94543df6192f30",
-    url = "https://github.com/abseil/abseil-cpp/archive/fb3621f4f897824c0dbe0615fa94543df6192f30.tar.gz",
+    sha256 = "a862ce94f77979ce36d2ca21ad3ca36b60838083392247b301b085a06d9f2b1a",
+    strip_prefix = "abseil-cpp-54fac219c4ef0bc379dfffb0b8098725d77ac81b",
+    url = "https://github.com/abseil/abseil-cpp/archive/54fac219c4ef0bc379dfffb0b8098725d77ac81b.tar.gz",
 )
 
 # Commit determined by:
-# https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/tsl_workspace2.bzl#L294
+# https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/tsl_workspace2.bzl#L283
 http_archive(
     name = "com_google_protobuf",
-    sha256 = "1add10f9bd92775b91f326da259f243881e904dd509367d5031d4c782ba82810",
-    strip_prefix = "protobuf-3.21.9",
-    url = "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v3.21.9.tar.gz",
+    sha256 = "7fce939b9b7181bd0bd157360e0cc88a8cabf01ac4efe4662494f56dd955d4c1",
+    strip_prefix = "protobuf-5.28.3",
+    url = "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v5.28.3.tar.gz",
 )
 
 # Commit determined by:
-# https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/third_party/eigen3/workspace.bzl#L10
+# https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/third_party/eigen3/workspace.bzl#L10
 http_archive(
     name = "eigen",
     build_file = "//third_party:eigen.BUILD",
@@ -79,6 +79,7 @@ http_archive(
         "//third_party/tensorflow_federated:bazel_deps.patch",
         "//third_party/tensorflow_federated:cpp_to_python_executor_visibility.patch",
         "//third_party/tensorflow_federated:executors_errors_deps.patch",
+        "//third_party/tensorflow_federated:protobuf_matchers.patch",
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
@@ -107,15 +108,15 @@ http_archive(
 )
 
 # Commit determined by
-# https://github.com/openxla/xla/blob/661559150498be4c186e74af3a0c60b1aae0c991/workspace2.bzl#L154
+# https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/workspace2.bzl#L152
 http_archive(
     name = "pybind11_protobuf",
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
     },
-    sha256 = "ba2c54a8b4d1dd0a68c58159e37b1f863c0d9d1dc815558288195493bcc31682",
-    strip_prefix = "pybind11_protobuf-80f3440cd8fee124e077e2e47a8a17b78b451363",
-    url = "https://github.com/pybind/pybind11_protobuf/archive/80f3440cd8fee124e077e2e47a8a17b78b451363.tar.gz",
+    sha256 = "6c712ca5fc1e15df2ed1f55bd974c32a3065e658483616f3fda7607546db33ab",
+    strip_prefix = "pybind11_protobuf-f02a2b7653bc50eb5119d125842a3870db95d251",
+    url = "https://github.com/pybind/pybind11_protobuf/archive/f02a2b7653bc50eb5119d125842a3870db95d251.tar.gz",
 )
 
 http_archive(
@@ -139,13 +140,14 @@ http_archive(
         "//third_party/ml_dtypes:bazel_deps.patch",
         "//third_party/tsl:bazel_deps.patch",
         "//third_party/xla:bazel_deps.patch",
+        "//third_party/xla:zlib.patch",
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
     },
-    sha256 = "73e9e5af531b816a800077910672e1902d77555b3d4ac637aca0ee189b368bd7",
-    strip_prefix = "xla-661559150498be4c186e74af3a0c60b1aae0c991",
-    url = "https://github.com/openxla/xla/archive/661559150498be4c186e74af3a0c60b1aae0c991.tar.gz",
+    sha256 = "83547a447618229991e1dff77a10c0770e9b3370b5ac3669c6823e90f22c6814",
+    strip_prefix = "xla-381088235cac2e4d438d87ada69cf92b13d798a2",
+    url = "https://github.com/openxla/xla/archive/381088235cac2e4d438d87ada69cf92b13d798a2.tar.gz",
 )
 
 #
@@ -212,7 +214,7 @@ load("@xla//:workspace0.bzl", "xla_workspace0")
 xla_workspace0()
 
 load(
-    "@xla//third_party/gpus/cuda/hermetic:cuda_json_init_repository.bzl",
+    "@rules_ml_toolchain//third_party/gpus/cuda/hermetic:cuda_json_init_repository.bzl",
     "cuda_json_init_repository",
 )
 
@@ -224,7 +226,7 @@ load(
     "CUDNN_REDISTRIBUTIONS",
 )
 load(
-    "@xla//third_party/gpus/cuda/hermetic:cuda_redist_init_repositories.bzl",
+    "@rules_ml_toolchain//third_party/gpus/cuda/hermetic:cuda_redist_init_repositories.bzl",
     "cuda_redist_init_repositories",
     "cudnn_redist_init_repository",
 )
@@ -238,25 +240,35 @@ cudnn_redist_init_repository(
 )
 
 load(
-    "@xla//third_party/gpus/cuda/hermetic:cuda_configure.bzl",
+    "@rules_ml_toolchain//third_party/gpus/cuda/hermetic:cuda_configure.bzl",
     "cuda_configure",
 )
 
 cuda_configure(name = "local_config_cuda")
 
 load(
-    "@xla//third_party/nccl/hermetic:nccl_redist_init_repository.bzl",
+    "@rules_ml_toolchain//third_party/nccl/hermetic:nccl_redist_init_repository.bzl",
     "nccl_redist_init_repository",
 )
 
 nccl_redist_init_repository()
 
 load(
-    "@xla//third_party/nccl/hermetic:nccl_configure.bzl",
+    "@rules_ml_toolchain//third_party/nccl/hermetic:nccl_configure.bzl",
     "nccl_configure",
 )
 
 nccl_configure(name = "local_config_nccl")
+
+# CC Toolchains
+
+load("@rules_ml_toolchain//cc_toolchain/deps:cc_toolchain_deps.bzl", "cc_toolchain_deps")
+
+cc_toolchain_deps()
+
+register_toolchains("@rules_ml_toolchain//cc_toolchain:lx64_lx64")
+
+register_toolchains("@rules_ml_toolchain//cc_toolchain:lx64_lx64_cuda")
 
 # Python Dependencies
 
