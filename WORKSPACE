@@ -35,6 +35,9 @@ http_archive(
 # https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/tsl_workspace2.bzl#L283
 http_archive(
     name = "com_google_protobuf",
+    repo_mapping = {
+        "@com_google_absl": "@abseil-cpp",
+    },
     sha256 = "7fce939b9b7181bd0bd157360e0cc88a8cabf01ac4efe4662494f56dd955d4c1",
     strip_prefix = "protobuf-5.28.3",
     url = "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v5.28.3.tar.gz",
@@ -154,6 +157,22 @@ http_archive(
 # Inlined Transitive Dependencies
 #
 
+# Required by `org_tensorflow_federated` and `xla`; commit determined by
+# https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/tsl_workspace2.bzl#L339
+http_archive(
+    name = "com_github_grpc_grpc",
+    patch_args = ["-p1"],
+    patches = [
+        "@xla//third_party/grpc:grpc.patch",
+    ],
+    repo_mapping = {
+        "@com_google_absl": "@abseil-cpp",
+    },
+    sha256 = "afbc5d78d6ba6d509cc6e264de0d49dcd7304db435cbf2d630385bacf49e066c",
+    strip_prefix = "grpc-1.68.2",
+    url = "https://github.com/grpc/grpc/archive/refs/tags/v1.68.2.tar.gz",
+)
+
 # Required by `pybind11_bazel`.
 http_archive(
     name = "pybind11",
@@ -161,6 +180,17 @@ http_archive(
     sha256 = "e08cb87f4773da97fa7b5f035de8763abc656d87d5773e62f6da0587d1f0ec20",
     strip_prefix = "pybind11-2.13.6",
     url = "https://github.com/pybind/pybind11/archive/refs/tags/v2.13.6.tar.gz",
+)
+
+# Required by `googletest`.
+http_archive(
+    name = "com_googlesource_code_re2",
+    repo_mapping = {
+        "@com_google_absl": "@abseil-cpp",
+    },
+    sha256 = "eb2df807c781601c14a260a507a5bb4509be1ee626024cb45acbd57cb9d4032b",
+    strip_prefix = "re2-2024-07-02",
+    url = "https://github.com/google/re2/archive/refs/tags/2024-07-02.tar.gz",
 )
 
 # Required by `xla`, the version of `rules_proto` that XLA depends on is incompatible with the
