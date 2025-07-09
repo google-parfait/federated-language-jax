@@ -53,9 +53,9 @@ cc_library(
         "@xla//xla/service:cpu_plugin",
         "@xla//xla/stream_executor/host:host_platform",
     ] + if_cuda_or_rocm([
-        "//third_party/tensorflow/compiler/xla/service:gpu_plugin",
+        "@xla//xla/service:gpu_plugin",
     ]) + if_cuda([
-        "//third_party/tensorflow/compiler/xla/stream_executor/cuda:cuda_platform",
+        "@xla//xla/stream_executor/cuda:cuda_platform",
     ]) + if_with_tpu_support([
     ]),
     alwayslink = 1,
