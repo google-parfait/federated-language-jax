@@ -147,6 +147,7 @@ http_archive(
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
+        "@com_googlesource_code_re2": "@re2",
     },
     sha256 = "83547a447618229991e1dff77a10c0770e9b3370b5ac3669c6823e90f22c6814",
     strip_prefix = "xla-381088235cac2e4d438d87ada69cf92b13d798a2",
@@ -167,6 +168,7 @@ http_archive(
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
+        "@com_googlesource_code_re2": "@re2",
     },
     sha256 = "afbc5d78d6ba6d509cc6e264de0d49dcd7304db435cbf2d630385bacf49e066c",
     strip_prefix = "grpc-1.68.2",
@@ -182,17 +184,6 @@ http_archive(
     url = "https://github.com/pybind/pybind11/archive/refs/tags/v2.13.6.tar.gz",
 )
 
-# Required by `googletest`.
-http_archive(
-    name = "com_googlesource_code_re2",
-    repo_mapping = {
-        "@com_google_absl": "@abseil-cpp",
-    },
-    sha256 = "eb2df807c781601c14a260a507a5bb4509be1ee626024cb45acbd57cb9d4032b",
-    strip_prefix = "re2-2024-07-02",
-    url = "https://github.com/google/re2/archive/refs/tags/2024-07-02.tar.gz",
-)
-
 # Required by `xla`, the version of `rules_proto` that XLA depends on is incompatible with the
 # version of `rules_python` that XLA depends on.
 http_archive(
@@ -205,6 +196,11 @@ http_archive(
 #
 # Transitive Dependencies
 #
+
+# Required by `googletest`.
+load("@googletest//:googletest_deps.bzl", "googletest_deps")
+
+googletest_deps()
 
 # Required by `xla`.
 load("@xla//third_party/py:python_init_rules.bzl", "python_init_rules")
