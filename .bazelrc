@@ -38,10 +38,12 @@ build --host_cxxopt=-std=c++17
 
 build --repo_env=CC="/usr/bin/clang"
 
+build --repo_env=USE_HERMETIC_CC_TOOLCHAIN=1
+
+common --repo_env=HERMETIC_PYTHON_VERSION=3.12
+
 # Do not use C-Ares when building gRPC.
 build --define=grpc_no_ares=true
 
 # Enables some remote execution capabilities.
 common --experimental_repo_remote_exec
-
-build --repo_env=USE_HERMETIC_CC_TOOLCHAIN=1
