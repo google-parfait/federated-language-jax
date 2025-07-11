@@ -1,5 +1,5 @@
 diff --git third_party/tsl/tsl/platform/BUILD third_party/tsl/tsl/platform/BUILD
-index 6b43f1b94b..e2b74bf186 100644
+index 6b43f1b94b..c48207f71c 100644
 --- third_party/tsl/tsl/platform/BUILD
 +++ third_party/tsl/tsl/platform/BUILD
 @@ -41,7 +41,7 @@ cc_library(
@@ -44,6 +44,15 @@ index 6b43f1b94b..e2b74bf186 100644
          "@xla//xla/tsl/platform:logging",
          "@xla//xla/tsl/platform:types",
      ],
+@@ -212,7 +212,7 @@ cc_library(
+     hdrs = ["regexp.h"],
+     deps = [
+         ":platform",
+-        "@com_googlesource_code_re2//:re2",
++        "@re2",
+     ],
+ )
+ 
 @@ -764,8 +764,8 @@ cc_library(
      hdrs = ["str_util.h"],
      deps = [
