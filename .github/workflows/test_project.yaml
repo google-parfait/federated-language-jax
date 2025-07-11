@@ -55,6 +55,22 @@ jobs:
     #   run: |
     #     bazelisk mod deps --lockfile_mode=error
 
+    - name: Check WORKSPACE dependencies
+      run: |
+        bazelisk query '
+            let target=//federated_language_jax/... in
+            let deps=set(
+                @com_google_absl//...
+                @com_googlesource_code_re2//...
+                @eigen_archive//...
+            ) in
+            somepath($target, $deps)
+        ' > "results.txt"
+        if [ -s "results.txt" ]; then
+            cat "results.txt"
+            exit1
+        fi
+
     - name: Test tools
       run: |
         bazelisk test //:* \
