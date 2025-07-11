@@ -45,5 +45,8 @@ common --repo_env=HERMETIC_PYTHON_VERSION=3.12
 # Do not use C-Ares when building gRPC.
 build --define=grpc_no_ares=true
 
+# Enable Abseil for GoogleTest.
+build --define=absl=1
+
 # Enables some remote execution capabilities.
 common --experimental_repo_remote_exec

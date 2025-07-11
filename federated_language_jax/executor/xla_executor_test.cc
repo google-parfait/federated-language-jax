@@ -51,7 +51,7 @@ limitations under the License.
 #include "tensorflow_federated/cc/testing/protobuf_matchers.h"
 #include "tensorflow_federated/cc/testing/status_matchers.h"
 
-ABSL_FLAG(std::string, platform_name, "Host",
+ABSL_FLAG(std::string, platform_name, "",
           "The name of the XLA platform to run the tests on.");
 
 namespace tensorflow_federated {

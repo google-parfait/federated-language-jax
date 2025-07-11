@@ -139,6 +139,44 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "xla_executor_gpu_test",
+    srcs = ["xla_executor_test.cc"],
+    args = ["--platform_name=gpu"],
+    tags = [
+        "manual",
+        "requires-gpu-nvidia",
+    ],
+    deps = [
+        ":platform_support",
+        ":xla_executor",
+        ":xla_utils",
+        "@abseil-cpp//absl/flags:flag",
+        "@abseil-cpp//absl/log",
+        "@abseil-cpp//absl/log:check",
+        "@abseil-cpp//absl/status",
+        "@abseil-cpp//absl/status:statusor",
+        "@abseil-cpp//absl/strings",
+        "@federated_language//federated_language/proto:array_cc_proto",
+        "@federated_language//federated_language/proto:computation_cc_proto",
+        "@federated_language//federated_language/proto:data_type_cc_proto",
+        "@googletest//:gtest_main",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:array_shape_test_utils",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:array_test_utils",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:executor",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:status_macros",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:type_test_utils",
+        "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:value_test_utils",
+        "@org_tensorflow_federated//tensorflow_federated/cc/testing:protobuf_matchers",
+        "@org_tensorflow_federated//tensorflow_federated/cc/testing:status_matchers",
+        "@xla//xla:shape_util",
+        "@xla//xla:xla_data_proto_cc",
+        "@xla//xla/hlo/builder:xla_builder",
+        "@xla//xla/hlo/builder:xla_computation",
+        "@xla//xla/service:platform_util",
+    ],
+)
+
 cc_library(
     name = "xla_utils",
     srcs = ["xla_utils.cc"],

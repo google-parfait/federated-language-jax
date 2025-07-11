@@ -95,5 +95,6 @@ jobs:
     - name: Test project
       run: |
         bazelisk test //federated_language_jax/... \
+            --test_tag_filters="-requires-gpu-nvidia" \
             --repo_env=HERMETIC_PYTHON_VERSION=${{ matrix.python-version }} \
             --@rules_python//python/config_settings:python_version="${{ matrix.python-version }}"
