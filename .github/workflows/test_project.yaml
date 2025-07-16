@@ -73,8 +73,7 @@ jobs:
 
     - name: Test tools
       run: |
-        bazelisk test //:* \
-            --repo_env=HERMETIC_PYTHON_VERSION="3.12"
+        bazelisk test //:*
 
   test-project:
     name: Test PY ${{ matrix.python-version }}
@@ -83,13 +82,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TODO: b/419584204 - Enable all supported versions of Python.
         python-version: [
-          # "3.9",
-          # "3.10",
-          # "3.11",
+          "3.9",
+          "3.10",
+          "3.11",
           "3.12",
-          # "3.13",
+          "3.13",
         ]
     steps:
 
