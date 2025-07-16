@@ -41,7 +41,7 @@ dependencies = [
   "grpcio~=1.46",  # Required TFF source dependency.
   "jax~=0.4.14",
   "jaxlib~=0.4.14",
-  "ml_dtypes~=0.4.0",
+  "ml_dtypes>=0.4.0,<0.6",
   "numpy~=2.0",
   "protobuf~=5.29",
 ]
