@@ -18,17 +18,11 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # Direct Dependencies
 
-# Commit determined by:
-# https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/third_party/absl/workspace.bzl#L10
 http_archive(
     name = "abseil-cpp",
-    patch_args = ["-p1"],
-    patches = [
-        "@xla//third_party/absl:nullability_macros.patch",
-    ],
-    sha256 = "a862ce94f77979ce36d2ca21ad3ca36b60838083392247b301b085a06d9f2b1a",
-    strip_prefix = "abseil-cpp-54fac219c4ef0bc379dfffb0b8098725d77ac81b",
-    url = "https://github.com/abseil/abseil-cpp/archive/54fac219c4ef0bc379dfffb0b8098725d77ac81b.tar.gz",
+    sha256 = "9b7a064305e9fd94d124ffa6cc358592eb42b5da588fb4e07d09254aa40086db",
+    strip_prefix = "abseil-cpp-20250512.1",
+    url = "https://github.com/abseil/abseil-cpp/archive/refs/tags/20250512.1.tar.gz",
 )
 
 # Commit determined by:
