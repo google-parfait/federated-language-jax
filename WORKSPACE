@@ -63,9 +63,9 @@ http_archive(
         "@federated_language_pypi": "@federated_language_jax_pypi",
         "@protobuf": "@com_google_protobuf",
     },
-    sha256 = "927a692e698068a44df691713f6dd74a54eddc536e90c6b1c4e557d3ca7cb9e7",
-    strip_prefix = "federated-language-bfc8b09943883cc425d82fd331888e8244a8f4c0",
-    url = "https://github.com/google-parfait/federated-language/archive/bfc8b09943883cc425d82fd331888e8244a8f4c0.tar.gz",
+    sha256 = "4041660253f9025c4451857a8c4b07a44684d74031396789a047e0da70c769a3",
+    strip_prefix = "federated-language-0.5.0",
+    url = "https://github.com/google-parfait/federated-language/archive/refs/tags/v0.5.0.tar.gz",
 )
 
 http_archive(
