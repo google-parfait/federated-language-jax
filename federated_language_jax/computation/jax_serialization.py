@@ -215,7 +215,7 @@ def serialize_jax_computation(
 
   # Test if the output is a tuple, or a single array and construct the
   # return spec accordingly.
-  if isinstance(lowered.out_info, jax.stages.OutInfo):
+  if isinstance(lowered.out_info, jax.ShapeDtypeStruct):
     returned_type_spec = _jax_shape_dtype_struct_to_tff_tensor(
         jax.ShapeDtypeStruct(
             shape=lowered.out_info.shape, dtype=lowered.out_info.dtype
