@@ -19,6 +19,14 @@
 
     ```shell
     $ buildozer 'replace deps @eigen_archive//:eigen3 @eigen//:eigen' //xla/...:*
+    $ find \
+        "third_party/" \
+        -path "third_party/tsl" -prune -o \
+        -type f \
+        -print0 \
+        | xargs -0 \
+        sed --in-place \
+        -e 's/eigen_archive\/\/:eigen3/@eigen\/\/:eigen/g'
     ```
 
     Create the patch.

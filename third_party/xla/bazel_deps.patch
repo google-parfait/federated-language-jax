@@ -1,3 +1,68 @@
+diff --git third_party/ducc/ducc.BUILD third_party/ducc/ducc.BUILD
+index 33b411e136..82dfb41482 100644
+--- third_party/ducc/ducc.BUILD
++++ third_party/ducc/ducc.BUILD
+@@ -64,7 +64,7 @@ cc_library(
+     visibility = ["//visibility:private"],
+     deps = [
+         # Required for custom threadpool usage:
+-        "@eigen_archive//:eigen3",
++        "@@eigen//:eigen",
+         "@tsl//tsl/platform:mutex",
+     ],
+ )
+@@ -80,6 +80,6 @@ cc_library(
+     visibility = ["//visibility:public"],
+     deps = [
+         ":fft",
+-        "@eigen_archive//:eigen3",
++        "@@eigen//:eigen",
+     ],
+ )
+diff --git third_party/py/ml_dtypes/ml_dtypes.BUILD third_party/py/ml_dtypes/ml_dtypes.BUILD
+index 6e3b504c62..12ec1c8886 100644
+--- third_party/py/ml_dtypes/ml_dtypes.BUILD
++++ third_party/py/ml_dtypes/ml_dtypes.BUILD
+@@ -10,7 +10,7 @@ package(
+ cc_library(
+     name = "float8",
+     hdrs = ["include/float8.h"],
+-    deps = ["@eigen_archive//:eigen3"],
++    deps = ["@@eigen//:eigen"],
+ )
+ 
+ cc_library(
+@@ -23,7 +23,7 @@ cc_library(
+     hdrs = ["include/mxfloat.h"],
+     deps = [
+         ":float8",
+-        "@eigen_archive//:eigen3",
++        "@@eigen//:eigen",
+     ],
+ )
+ 
+@@ -43,7 +43,7 @@ pybind_extension(
+         ":float8",
+         ":intn",
+         ":mxfloat",
+-        "@eigen_archive//:eigen3",
++        "@@eigen//:eigen",
+         "@xla//third_party/py/numpy:headers",
+     ],
+ )
+diff --git third_party/pybind11.BUILD third_party/pybind11.BUILD
+index 7d284cc50f..25d57192e4 100644
+--- third_party/pybind11.BUILD
++++ third_party/pybind11.BUILD
+@@ -45,7 +45,7 @@ cc_library(
+     includes = ["include"],
+     strip_include_prefix = "include",
+     deps = [
+-        "@eigen_archive//:eigen3",
++        "@@eigen//:eigen",
+         "@xla//third_party/python_runtime:headers",
+     ],
+ )
 diff --git xla/BUILD xla/BUILD
 index 925b050b43..8ad2fbb871 100644
 --- xla/BUILD

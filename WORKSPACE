@@ -139,8 +139,6 @@ http_archive(
 http_archive(
     name = "xla",
     patches = [
-        "//third_party/ducc:bazel_deps.patch",
-        "//third_party/ml_dtypes:bazel_deps.patch",
         "//third_party/tsl:bazel_deps.patch",
         "//third_party/xla:bazel_deps.patch",
         "//third_party/xla:zlib.patch",
