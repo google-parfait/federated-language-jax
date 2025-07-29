@@ -18,6 +18,28 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # Direct Dependencies
 
+# Toolchains for ML projects hermetic builds.
+# Details: https://github.com/google-ml-infra/rules_ml_toolchain
+http_archive(
+    name = "rules_ml_toolchain",
+    sha256 = "83ecca68448b16047a2200a19539ebd5ccb9f5cbaa37dc6e741def0e0a5997f9",
+    strip_prefix = "rules_ml_toolchain-cpp-cuda-decouple",
+    urls = [
+        "https://github.com/google-ml-infra/rules_ml_toolchain/archive/refs/heads/cpp-cuda-decouple.tar.gz",
+    ],
+)
+
+load(
+    "@rules_ml_toolchain//cc/deps:cc_toolchain_deps.bzl",
+    "cc_toolchain_deps",
+)
+
+cc_toolchain_deps()
+
+register_toolchains("@rules_ml_toolchain//cc:linux_x86_64_linux_x86_64")
+
+register_toolchains("@rules_ml_toolchain//cc:linux_x86_64_linux_x86_64_cuda")
+
 # Commit determined by:
 # https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/third_party/absl/workspace.bzl#L10
 http_archive(
@@ -283,16 +305,6 @@ load(
 )
 
 nccl_configure(name = "local_config_nccl")
-
-# CC Toolchains
-
-load("@rules_ml_toolchain//cc_toolchain/deps:cc_toolchain_deps.bzl", "cc_toolchain_deps")
-
-cc_toolchain_deps()
-
-register_toolchains("@rules_ml_toolchain//cc_toolchain:lx64_lx64")
-
-register_toolchains("@rules_ml_toolchain//cc_toolchain:lx64_lx64_cuda")
 
 # Python Dependencies
 
