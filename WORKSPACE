@@ -16,7 +16,9 @@ workspace(name = "federated_language_jax")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+#
 # Direct Dependencies
+#
 
 # Commit determined by:
 # https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/third_party/absl/workspace.bzl#L10
@@ -284,7 +286,9 @@ load(
 
 nccl_configure(name = "local_config_nccl")
 
+#
 # CC Toolchains
+#
 
 load("@rules_ml_toolchain//cc_toolchain/deps:cc_toolchain_deps.bzl", "cc_toolchain_deps")
 
@@ -294,7 +298,9 @@ register_toolchains("@rules_ml_toolchain//cc_toolchain:lx64_lx64")
 
 register_toolchains("@rules_ml_toolchain//cc_toolchain:lx64_lx64_cuda")
 
+#
 # Python Dependencies
+#
 
 load("@rules_python//python:pip.bzl", "pip_parse")
 
