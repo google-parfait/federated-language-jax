@@ -79,6 +79,7 @@ cc_library(
     name = "xla_executor",
     srcs = ["xla_executor.cc"],
     hdrs = ["xla_executor.h"],
+    visibility = ["//visibility:public"],
     deps = [
         ":xla_utils",
         "@abseil-cpp//absl/log",
@@ -181,6 +182,7 @@ cc_library(
     name = "xla_utils",
     srcs = ["xla_utils.cc"],
     hdrs = ["xla_utils.h"],
+    visibility = ["//visibility:public"],
     deps = [
         "@abseil-cpp//absl/log",
         "@abseil-cpp//absl/status",
