@@ -27,7 +27,7 @@ limitations under the License.
 #include "pybind11_protobuf/native_proto_caster.h"
 #include "tensorflow_federated/proto/v0/executor.pb.h"
 
-namespace tensorflow_federated {
+namespace federated_language_jax {
 
 namespace py = ::pybind11;
 
@@ -56,4 +56,4 @@ PYBIND11_MODULE(xla_bindings, m) {
 }
 
 }  // namespace
-}  // namespace tensorflow_federated
+}  // namespace federated_language_jax

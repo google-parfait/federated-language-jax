@@ -39,7 +39,7 @@ limitations under the License.
 #include "tensorflow_federated/cc/testing/protobuf_matchers.h"
 #include "tensorflow_federated/cc/testing/status_matchers.h"
 
-namespace tensorflow_federated {
+namespace federated_language_jax {
 namespace {
 
 TEST(ShapeFromTensorTypeTest, TestReturnsShape_fully_defined) {
@@ -93,7 +93,7 @@ TEST(ShapeFromTensorTypeTest, TestFails_unknown) {
 
 TEST(ShapeFromArrayShapeTest, TestReturnsShape_fully_defined) {
   const federated_language::ArrayShape& shape_pb =
-      testing::CreateArrayShape({2, 3});
+      tensorflow_federated::testing::CreateArrayShape({2, 3});
 
   const xla::Shape& actual_shape = TFF_ASSERT_OK(
       ShapeFromArrayShape(federated_language::DataType::DT_INT32, shape_pb));
@@ -105,7 +105,7 @@ TEST(ShapeFromArrayShapeTest, TestReturnsShape_fully_defined) {
 
 TEST(ShapeFromArrayShapeTest, TestReturnsShape_scalar) {
   const federated_language::ArrayShape& shape_pb =
-      testing::CreateArrayShape({});
+      tensorflow_federated::testing::CreateArrayShape({});
 
   const xla::Shape& actual_shape = TFF_ASSERT_OK(
       ShapeFromArrayShape(federated_language::DataType::DT_INT32, shape_pb));
@@ -117,7 +117,7 @@ TEST(ShapeFromArrayShapeTest, TestReturnsShape_scalar) {
 
 TEST(ShapeFromArrayShapeTest, TestFails_partially_defined) {
   const federated_language::ArrayShape& shape_pb =
-      testing::CreateArrayShape({2, -1});
+      tensorflow_federated::testing::CreateArrayShape({2, -1});
 
   const absl::StatusOr<xla::Shape>& result =
       ShapeFromArrayShape(federated_language::DataType::DT_INT32, shape_pb);
@@ -127,7 +127,7 @@ TEST(ShapeFromArrayShapeTest, TestFails_partially_defined) {
 
 TEST(ShapeFromArrayShapeTest, TestFails_unknown) {
   const federated_language::ArrayShape& shape_pb =
-      testing::CreateArrayShape({}, true);
+      tensorflow_federated::testing::CreateArrayShape({}, true);
 
   const absl::StatusOr<xla::Shape>& result =
       ShapeFromArrayShape(federated_language::DataType::DT_INT32, shape_pb);
@@ -141,10 +141,12 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_bool) {
   const federated_language::Array& actual_array_pb =
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
-  const federated_language::Array& expected_array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_BOOL,
-                           testing::CreateArrayShape({}), {true}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+  const federated_language::Array& expected_array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_BOOL,
+          tensorflow_federated::testing::CreateArrayShape({}), {true}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_int8) {
@@ -154,9 +156,11 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_int8) {
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
   const federated_language::Array& expected_array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_INT8,
-                                         testing::CreateArrayShape({}), {1}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_INT8,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_int16) {
@@ -166,9 +170,11 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_int16) {
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
   const federated_language::Array& expected_array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_INT16,
-                                         testing::CreateArrayShape({}), {1}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_INT16,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_int32) {
@@ -178,9 +184,11 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_int32) {
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
   const federated_language::Array& expected_array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_INT32,
-                                         testing::CreateArrayShape({}), {1}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_INT32,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_int64) {
@@ -190,9 +198,11 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_int64) {
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
   const federated_language::Array& expected_array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_INT64,
-                                         testing::CreateArrayShape({}), {1}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_INT64,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_uint8) {
@@ -202,9 +212,11 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_uint8) {
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
   const federated_language::Array& expected_array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_UINT8,
-                                         testing::CreateArrayShape({}), {1}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_UINT8,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_uint16) {
@@ -213,10 +225,12 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_uint16) {
   const federated_language::Array& actual_array_pb =
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
-  const federated_language::Array& expected_array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_UINT16,
-                           testing::CreateArrayShape({}), {1}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+  const federated_language::Array& expected_array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_UINT16,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_uint32) {
@@ -225,10 +239,12 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_uint32) {
   const federated_language::Array& actual_array_pb =
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
-  const federated_language::Array& expected_array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_UINT32,
-                           testing::CreateArrayShape({}), {1}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+  const federated_language::Array& expected_array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_UINT32,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_uint64) {
@@ -237,10 +253,12 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_uint64) {
   const federated_language::Array& actual_array_pb =
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
-  const federated_language::Array& expected_array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_UINT64,
-                           testing::CreateArrayShape({}), {1}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+  const federated_language::Array& expected_array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_UINT64,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_float16) {
@@ -249,10 +267,13 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_float16) {
   const federated_language::Array& actual_array_pb =
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
-  const federated_language::Array& expected_array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_HALF,
-                           testing::CreateArrayShape({}), {Eigen::half{1.0}}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+  const federated_language::Array& expected_array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_HALF,
+          tensorflow_federated::testing::CreateArrayShape({}),
+          {Eigen::half{1.0}}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_float32) {
@@ -262,9 +283,11 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_float32) {
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
   const federated_language::Array& expected_array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_FLOAT,
-                                         testing::CreateArrayShape({}), {1.0}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_FLOAT,
+          tensorflow_federated::testing::CreateArrayShape({}), {1.0}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_float64) {
@@ -273,10 +296,12 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_float64) {
   const federated_language::Array& actual_array_pb =
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
-  const federated_language::Array& expected_array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_DOUBLE,
-                           testing::CreateArrayShape({}), {1.0}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+  const federated_language::Array& expected_array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_DOUBLE,
+          tensorflow_federated::testing::CreateArrayShape({}), {1.0}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_complex64) {
@@ -287,10 +312,12 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_complex64) {
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
   const federated_language::Array& expected_array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
           federated_language::DataType::DT_COMPLEX64,
-          testing::CreateArrayShape({}), {std::complex<float>{1.0, 1.0}}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+          tensorflow_federated::testing::CreateArrayShape({}),
+          {std::complex<float>{1.0, 1.0}}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_complex128) {
@@ -301,10 +328,12 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_complex128) {
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
   const federated_language::Array& expected_array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
           federated_language::DataType::DT_COMPLEX128,
-          testing::CreateArrayShape({}), {std::complex<double>{1.0, 1.0}}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+          tensorflow_federated::testing::CreateArrayShape({}),
+          {std::complex<double>{1.0, 1.0}}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_bfloat16) {
@@ -314,10 +343,12 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_bfloat16) {
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
   const federated_language::Array& expected_array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
           federated_language::DataType::DT_BFLOAT16,
-          testing::CreateArrayShape({}), {Eigen::bfloat16{1.0}}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+          tensorflow_federated::testing::CreateArrayShape({}),
+          {Eigen::bfloat16{1.0}}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(ArrayFromLiteralTest, TestReturnsArray_array) {
@@ -328,16 +359,19 @@ TEST(ArrayFromLiteralTest, TestReturnsArray_array) {
       TFF_ASSERT_OK(ArrayFromLiteral(literal));
 
   const federated_language::Array& expected_array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_INT32,
-                                         testing::CreateArrayShape({2, 3}),
-                                         {1, 2, 3, 4, 5, 6}));
-  EXPECT_THAT(actual_array_pb, testing::EqualsProto(expected_array_pb));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_INT32,
+          tensorflow_federated::testing::CreateArrayShape({2, 3}),
+          {1, 2, 3, 4, 5, 6}));
+  EXPECT_THAT(actual_array_pb,
+              tensorflow_federated::testing::EqualsProto(expected_array_pb));
 }
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_bool) {
-  const federated_language::Array& array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_BOOL,
-                           testing::CreateArrayShape({}), {true}));
+  const federated_language::Array& array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_BOOL,
+          tensorflow_federated::testing::CreateArrayShape({}), {true}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -348,8 +382,9 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_bool) {
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_int8) {
   const federated_language::Array& array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_INT8,
-                                         testing::CreateArrayShape({}), {1}));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_INT8,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -360,8 +395,9 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_int8) {
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_int16) {
   const federated_language::Array& array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_INT16,
-                                         testing::CreateArrayShape({}), {1}));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_INT16,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -372,8 +408,9 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_int16) {
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_int32) {
   const federated_language::Array& array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_INT32,
-                                         testing::CreateArrayShape({}), {1}));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_INT32,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -384,8 +421,9 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_int32) {
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_int64) {
   const federated_language::Array& array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_INT64,
-                                         testing::CreateArrayShape({}), {1}));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_INT64,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -396,8 +434,9 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_int64) {
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_uint8) {
   const federated_language::Array& array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_UINT8,
-                                         testing::CreateArrayShape({}), {1}));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_UINT8,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -407,9 +446,10 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_uint8) {
 }
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_uint16) {
-  const federated_language::Array& array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_UINT16,
-                           testing::CreateArrayShape({}), {1}));
+  const federated_language::Array& array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_UINT16,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -419,9 +459,10 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_uint16) {
 }
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_uint32) {
-  const federated_language::Array& array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_UINT32,
-                           testing::CreateArrayShape({}), {1}));
+  const federated_language::Array& array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_UINT32,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -431,9 +472,10 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_uint32) {
 }
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_uint64) {
-  const federated_language::Array& array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_UINT64,
-                           testing::CreateArrayShape({}), {1}));
+  const federated_language::Array& array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_UINT64,
+          tensorflow_federated::testing::CreateArrayShape({}), {1}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -443,9 +485,11 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_uint64) {
 }
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_float16) {
-  const federated_language::Array& array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_HALF,
-                           testing::CreateArrayShape({}), {Eigen::half{1.0}}));
+  const federated_language::Array& array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_HALF,
+          tensorflow_federated::testing::CreateArrayShape({}),
+          {Eigen::half{1.0}}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -457,8 +501,9 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_float16) {
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_float32) {
   const federated_language::Array& array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_FLOAT,
-                                         testing::CreateArrayShape({}), {1.0}));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_FLOAT,
+          tensorflow_federated::testing::CreateArrayShape({}), {1.0}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -468,9 +513,10 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_float32) {
 }
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_float64) {
-  const federated_language::Array& array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_DOUBLE,
-                           testing::CreateArrayShape({}), {1.0}));
+  const federated_language::Array& array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_DOUBLE,
+          tensorflow_federated::testing::CreateArrayShape({}), {1.0}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -481,9 +527,10 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_float64) {
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_complex64) {
   const federated_language::Array& array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
           federated_language::DataType::DT_COMPLEX64,
-          testing::CreateArrayShape({}), {std::complex<float>{1.0, 1.0}}));
+          tensorflow_federated::testing::CreateArrayShape({}),
+          {std::complex<float>{1.0, 1.0}}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -495,9 +542,10 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_complex64) {
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_complex128) {
   const federated_language::Array& array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
           federated_language::DataType::DT_COMPLEX128,
-          testing::CreateArrayShape({}), {std::complex<double>{1.0, 1.0}}));
+          tensorflow_federated::testing::CreateArrayShape({}),
+          {std::complex<double>{1.0, 1.0}}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -509,9 +557,10 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_complex128) {
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_bfloat16) {
   const federated_language::Array& array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
           federated_language::DataType::DT_BFLOAT16,
-          testing::CreateArrayShape({}), {Eigen::bfloat16{1.0}}));
+          tensorflow_federated::testing::CreateArrayShape({}),
+          {Eigen::bfloat16{1.0}}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -523,9 +572,10 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_bfloat16) {
 
 TEST(LiteralFromArrayTest, TestReturnsLiteral_array) {
   const federated_language::Array& array_pb =
-      TFF_ASSERT_OK(testing::CreateArray(federated_language::DataType::DT_INT32,
-                                         testing::CreateArrayShape({2, 3}),
-                                         {1, 2, 3, 4, 5, 6}));
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_INT32,
+          tensorflow_federated::testing::CreateArrayShape({2, 3}),
+          {1, 2, 3, 4, 5, 6}));
 
   const xla::Literal& actual_literal =
       TFF_ASSERT_OK(LiteralFromArray(array_pb));
@@ -536,9 +586,10 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_array) {
 }
 
 TEST(LiteralFromArrayTest, TestFails_string) {
-  const federated_language::Array& array_pb = TFF_ASSERT_OK(
-      testing::CreateArray(federated_language::DataType::DT_STRING,
-                           testing::CreateArrayShape({}), {"a"}));
+  const federated_language::Array& array_pb =
+      TFF_ASSERT_OK(tensorflow_federated::testing::CreateArray(
+          federated_language::DataType::DT_STRING,
+          tensorflow_federated::testing::CreateArrayShape({}), {"a"}));
 
   const absl::StatusOr<xla::Literal>& result = LiteralFromArray(array_pb);
 
@@ -546,4 +597,4 @@ TEST(LiteralFromArrayTest, TestFails_string) {
 }
 
 }  // namespace
-}  // namespace tensorflow_federated
+}  // namespace federated_language_jax

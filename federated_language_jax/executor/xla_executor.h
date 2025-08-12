@@ -22,7 +22,7 @@ limitations under the License.
 #include "absl/strings/string_view.h"
 #include "tensorflow_federated/cc/core/impl/executors/executor.h"
 
-namespace tensorflow_federated {
+namespace federated_language_jax {
 
 // Returns an executor that can resolve XLA computations and structures
 // of `v0::Values` of Tensor type. The platform name parameter will be used to
@@ -30,9 +30,9 @@ namespace tensorflow_federated {
 // platform is assumed to be registered in TensorFlow's PlatformManager,
 // e.g. by including appropriate build dependencies. This string is
 // case-insensitive. The default value of "Host" is guaranteed to be valid.
-absl::StatusOr<std::shared_ptr<Executor>> CreateXLAExecutor(
-    absl::string_view platform_name = "Host");
+absl::StatusOr<std::shared_ptr<tensorflow_federated::Executor>>
+CreateXLAExecutor(absl::string_view platform_name = "Host");
 
-}  // namespace tensorflow_federated
+}  // namespace federated_language_jax
 
 #endif  // THIRD_PARTY_TENSORFLOW_FEDERATED_CC_CORE_IMPL_EXECUTORS_XLA_EXECUTOR_H_

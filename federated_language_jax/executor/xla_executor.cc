@@ -47,7 +47,7 @@ limitations under the License.
 #include "tensorflow_federated/cc/core/impl/executors/status_macros.h"
 #include "tensorflow_federated/cc/core/impl/executors/threading.h"
 
-namespace tensorflow_federated {
+namespace federated_language_jax {
 
 namespace {
 
@@ -353,14 +353,16 @@ absl::StatusOr<XLAExecutorValue> PackageFlatValuesAsBinding(
 
 using ValueFuture = std::shared_future<absl::StatusOr<XLAExecutorValue>>;
 
-class XLAExecutor : public ExecutorBase<ValueFuture> {
+class XLAExecutor : public tensorflow_federated::ExecutorBase<ValueFuture> {
  public:
   explicit XLAExecutor(xla::Client* xla_client) : xla_client_(xla_client) {}
 
   absl::string_view ExecutorName() final { return "XLAExecutor"; }
   absl::StatusOr<ValueFuture> CreateExecutorValue(
-      const v0::Value& value_pb) final {
-    return ThreadRun([value_pb, this_shared = shared_from_this()]() {
+      const tensorflow_federated::v0::Value& value_pb) final {
+    return tensorflow_federated::ThreadRun([value_pb,
+                                            this_shared =
+                                                shared_from_this()]() {
       // shared_from_this() returns the base Executor* type, so we must
       // cast to our derived type here.
       return static_cast<XLAExecutor*>(this_shared.get())
@@ -370,60 +372,68 @@ class XLAExecutor : public ExecutorBase<ValueFuture> {
 
   absl::StatusOr<ValueFuture> CreateCall(ValueFuture fn,
                                          std::optional<ValueFuture> arg) final {
-    return ThreadRun([fn, arg, this_shared = shared_from_this()]()
-                         -> absl::StatusOr<XLAExecutorValue> {
-      // shared_from_this() returns the base Executor* type, so we must
-      // cast to our derived type here.
-      XLAExecutor* this_executor = static_cast<XLAExecutor*>(this_shared.get());
-      XLAExecutorValue fn_value = TFF_TRY(Wait(fn));
-      if (fn_value.type() != XLAExecutorValue::ValueType::COMPUTATION) {
-        return absl::InvalidArgumentError(
-            "Attempted to call a non-functional value inside the XLA "
-            "Executor.");
-      }
-      std::shared_ptr<Computation> comp = fn_value.computation();
-      if (arg.has_value()) {
-        return this_executor->CallComputation(comp, TFF_TRY(Wait(arg.value())));
-      }
-      return this_executor->CallComputation(comp, std::nullopt);
-    });
+    return tensorflow_federated::ThreadRun(
+        [fn, arg,
+         this_shared =
+             shared_from_this()]() -> absl::StatusOr<XLAExecutorValue> {
+          // shared_from_this() returns the base Executor* type, so we must
+          // cast to our derived type here.
+          XLAExecutor* this_executor =
+              static_cast<XLAExecutor*>(this_shared.get());
+          XLAExecutorValue fn_value = TFF_TRY(tensorflow_federated::Wait(fn));
+          if (fn_value.type() != XLAExecutorValue::ValueType::COMPUTATION) {
+            return absl::InvalidArgumentError(
+                "Attempted to call a non-functional value inside the XLA "
+                "Executor.");
+          }
+          std::shared_ptr<Computation> comp = fn_value.computation();
+          if (arg.has_value()) {
+            return this_executor->CallComputation(
+                comp, TFF_TRY(tensorflow_federated::Wait(arg.value())));
+          }
+          return this_executor->CallComputation(comp, std::nullopt);
+        });
   }
 
   absl::StatusOr<ValueFuture> CreateStruct(
       std::vector<ValueFuture> members) final {
-    return Map(std::move(members),
-               [](std::vector<XLAExecutorValue>&& elements)
-                   -> absl::StatusOr<XLAExecutorValue> {
-                 return XLAExecutorValue(elements);
-               });
+    return tensorflow_federated::Map(
+        std::move(members),
+        [](std::vector<XLAExecutorValue>&& elements)
+            -> absl::StatusOr<XLAExecutorValue> {
+          return XLAExecutorValue(elements);
+        });
   }
 
   absl::StatusOr<ValueFuture> CreateSelection(ValueFuture value,
                                               const uint32_t index) final {
-    return Map(std::vector<ValueFuture>({value}),
-               [index](std::vector<XLAExecutorValue>&& values)
-                   -> absl::StatusOr<XLAExecutorValue> {
-                 XLAExecutorValue& value = values[0];
-                 if (value.type() != XLAExecutorValue::ValueType::STRUCT) {
-                   return absl::InvalidArgumentError(
-                       "Cannot create selection on non-struct value.");
-                 }
-                 if (value.structure().size() <= index) {
-                   return absl::InvalidArgumentError(absl::StrCat(
-                       "Attempted to access index ", index, " of a ",
-                       value.structure().size(), "-length struct."));
-                 }
-                 return XLAExecutorValue(value.structure()[index]);
-               });
+    return tensorflow_federated::Map(
+        std::vector<ValueFuture>({value}),
+        [index](std::vector<XLAExecutorValue>&& values)
+            -> absl::StatusOr<XLAExecutorValue> {
+          XLAExecutorValue& value = values[0];
+          if (value.type() != XLAExecutorValue::ValueType::STRUCT) {
+            return absl::InvalidArgumentError(
+                "Cannot create selection on non-struct value.");
+          }
+          if (value.structure().size() <= index) {
+            return absl::InvalidArgumentError(
+                absl::StrCat("Attempted to access index ", index, " of a ",
+                             value.structure().size(), "-length struct."));
+          }
+          return XLAExecutorValue(value.structure()[index]);
+        });
   }
 
-  absl::Status Materialize(ValueFuture value, v0::Value* value_pb) final {
-    XLAExecutorValue executor_value = TFF_TRY(Wait(value));
+  absl::Status Materialize(ValueFuture value,
+                           tensorflow_federated::v0::Value* value_pb) final {
+    XLAExecutorValue executor_value =
+        TFF_TRY(tensorflow_federated::Wait(value));
     // TODO: b/337049385 - Use of ParallelTasks here is known to potentially
     // segfault when under heavy load and large structures in the `value` future
     // because of thread exhaustion. See how the TensorFlowExecutor limits the
     // number of parallel threads for potential ideas.
-    ParallelTasks tasks;
+    tensorflow_federated::ParallelTasks tasks;
     TFF_TRY(MaterializeXLAValue(executor_value, value_pb, tasks));
     TFF_TRY(tasks.WaitAll());
     return absl::OkStatus();
@@ -434,7 +444,8 @@ class XLAExecutor : public ExecutorBase<ValueFuture> {
   // the executor.
   xla::Client* xla_client_;
 
-  absl::StatusOr<XLAExecutorValue> CreateValueArray(const v0::Value& value_pb) {
+  absl::StatusOr<XLAExecutorValue> CreateValueArray(
+      const tensorflow_federated::v0::Value& value_pb) {
     xla::Literal literal = TFF_TRY(LiteralFromArray(value_pb.array()));
     absl::StatusOr<std::unique_ptr<xla::GlobalData>> data_in_server =
         xla_client_->TransferToServer(literal);
@@ -513,7 +524,7 @@ class XLAExecutor : public ExecutorBase<ValueFuture> {
   }
 
   absl::StatusOr<XLAExecutorValue> CreateValueStruct(
-      const v0::Value::Struct& struct_pb) {
+      const tensorflow_federated::v0::Value::Struct& struct_pb) {
     std::vector<XLAExecutorValue> values;
     values.reserve(struct_pb.element_size());
     for (const auto& el : struct_pb.element()) {
@@ -522,13 +533,14 @@ class XLAExecutor : public ExecutorBase<ValueFuture> {
     return XLAExecutorValue(values);
   }
 
-  absl::StatusOr<XLAExecutorValue> CreateValueAny(const v0::Value& value_pb) {
+  absl::StatusOr<XLAExecutorValue> CreateValueAny(
+      const tensorflow_federated::v0::Value& value_pb) {
     switch (value_pb.value_case()) {
-      case v0::Value::ValueCase::kArray:
+      case tensorflow_federated::v0::Value::ValueCase::kArray:
         return CreateValueArray(value_pb);
-      case v0::Value::ValueCase::kComputation:
+      case tensorflow_federated::v0::Value::ValueCase::kComputation:
         return CreateValueComputation(value_pb.computation());
-      case v0::Value::ValueCase::kStruct:
+      case tensorflow_federated::v0::Value::ValueCase::kStruct:
         return CreateValueStruct(value_pb.struct_());
       default:
         return absl::UnimplementedError(absl::StrCat(
@@ -542,7 +554,8 @@ class XLAExecutor : public ExecutorBase<ValueFuture> {
   // `tasks.WaitAll` returns. Additionally, here the captured `this` pointer
   // must also remain valid.
   absl::Status MaterializeXLAValue(const XLAExecutorValue& executor_value,
-                                   v0::Value* value_pb, ParallelTasks& tasks) {
+                                   tensorflow_federated::v0::Value* value_pb,
+                                   tensorflow_federated::ParallelTasks& tasks) {
     switch (executor_value.type()) {
       case XLAExecutorValue::ValueType::TENSOR: {
         // We add tensor materialization and serialization to the ParallelTasks
@@ -564,7 +577,8 @@ class XLAExecutor : public ExecutorBase<ValueFuture> {
         });
       }
       case XLAExecutorValue::ValueType::STRUCT: {
-        v0::Value::Struct* mutable_struct = value_pb->mutable_struct_();
+        tensorflow_federated::v0::Value::Struct* mutable_struct =
+            value_pb->mutable_struct_();
         for (const auto& el : executor_value.structure()) {
           TFF_TRY(MaterializeXLAValue(
               el, mutable_struct->add_element()->mutable_value(), tasks));
@@ -679,11 +693,11 @@ absl::StatusOr<xla::Client*> GetXLAClient(absl::string_view platform_name) {
 
 }  // namespace
 
-absl::StatusOr<std::shared_ptr<Executor>> CreateXLAExecutor(
-    absl::string_view platform_name) {
+absl::StatusOr<std::shared_ptr<tensorflow_federated::Executor>>
+CreateXLAExecutor(absl::string_view platform_name) {
   LOG(INFO) << "Creating XLAExecutor for platform: " << platform_name;
   xla::Client* client = TFF_TRY(GetXLAClient(platform_name));
   return std::make_shared<XLAExecutor>(client);
 }
 
-}  // namespace tensorflow_federated
+}  // namespace federated_language_jax

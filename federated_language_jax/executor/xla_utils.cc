@@ -35,7 +35,7 @@ limitations under the License.
 #include "xla/xla_data.pb.h"
 #include "tensorflow_federated/cc/core/impl/executors/status_macros.h"
 
-namespace tensorflow_federated {
+namespace federated_language_jax {
 
 absl::StatusOr<federated_language::DataType> DataTypeFromPrimitiveType(
     xla::PrimitiveType primative_type) {
@@ -439,4 +439,4 @@ absl::StatusOr<xla::Literal> LiteralFromArray(
   }
 }
 
-}  // namespace tensorflow_federated
+}  // namespace federated_language_jax

@@ -23,7 +23,7 @@ limitations under the License.
 #include "xla/literal.h"
 #include "xla/shape.h"
 
-namespace tensorflow_federated {
+namespace federated_language_jax {
 
 // Creates a ::federated_language::DataType from a xla::PrimitiveType.
 absl::StatusOr<federated_language::DataType> DataTypeFromPrimitiveType(
@@ -53,6 +53,6 @@ absl::StatusOr<federated_language::Array> ArrayFromLiteral(
 absl::StatusOr<xla::Literal> LiteralFromArray(
     const federated_language::Array& array_pb);
 
-}  // namespace tensorflow_federated
+}  // namespace federated_language_jax
 
 #endif  // THIRD_PARTY_TENSORFLOW_FEDERATED_CC_CORE_IMPL_EXECUTORS_XLA_UTILS_H_
