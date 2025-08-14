@@ -34,8 +34,8 @@ py_library(
     srcs = ["jax_computation.py"],
     deps = [
         ":jax_serialization",
+        "@federated_language//federated_language",
         "@federated_language_jax_pypi//dm_tree",
-        "@federated_language_jax_pypi//federated_language",
         "@federated_language_jax_pypi//jax",
         "@federated_language_jax_pypi//numpy",
     ],
@@ -46,8 +46,8 @@ py_test(
     srcs = ["jax_computation_test.py"],
     deps = [
         ":jax_computation",
+        "@federated_language//federated_language",
         "@federated_language_jax_pypi//absl_py",
-        "@federated_language_jax_pypi//federated_language",
         "@federated_language_jax_pypi//jax",
         "@federated_language_jax_pypi//ml_dtypes",
         "@federated_language_jax_pypi//numpy",
@@ -57,7 +57,7 @@ py_test(
 py_library(
     name = "jax_computation_context",
     srcs = ["jax_computation_context.py"],
-    deps = ["@federated_language_jax_pypi//federated_language"],
+    deps = ["@federated_language//federated_language"],
 )
 
 py_test(
@@ -77,9 +77,9 @@ py_library(
     deps = [
         ":jax_computation_context",
         ":xla_serialization",
+        "@federated_language//federated_language",
         "@federated_language//federated_language/common_libs:structure",
         "@federated_language//federated_language/proto:computation_py_pb2",
-        "@federated_language_jax_pypi//federated_language",
         "@federated_language_jax_pypi//jax",
         "@federated_language_jax_pypi//numpy",
     ],
@@ -90,10 +90,10 @@ py_test(
     srcs = ["jax_serialization_test.py"],
     deps = [
         ":jax_serialization",
+        "@federated_language//federated_language",
         "@federated_language//federated_language/common_libs:structure",
         "@federated_language//federated_language/proto:computation_py_pb2",
         "@federated_language_jax_pypi//absl_py",
-        "@federated_language_jax_pypi//federated_language",
         "@federated_language_jax_pypi//jax",
         "@federated_language_jax_pypi//numpy",
     ],
@@ -103,8 +103,8 @@ py_library(
     name = "xla_serialization",
     srcs = ["xla_serialization.py"],
     deps = [
+        "@federated_language//federated_language",
         "@federated_language//federated_language/proto:computation_py_pb2",
-        "@federated_language_jax_pypi//federated_language",
         "@federated_language_jax_pypi//protobuf",
         "@xla//xla/python:xla_client",
     ],
@@ -115,9 +115,9 @@ py_test(
     srcs = ["xla_serialization_test.py"],
     deps = [
         ":xla_serialization",
+        "@federated_language//federated_language",
         "@federated_language//federated_language/proto:computation_py_pb2",
         "@federated_language_jax_pypi//absl_py",
-        "@federated_language_jax_pypi//federated_language",
         "@federated_language_jax_pypi//jax",
         "@federated_language_jax_pypi//numpy",
         "@federated_language_jax_pypi//protobuf",
