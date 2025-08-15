@@ -40,9 +40,9 @@ py_library(
     srcs = ["executor_factory.py"],
     data = ["@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:executor_bindings"],
     deps = [
-        "@federated_language//federated_language",
         "@federated_language_jax_pypi//absl_py",
         "@federated_language_jax_pypi//cachetools",
+        "@federated_language_jax_pypi//federated_language",
         "@org_tensorflow_federated//tensorflow_federated/python/core/impl/executors:cpp_to_python_executor",
     ],
 )

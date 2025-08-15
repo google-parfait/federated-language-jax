@@ -57,16 +57,13 @@ http_archive(
 
 http_archive(
     name = "federated_language",
-    patches = [
-        "//third_party/federated_language:next_version.patch",
-    ],
     repo_mapping = {
         "@federated_language_pypi": "@federated_language_jax_pypi",
         "@protobuf": "@com_google_protobuf",
     },
-    sha256 = "4041660253f9025c4451857a8c4b07a44684d74031396789a047e0da70c769a3",
-    strip_prefix = "federated-language-0.5.0",
-    url = "https://github.com/google-parfait/federated-language/archive/refs/tags/v0.5.0.tar.gz",
+    sha256 = "d91f6379a7cc1a2677dea80a16fb5b0430e1392aed9473c159e1e6f280578c90",
+    strip_prefix = "federated-language-0.5.1",
+    url = "https://github.com/google-parfait/federated-language/archive/refs/tags/v0.5.1.tar.gz",
 )
 
 http_archive(
