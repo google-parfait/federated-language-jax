@@ -13,12 +13,11 @@
 # limitations under the License.
 """Utilities for serializing JAX computations."""
 
-
-from collections.abc import Callable, Sequence
-from typing import Optional, Union
+from collections.abc import Callable, Mapping, Sequence
+import typing
+from typing import Protocol, Union
 
 import federated_language
-from federated_language.common_libs import structure
 from federated_language.proto import computation_pb2 as pb
 from federated_language_jax.computation import jax_computation_context
 from federated_language_jax.computation import xla_serialization
@@ -47,50 +46,22 @@ class _XlaSerializerTensorArg(
     return self._tensor_index
 
 
-@jax.tree_util.register_pytree_node_class
-class _XlaSerializerStructArg(structure.Struct, federated_language.TypedObject):
-  """Represents struct type info understood by both TFF and JAX serializer."""
+@typing.runtime_checkable
+class _NamedTuple(Protocol):
 
-  def __init__(
-      self,
-      type_spec: federated_language.StructType,
-      elements: Sequence[tuple[Optional[str], object]],
-  ):
-    structure.Struct.__init__(self, elements)
-    self._type_signature = type_spec
+  def _fields(self) -> tuple[str, ...]:
+    ...
 
-  @property
-  def type_signature(self) -> federated_language.StructType:
-    return self._type_signature
+  def _asdict(self) -> dict[str, object]:
+    ...
 
-  def __str__(self) -> str:
-    return f'_XlaSerializerStructArg({structure.Struct.__str__(self)})'
-
-  def tree_flatten(
-      self,
-  ) -> tuple[
-      tuple[Union[_XlaSerializerTensorArg, '_XlaSerializerStructArg'], ...],
-      federated_language.StructType,
-  ]:
-    return tuple(self), self._type_signature
-
-  @classmethod
-  def tree_unflatten(
-      cls,
-      aux_data: federated_language.StructType,
-      children: tuple[
-          Union[_XlaSerializerTensorArg, '_XlaSerializerStructArg'], ...
-      ],
-  ) -> '_XlaSerializerStructArg':
-    return cls(
-        type_spec=aux_data,
-        elements=tuple(zip([n for n, _ in aux_data.items()], children)),
-    )
+  def __hash__(self) -> int:
+    ...
 
 
 def _tff_type_to_xla_serializer_arg(
     type_spec: federated_language.Type,
-) -> Union[_XlaSerializerStructArg, _XlaSerializerTensorArg]:
+) -> Union[Mapping[str, object], Sequence[object], _XlaSerializerTensorArg]:
   """Converts TFF type into an argument for the JAX-to-XLA serializer.
 
   Args:
@@ -123,7 +94,10 @@ def _tff_type_to_xla_serializer_arg(
 
   def _make(
       type_spec: federated_language.Type, next_unused_tensor_index: int
-  ) -> tuple[Union[_XlaSerializerStructArg, _XlaSerializerTensorArg], int]:
+  ) -> tuple[
+      Union[Mapping[str, object], Sequence[object], _XlaSerializerTensorArg],
+      int,
+  ]:
     if isinstance(type_spec, federated_language.TensorType):
       obj = _XlaSerializerTensorArg(type_spec, next_unused_tensor_index)
       next_unused_tensor_index = next_unused_tensor_index + 1
@@ -133,8 +107,38 @@ def _tff_type_to_xla_serializer_arg(
       for k, v in type_spec.items():
         obj, next_unused_tensor_index = _make(v, next_unused_tensor_index)
         elements.append((k, obj))
-      obj = _XlaSerializerStructArg(type_spec, elements)
-      return obj, next_unused_tensor_index
+
+      def _get_container_cls(
+          type_spec: federated_language.StructType,
+      ) -> type[object]:
+        container_cls = type_spec.python_container
+        if container_cls is None:
+          has_names = [name is not None for name, _ in type_spec.items()]
+          if any(has_names):
+            if not all(has_names):
+              raise ValueError(
+                  'Expected `type_spec` to have either all named or unnamed'
+                  f' elements, found {type_spec}.'
+              )
+            container_cls = dict
+          else:
+            container_cls = list
+        return container_cls
+
+      container_cls = _get_container_cls(type_spec)
+
+      if issubclass(container_cls, _NamedTuple):
+        result = container_cls(**dict(elements))  # pylint: disable=too-many-function-args
+      elif issubclass(container_cls, Mapping):
+        result = container_cls(elements)  # pylint: disable=too-many-function-args
+      elif issubclass(container_cls, Sequence):
+        result = container_cls([x for _, x in elements])  # pylint: disable=too-many-function-args
+      else:
+        raise NotImplementedError(
+            f'Unexpected container_cls found: {type(container_cls)}.'
+        )
+
+      return result, next_unused_tensor_index
     else:
       raise TypeError(
           'Can only construct an XLA serializer for TFF types '
@@ -237,28 +241,3 @@ def serialize_jax_computation(
       ),
       computation_type,
   )
-
-
-# Registers TFF's Struct as a node that Jax's tree-traversal utilities can walk
-# through. Pytree flattening works _per-level_ of the tree, so we don't
-# use structure.flatten and structure.unflatten here, rather we only unpack
-# the immediate Struct, and let pytrees apply flattening recursively to properly
-# pack/unpack intermediate contaienrs of other types.
-
-
-def _struct_flatten(
-    struct: structure.Struct,
-) -> tuple[tuple[object, ...], tuple[Optional[str], ...]]:
-  child_names, child_values = tuple(zip(*structure.to_elements(struct)))
-  return (child_values, child_names)
-
-
-def _struct_unflatten(
-    child_names: tuple[Optional[str], ...], child_values: tuple[object, ...]
-) -> structure.Struct:
-  return structure.Struct(tuple(zip(child_names, child_values)))
-
-
-jax.tree_util.register_pytree_node(
-    structure.Struct, _struct_flatten, _struct_unflatten
-)

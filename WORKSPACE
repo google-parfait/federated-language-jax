@@ -58,8 +58,7 @@ http_archive(
 http_archive(
     name = "federated_language",
     patches = [
-        # "//third_party/federated_language:proto_library_loads.patch",
-        "//third_party/federated_language:structure_visibility.patch",
+        "//third_party/federated_language:next_version.patch",
     ],
     repo_mapping = {
         "@federated_language_pypi": "@federated_language_jax_pypi",
@@ -85,6 +84,7 @@ http_archive(
         "//third_party/tensorflow_federated:cpp_to_python_executor_visibility.patch",
         "//third_party/tensorflow_federated:executors_errors_deps.patch",
         "//third_party/tensorflow_federated:protobuf_matchers.patch",
+        "//third_party/tensorflow_federated:structure_deps.patch",
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",

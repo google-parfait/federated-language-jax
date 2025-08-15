@@ -38,7 +38,7 @@ py_library(
     deps = [
         "//federated_language_jax/computation:jax_computation",
         "//federated_language_jax/executor:executor_factory",
-        "@federated_language_jax_pypi//federated_language",
+        "@federated_language//federated_language",
     ],
 )
 
@@ -48,8 +48,8 @@ py_test(
     deps = [
         ":execution_contexts",
         "//federated_language_jax/computation:jax_computation",
+        "@federated_language//federated_language",
         "@federated_language_jax_pypi//absl_py",
-        "@federated_language_jax_pypi//federated_language",
         "@federated_language_jax_pypi//numpy",
     ],
 )
