@@ -24,7 +24,7 @@ package(
 licenses(["notice"])
 
 py_library(
-    name = "xla",
+    name = "backend",
     srcs = ["__init__.py"],
 )
 
