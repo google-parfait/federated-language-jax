@@ -26,6 +26,7 @@ licenses(["notice"])
 py_library(
     name = "backend",
     srcs = ["__init__.py"],
+    visibility = ["//tools:__subpackages__"],
 )
 
 py_library(

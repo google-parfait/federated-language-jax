@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Copyright 2025 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,21 +12,24 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# Tool to build the Federated Language package.
+set -e
 
-load("@rules_python//python:defs.bzl", "py_library")
+main() {
+  local root_dir="${BUILD_WORKING_DIRECTORY}"
 
-package(
-    default_applicable_licenses = ["//:package_license"],
-    default_visibility = [
-        "//federated_language_jax:__pkg__",
-        "//federated_language_jax/backend:__subpackages__",
-    ],
-)
+  # Setup environment.
+  python3 -m venv "${root_dir}/venv"
+  source "${root_dir}/venv/bin/activate"
+  python --version
+  pip install --upgrade pip
+  pip --version
 
-licenses(["notice"])
+  # Build package.
+  pip install --upgrade build
+  pip freeze
+  python -m build --outdir "${root_dir}/dist"
+}
 
-py_library(
-    name = "compiler",
-    srcs = ["__init__.py"],
-    visibility = ["//tools:__subpackages__"],
-)
+main "$@"

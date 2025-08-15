@@ -139,6 +139,13 @@ http_archive(
 )
 
 http_archive(
+    name = "rules_shell",
+    sha256 = "99bfc7aaefd1ed69613bbd25e24bf7871d68aeafca3a6b79f5f85c0996a41355",
+    strip_prefix = "rules_shell-0.5.1",
+    url = "https://github.com/bazelbuild/rules_shell/releases/download/v0.5.1/rules_shell-v0.5.1.tar.gz",
+)
+
+http_archive(
     name = "xla",
     patches = [
         "//third_party/tsl:bazel_deps.patch",
@@ -201,6 +208,11 @@ http_archive(
 load("@googletest//:googletest_deps.bzl", "googletest_deps")
 
 googletest_deps()
+
+# Required by `rules_shell`.
+load("@rules_shell//shell:repositories.bzl", "rules_shell_dependencies")
+
+rules_shell_dependencies()
 
 # Required by `xla`.
 load("@xla//third_party/py:python_init_rules.bzl", "python_init_rules")

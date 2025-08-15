@@ -12,20 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@rules_python//python:defs.bzl", "py_library")
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 
 package(
     default_applicable_licenses = ["//:package_license"],
-    default_visibility = [
-        "//federated_language_jax:__pkg__",
-        "//federated_language_jax/backend:__subpackages__",
-    ],
+    default_visibility = ["//visibility:private"],
 )
 
 licenses(["notice"])
 
-py_library(
-    name = "compiler",
-    srcs = ["__init__.py"],
-    visibility = ["//tools:__subpackages__"],
+sh_binary(
+    name = "build_package",
+    srcs = ["build_package.sh"],
+    data = [
+        "//:LICENSE",
+        "//:README.md",
+        "//:pyproject.toml",
+        "//federated_language_jax",
+        "//federated_language_jax/backend",
+        "//federated_language_jax/compiler",
+        "//federated_language_jax/computation",
+        "//federated_language_jax/executor",
+    ],
 )

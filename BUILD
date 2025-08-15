@@ -38,6 +38,7 @@ licenses(["notice"])
 exports_files([
     "LICENSE",
     "pyproject.toml",
+    "README.md",
     "requirements_lock_3_10.txt",
     "requirements_lock_3_11.txt",
     "requirements_lock_3_12.txt",

@@ -32,6 +32,7 @@ licenses(["notice"])
 py_library(
     name = "executor",
     srcs = ["__init__.py"],
+    visibility = ["//tools:__subpackages__"],
 )
 
 py_library(
