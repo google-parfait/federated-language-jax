@@ -14,10 +14,11 @@
 # limitations under the License.
 #
 # Tool to build the Federated Language package.
-set -e
+set -ex
 
 main() {
   local root_dir="${BUILD_WORKING_DIRECTORY}"
+  ls -la "${root_dir}"
 
   # Setup environment.
   python3 -m venv "${root_dir}/venv"
