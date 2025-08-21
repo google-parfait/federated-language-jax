@@ -71,10 +71,9 @@ jobs:
             exit1
         fi
 
-    - name: Test tools
+    - name: Test Python dependencies
       run: |
-        bazelisk test //:* \
-            --repo_env=HERMETIC_PYTHON_VERSION="3.12"
+        bazelisk test //:*
 
   test-project:
     name: Test PY ${{ matrix.python-version }}

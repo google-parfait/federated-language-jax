@@ -26,6 +26,7 @@ py_library(
     srcs = ["__init__.py"],
     visibility = ["//visibility:public"],
     deps = [
+        ":version",
         "//federated_language_jax/backend:execution_contexts",
         "//federated_language_jax/computation:jax_computation",
     ],

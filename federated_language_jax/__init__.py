@@ -17,4 +17,5 @@
 from federated_language_jax.backend.execution_contexts import create_async_local_execution_context
 from federated_language_jax.backend.execution_contexts import create_sync_local_execution_context
 from federated_language_jax.computation.jax_computation import jax_computation as computation
+from federated_language_jax.version import __version__
 # pylint: enable=g-importing-member
