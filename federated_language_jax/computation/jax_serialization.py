@@ -214,7 +214,8 @@ def serialize_jax_computation(
 
   context = jax_computation_context.JaxComputationContext()
   with context_stack.install(context):
-    lowered = jax.jit(fn, keep_unused=True).lower(*args, **kwargs)
+    wrapped = jax.jit(fn, keep_unused=True)
+    lowered = wrapped.lower(*args, **kwargs)
     compiled_xla = lowered.compiler_ir('hlo')
 
   # Test if the output is a tuple, or a single array and construct the

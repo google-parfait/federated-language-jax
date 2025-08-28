@@ -39,8 +39,8 @@ dependencies = [
   "dm-tree~=0.1.8",
   "federated_language~=0.5.1",
   "grpcio~=1.46",  # Required TFF source dependency.
-  "jax~=0.4.29",
-  "jaxlib~=0.4.29",
+  "jax>=0.4.29,<=0.7.1",
+  "jaxlib>=0.4.29,<=0.7.1",
   "ml_dtypes>=0.4.0,<0.6",
   "numpy~=2.0",
   "protobuf~=5.29",

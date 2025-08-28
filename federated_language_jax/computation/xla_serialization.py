@@ -21,7 +21,7 @@ from federated_language.proto import computation_pb2 as pb
 
 from google.protobuf import any_pb2
 # TODO: b/419592615 - Remove usage of deprecated JAX/XLA API.
-from jax.lib import xla_client
+from jaxlib import xla_client
 
 
 _HLO_MODULE_PROTO_URI = 'type.googleapis.com/xla.HloModuleProto'
