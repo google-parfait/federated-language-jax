@@ -21,9 +21,9 @@ from typing import Optional
 from absl import logging
 import cachetools
 import federated_language
+from federated_language_executor import cpp_to_python_executor
 
 from tensorflow_federated.cc.core.impl.executors import executor_bindings
-from tensorflow_federated.python.core.impl.executors import cpp_to_python_executor
 
 
 # Users likely do not intend to run 4 or more TensorFlow functions sequentially;

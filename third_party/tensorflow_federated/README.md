@@ -41,34 +41,3 @@
         > "<CLIENT>/third_party/py/federated_language_jax/third_party/tensorflow_federated/bazel_deps.patch"
     ```
 
-1.  Create `cpp_to_python_executor_visibility.patch`.
-
-    Make the changes.
-
-    ```shell
-    $ buildozer 'add visibility //visibility:public' //tensorflow_federated/python/core/impl/executors:cpp_to_python_executor
-    ```
-
-    Create the patch.
-
-    ```shell
-    $ git diff --no-prefix \
-        > "<CLIENT>/third_party/py/federated_language_jax/third_party/tensorflow_federated/cpp_to_python_executor_visibility.patch"
-    ```
-
-1.  Create `executors_errors_deps.patch`.
-
-    Make the changes.
-
-    ```shell
-    $ buildozer \
-        'add deps @federated_language_jax_pypi//grpcio' \
-        //tensorflow_federated/python/core/impl/executors:executors_errors
-    ```
-
-    Create the patch.
-
-    ```shell
-    $ git diff --no-prefix \
-        > "<CLIENT>/third_party/py/federated_language_jax/third_party/tensorflow_federated/executors_errors_deps.patch"
-    ```

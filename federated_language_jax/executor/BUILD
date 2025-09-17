@@ -40,10 +40,10 @@ py_library(
     srcs = ["executor_factory.py"],
     data = ["@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:executor_bindings"],
     deps = [
+        "//third_party/py/federated_language_executor:cpp_to_python_executor",
         "@federated_language_jax_pypi//absl_py",
         "@federated_language_jax_pypi//cachetools",
         "@federated_language_jax_pypi//federated_language",
-        "@org_tensorflow_federated//tensorflow_federated/python/core/impl/executors:cpp_to_python_executor",
     ],
 )
 
@@ -68,8 +68,8 @@ pybind_extension(
     deps = [
         ":platform_support",
         ":xla_executor",
+        "//third_party/py/federated_language_executor:executor_cc_proto",
         "@federated_language//federated_language/proto:computation_cc_proto",
-        "@org_tensorflow_federated//tensorflow_federated/proto/v0:executor_cc_proto",
         "@pybind11_abseil//pybind11_abseil:absl_casters",
         "@pybind11_abseil//pybind11_abseil:status_casters",
         "@pybind11_protobuf//pybind11_protobuf:native_proto_caster",
