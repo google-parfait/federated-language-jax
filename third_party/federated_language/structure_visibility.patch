@@ -1,0 +1,20 @@
+# Update visibility for the `structure` target.
+#
+# ```
+# buildozer \
+#     'add visibility //visibility:public' \
+#     //federated_language/common_libs:structure
+# ```
+
+diff --git federated_language/common_libs/BUILD federated_language/common_libs/BUILD
+index 5d5378f..a6cd61a 100644
+--- federated_language/common_libs/BUILD
++++ federated_language/common_libs/BUILD
+@@ -91,6 +91,7 @@ py_library(
+ py_library(
+     name = "structure",
+     srcs = ["structure.py"],
++    visibility = ["//visibility:public"],
+     deps = [":py_typecheck"],
+ )
+ 

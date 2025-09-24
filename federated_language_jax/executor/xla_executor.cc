@@ -359,7 +359,7 @@ class XLAExecutor : public tensorflow_federated::ExecutorBase<ValueFuture> {
 
   absl::string_view ExecutorName() final { return "XLAExecutor"; }
   absl::StatusOr<ValueFuture> CreateExecutorValue(
-      const tensorflow_federated::v0::Value& value_pb) final {
+      const federated_language_executor::Value& value_pb) final {
     return tensorflow_federated::ThreadRun([value_pb,
                                             this_shared =
                                                 shared_from_this()]() {
@@ -426,7 +426,7 @@ class XLAExecutor : public tensorflow_federated::ExecutorBase<ValueFuture> {
   }
 
   absl::Status Materialize(ValueFuture value,
-                           tensorflow_federated::v0::Value* value_pb) final {
+                           federated_language_executor::Value* value_pb) final {
     XLAExecutorValue executor_value =
         TFF_TRY(tensorflow_federated::Wait(value));
     // TODO: b/337049385 - Use of ParallelTasks here is known to potentially
@@ -445,7 +445,7 @@ class XLAExecutor : public tensorflow_federated::ExecutorBase<ValueFuture> {
   xla::Client* xla_client_;
 
   absl::StatusOr<XLAExecutorValue> CreateValueArray(
-      const tensorflow_federated::v0::Value& value_pb) {
+      const federated_language_executor::Value& value_pb) {
     xla::Literal literal = TFF_TRY(LiteralFromArray(value_pb.array()));
     absl::StatusOr<std::unique_ptr<xla::GlobalData>> data_in_server =
         xla_client_->TransferToServer(literal);
@@ -524,7 +524,7 @@ class XLAExecutor : public tensorflow_federated::ExecutorBase<ValueFuture> {
   }
 
   absl::StatusOr<XLAExecutorValue> CreateValueStruct(
-      const tensorflow_federated::v0::Value::Struct& struct_pb) {
+      const federated_language_executor::Value::Struct& struct_pb) {
     std::vector<XLAExecutorValue> values;
     values.reserve(struct_pb.element_size());
     for (const auto& el : struct_pb.element()) {
@@ -534,13 +534,13 @@ class XLAExecutor : public tensorflow_federated::ExecutorBase<ValueFuture> {
   }
 
   absl::StatusOr<XLAExecutorValue> CreateValueAny(
-      const tensorflow_federated::v0::Value& value_pb) {
+      const federated_language_executor::Value& value_pb) {
     switch (value_pb.value_case()) {
-      case tensorflow_federated::v0::Value::ValueCase::kArray:
+      case federated_language_executor::Value::ValueCase::kArray:
         return CreateValueArray(value_pb);
-      case tensorflow_federated::v0::Value::ValueCase::kComputation:
+      case federated_language_executor::Value::ValueCase::kComputation:
         return CreateValueComputation(value_pb.computation());
-      case tensorflow_federated::v0::Value::ValueCase::kStruct:
+      case federated_language_executor::Value::ValueCase::kStruct:
         return CreateValueStruct(value_pb.struct_());
       default:
         return absl::UnimplementedError(absl::StrCat(
@@ -554,7 +554,7 @@ class XLAExecutor : public tensorflow_federated::ExecutorBase<ValueFuture> {
   // `tasks.WaitAll` returns. Additionally, here the captured `this` pointer
   // must also remain valid.
   absl::Status MaterializeXLAValue(const XLAExecutorValue& executor_value,
-                                   tensorflow_federated::v0::Value* value_pb,
+                                   federated_language_executor::Value* value_pb,
                                    tensorflow_federated::ParallelTasks& tasks) {
     switch (executor_value.type()) {
       case XLAExecutorValue::ValueType::TENSOR: {
@@ -577,7 +577,7 @@ class XLAExecutor : public tensorflow_federated::ExecutorBase<ValueFuture> {
         });
       }
       case XLAExecutorValue::ValueType::STRUCT: {
-        tensorflow_federated::v0::Value::Struct* mutable_struct =
+        federated_language_executor::Value::Struct* mutable_struct =
             value_pb->mutable_struct_();
         for (const auto& el : executor_value.structure()) {
           TFF_TRY(MaterializeXLAValue(
