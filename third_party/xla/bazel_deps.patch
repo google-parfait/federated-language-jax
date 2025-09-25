@@ -1,3 +1,11 @@
+# Fix Bazel dependencies.
+#
+# ```
+# buildozer 'replace deps @eigen_archive//:eigen3 @eigen//:eigen' //third_party/tsl/...:*
+# buildozer 'substitute deps @com_google_absl//(.*) @abseil-cpp//${1}' //third_party/tsl/...:*
+# buildozer 'substitute deps @com_googlesource_code_re2//(.*) @re2//${1}' //third_party/tsl/...:*
+# ```
+
 diff --git third_party/ducc/ducc.BUILD third_party/ducc/ducc.BUILD
 index 33b411e136..82dfb41482 100644
 --- third_party/ducc/ducc.BUILD

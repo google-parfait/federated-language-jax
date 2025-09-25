@@ -1,3 +1,17 @@
+# Fix Bazel dependencies.
+#
+# ```
+# buildozer 'replace deps @eigen_archive//:eigen3 @eigen//:eigen' //xla/...:*
+# find \
+#     "third_party/" \
+#     -path "third_party/tsl" -prune -o \
+#     -type f \
+#     -print0 \
+#     | xargs -0 \
+#     sed --in-place \
+#     -e 's/eigen_archive\/\/:eigen3/@eigen\/\/:eigen/g'
+# ```
+
 diff --git third_party/tsl/tsl/platform/BUILD third_party/tsl/tsl/platform/BUILD
 index 6b43f1b94b..c48207f71c 100644
 --- third_party/tsl/tsl/platform/BUILD

@@ -82,17 +82,15 @@ http_archive(
     patches = [
         "//third_party/tensorflow_federated:bazel_deps.patch",
         "//third_party/tensorflow_federated:cpp_to_python_executor_visibility.patch",
-        "//third_party/tensorflow_federated:executors_errors_deps.patch",
         "//third_party/tensorflow_federated:protobuf_matchers.patch",
-        "//third_party/tensorflow_federated:structure_deps.patch",
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
         "@com_google_googletest": "@googletest",
     },
-    sha256 = "21ef65738f3ed1e3a0b9261f9374bd9d8f9219b9e8b41e1770955ec174f9f048",
-    strip_prefix = "tensorflow-federated-fc32ea5c0c22dff1445b311b85c5a6d3b4eacd8c",
-    url = "https://github.com/google-parfait/tensorflow-federated/archive/fc32ea5c0c22dff1445b311b85c5a6d3b4eacd8c.tar.gz",
+    sha256 = "eed2e0ad5cd565c238fa1e0ddeb73bcdfeb627c7813c3f2cf3f8d40fcbcfa25b",
+    strip_prefix = "tensorflow-federated-126f6c7fd4695fa5cee77bd34efe77f78330fb26",
+    url = "https://github.com/google-parfait/tensorflow-federated/archive/126f6c7fd4695fa5cee77bd34efe77f78330fb26.tar.gz",
 )
 
 http_archive(
