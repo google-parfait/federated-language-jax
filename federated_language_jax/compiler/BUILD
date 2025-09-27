@@ -16,10 +16,7 @@ load("@rules_python//python:defs.bzl", "py_library")
 
 package(
     default_applicable_licenses = ["//:package_license"],
-    default_visibility = [
-        "//federated_language_jax:__pkg__",
-        "//federated_language_jax/backend:__subpackages__",
-    ],
+    default_visibility = ["//federated_language_jax:__pkg__"],
 )
 
 licenses(["notice"])
