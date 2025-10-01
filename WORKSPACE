@@ -213,22 +213,6 @@ load("@rules_shell//shell:repositories.bzl", "rules_shell_dependencies")
 rules_shell_dependencies()
 
 # Required by `xla`.
-load("@xla//third_party/py:python_init_rules.bzl", "python_init_rules")
-
-python_init_rules()
-
-load("@xla//third_party/py:python_init_repositories.bzl", "python_init_repositories")
-
-python_init_repositories(
-    requirements = {
-        "3.12": "//:requirements_lock_3_12.txt",
-    },
-)
-
-load("@xla//third_party/py:python_init_toolchains.bzl", "python_init_toolchains")
-
-python_init_toolchains()
-
 load("@xla//:workspace4.bzl", "xla_workspace4")
 
 xla_workspace4()
@@ -307,6 +291,27 @@ cc_toolchain_deps()
 register_toolchains("@rules_ml_toolchain//cc_toolchain:lx64_lx64")
 
 register_toolchains("@rules_ml_toolchain//cc_toolchain:lx64_lx64_cuda")
+
+#
+# Python Toolchains
+#
+
+# Required by `xla`.
+load("@xla//third_party/py:python_init_rules.bzl", "python_init_rules")
+
+python_init_rules()
+
+load("@xla//third_party/py:python_init_repositories.bzl", "python_init_repositories")
+
+python_init_repositories(
+    requirements = {
+        "3.12": "//:requirements_lock_3_12.txt",
+    },
+)
+
+load("@xla//third_party/py:python_init_toolchains.bzl", "python_init_toolchains")
+
+python_init_toolchains()
 
 #
 # Python Dependencies
