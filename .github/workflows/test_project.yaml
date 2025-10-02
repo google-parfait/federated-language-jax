@@ -75,6 +75,9 @@ jobs:
       run: |
         bazelisk test //:*
 
+  test-federated-language-executor:
+    uses: ./test/.github/workflows/test.yaml
+
   test-project:
     name: Test PY ${{ matrix.python-version }}
     runs-on: ubuntu-latest
