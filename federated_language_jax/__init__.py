@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""JAX computation, compiler, and executor for the Federated Language library."""
+"""JAX computation, compiler, and executor for the Federated Language framework."""
 
 # pylint: disable=g-importing-member
 from federated_language_jax.backend.execution_contexts import create_async_local_execution_context
