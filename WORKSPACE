@@ -100,7 +100,7 @@ http_archive(
     },
     sha256 = "1496b112e86416e2dcf288569a3e7b64f3537f0b18132224f492266e9ff76c44",
     strip_prefix = "pybind11_abseil-202402.0",
-    url = "https://github.com/pybind/pybind11_abseil/archive/v202402.0.tar.gz",
+    url = "https://github.com/pybind/pybind11_abseil/archive/refs/tags/v202402.0.tar.gz",
 )
 
 http_archive(
@@ -140,7 +140,7 @@ http_archive(
     name = "rules_shell",
     sha256 = "99bfc7aaefd1ed69613bbd25e24bf7871d68aeafca3a6b79f5f85c0996a41355",
     strip_prefix = "rules_shell-0.5.1",
-    url = "https://github.com/bazelbuild/rules_shell/releases/download/v0.5.1/rules_shell-v0.5.1.tar.gz",
+    url = "https://github.com/bazelbuild/rules_shell/archive/refs/tags/v0.5.1.tar.gz",
 )
 
 http_archive(
