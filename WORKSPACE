@@ -59,6 +59,7 @@ http_archive(
     name = "federated_language",
     patches = [
         "//third_party/federated_language:python_toolchain.patch",
+        "@federated_language_executor//third_party/federated_language:structure_visibility.patch",
     ],
     repo_mapping = {
         "@federated_language_pypi": "@federated_language_jax_pypi",
@@ -69,6 +70,25 @@ http_archive(
     url = "https://github.com/google-parfait/federated-language/archive/refs/tags/v0.5.2.tar.gz",
 )
 
+# DO_NOT_SUBMIT
+# local_repository(
+#     name = "federated_language_executor",
+#     path = "third_party/federated_language_executor",
+# )
+
+http_archive(
+    name = "federated_language_executor",
+    repo_mapping = {
+        "@federated_language_executor_pypi": "@federated_language_jax_pypi",
+    },
+    # DO_NOT_SUBMIT
+    # sha256 = "dd767b67d054d8ab14e62a16edad376e25610f2edc5b78ccf41b473ded5662d4",
+    # strip_prefix = "federated-language-jax-7a383971d55a6d60e40985c13b0643d249dde4dc/third_party/federated_language_executor",
+    # url = "https://github.com/google-parfait/federated-language-jax/archive/7a383971d55a6d60e40985c13b0643d249dde4dc.tar.gz",
+    strip_prefix = "federated-language-jax-cl-814889081/third_party/federated_language_executor",
+    url = "https://github.com/google-parfait/federated-language-jax/archive/refs/heads/cl/814889081.zip",
+)
+
 http_archive(
     name = "googletest",
     sha256 = "65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c",
@@ -76,21 +96,23 @@ http_archive(
     url = "https://github.com/google/googletest/archive/refs/tags/v1.17.0.tar.gz",
 )
 
-# TODO: b/417987844 - Federated Language JAX should not depend on TFF.
+# TODO: b/417987844 - Federated Language should not depend on TFF.
 http_archive(
     name = "org_tensorflow_federated",
     patches = [
         "//third_party/tensorflow_federated:bazel_deps.patch",
-        "//third_party/tensorflow_federated:cpp_to_python_executor_visibility.patch",
         "//third_party/tensorflow_federated:protobuf_matchers.patch",
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
         "@com_google_googletest": "@googletest",
     },
-    sha256 = "eed2e0ad5cd565c238fa1e0ddeb73bcdfeb627c7813c3f2cf3f8d40fcbcfa25b",
-    strip_prefix = "tensorflow-federated-126f6c7fd4695fa5cee77bd34efe77f78330fb26",
-    url = "https://github.com/google-parfait/tensorflow-federated/archive/126f6c7fd4695fa5cee77bd34efe77f78330fb26.tar.gz",
+    # DO_NOT_SUBMIT
+    # sha256 = "efc88b298602e9ecb03c0735e52531ed367f724e3bec6667609d7b61e7c202ff",
+    # strip_prefix = "tensorflow-federated-1e8b9057278d50237c9f5d79ca9ac9382345483c",
+    # url = "https://github.com/google-parfait/tensorflow-federated/archive/1e8b9057278d50237c9f5d79ca9ac9382345483c.tar.gz",
+    strip_prefix = "tensorflow-federated-cl-814889081",
+    url = "https://github.com/google-parfait/tensorflow-federated/archive/refs/heads/cl/814889081.zip",
 )
 
 http_archive(

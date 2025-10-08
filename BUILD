@@ -45,8 +45,12 @@ exports_files([
 # TODO: b/419584204 - Enable all supported versions of Python.
 # compile_pip_requirements_3_9(
 #     name = "requirements_3_9",
-#     src = "//:requirements.in",
+#     srcs = [
+#         "//:requirements.in",
+#         "@federated_language_executor//:requirements.in",
+#     ],
 #     extra_args = [
+#         "--no-annotate",
 #         "--strip-extras",
 #     ],
 #     requirements_txt = "//:requirements_lock_3_9.txt",
@@ -55,8 +59,12 @@ exports_files([
 # TODO: b/419584204 - Enable all supported versions of Python.
 # compile_pip_requirements_3_10(
 #     name = "requirements_3_10",
-#     src = "//:requirements.in",
+#     srcs = [
+#         "//:requirements.in",
+#         "@federated_language_executor//:requirements.in",
+#     ],
 #     extra_args = [
+#         "--no-annotate",
 #         "--strip-extras",
 #     ],
 #     requirements_txt = "//:requirements_lock_3_10.txt",
@@ -65,8 +73,12 @@ exports_files([
 # TODO: b/419584204 - Enable all supported versions of Python.
 # compile_pip_requirements_3_11(
 #     name = "requirements_3_11",
-#     src = "//:requirements.in",
+#     srcs = [
+#         "//:requirements.in",
+#         "@federated_language_executor//:requirements.in",
+#     ],
 #     extra_args = [
+#         "--no-annotate",
 #         "--strip-extras",
 #     ],
 #     requirements_txt = "//:requirements_lock_3_11.txt",
@@ -74,8 +86,12 @@ exports_files([
 
 compile_pip_requirements(
     name = "requirements_3_12",
-    src = "//:requirements.in",
+    srcs = [
+        "//:requirements.in",
+        "@federated_language_executor//:requirements.in",
+    ],
     extra_args = [
+        "--no-annotate",
         "--strip-extras",
     ],
     requirements_txt = "//:requirements_lock_3_12.txt",
@@ -84,8 +100,12 @@ compile_pip_requirements(
 # TODO: b/419584204 - Enable all supported versions of Python.
 # compile_pip_requirements_3_13(
 #     name = "requirements_3_13",
-#     src = "//:requirements.in",
+#     srcs = [
+#         "//:requirements.in",
+#         "@federated_language_executor//:requirements.in",
+#     ],
 #     extra_args = [
+#         "--no-annotate",
 #         "--strip-extras",
 #     ],
 #     requirements_txt = "//:requirements_lock_3_13.txt",
