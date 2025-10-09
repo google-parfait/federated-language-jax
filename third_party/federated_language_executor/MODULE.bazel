@@ -15,4 +15,113 @@
 module(name = "federated_language_executor")
 
 # Dependencies
+bazel_dep(name = "abseil-cpp", version = "20250127.1")
+bazel_dep(name = "federated_language", version = "0.5.2")
+bazel_dep(name = "grpc", version = "1.69.0", repo_name = "com_github_grpc_grpc")
+bazel_dep(name = "protobuf", version = "29.0", repo_name = "com_google_protobuf")
+bazel_dep(name = "pybind11_abseil", version = "202402.0")
+bazel_dep(name = "pybind11_bazel", version = "2.13.6")
+bazel_dep(name = "pybind11_protobuf", version = "0.0.0-20240524-1d7a729")
 bazel_dep(name = "rules_license", version = "1.0.0")
+bazel_dep(name = "rules_python", version = "1.0.0")
+
+single_version_override(
+    module_name = "abseil-cpp",
+    version = "20250127.1",  # Force Bazel to use this version.
+)
+
+single_version_override(
+    module_name = "federated_language",
+    patches = [
+        "//third_party/federated_language:structure_visibility.patch",
+    ],
+)
+
+single_version_override(
+    module_name = "protobuf",
+    version = "29.0",  # Force Bazel to use this version.
+)
+
+# Legacy Dependencies
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# TODO: b/417987844 - Federated Language should not depend on TFF.
+http_archive(
+    name = "org_tensorflow_federated",
+    patches = [
+        "//third_party/tensorflow_federated:bazel_deps.patch",
+        "//third_party/tensorflow_federated:protobuf_matchers.patch",
+        "//third_party/tensorflow_federated:tsl.patch",
+    ],
+    # sha256 = "9d1f81201abf188773d0cd06073c5ae0dc41725f27bd00a37383eaa8c5780af0",
+    strip_prefix = "tensorflow-federated-cl-817053130",
+    url = "https://github.com/google-parfait/tensorflow-federated/archive/refs/heads/cl/817053130.zip",
+)
+
+# Transitive Dependencies
+bazel_dep(name = "googletest", version = "1.17.0.bcr.1", repo_name = "com_google_googletest")  # Required by TFF.
+bazel_dep(name = "platforms", version = "1.0.0")  # Required by TFF.
+
+# bazel_dep(name = "pybind11_protobuf", version = "0.0.0-20250210-f02a2b7")  # Required by TFF.
+bazel_dep(name = "rules_cc", version = "0.1.2")  # Required by TFF.
+
+# Python Toolchain
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    python_version = "3.12",
+)
+use_repo(python, python = "python_3_12")
+# python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+# python.toolchain(
+#     python_version = "3.9",
+# )
+# python.toolchain(
+#     python_version = "3.10",
+# )
+# python.toolchain(
+#     python_version = "3.11",
+# )
+# python.toolchain(
+#     is_default = True,
+#     python_version = "3.12",
+# )
+# python.toolchain(
+#     python_version = "3.13",
+# )
+# use_repo(python, python = "python_versions")
+
+# Python Dependencies
+# pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+# pip.parse(
+#     hub_name = "federated_language_executor_pypi",
+#     python_version = "3.9",
+#     requirements_lock = "//:requirements_lock_3_9.txt",
+# )
+# pip.parse(
+#     hub_name = "federated_language_executor_pypi",
+#     python_version = "3.10",
+#     requirements_lock = "//:requirements_lock_3_10.txt",
+# )
+# pip.parse(
+#     hub_name = "federated_language_executor_pypi",
+#     python_version = "3.11",
+#     requirements_lock = "//:requirements_lock_3_11.txt",
+# )
+# pip.parse(
+#     hub_name = "federated_language_executor_pypi",
+#     python_version = "3.12",
+#     requirements_lock = "//:requirements_lock_3_12.txt",
+# )
+# pip.parse(
+#     hub_name = "federated_language_executor_pypi",
+#     python_version = "3.13",
+#     requirements_lock = "//:requirements_lock_3_13.txt",
+# )
+# use_repo(pip, "federated_language_executor_pypi")
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "federated_language_executor_pypi",
+    python_version = "3.12",
+    requirements_lock = "//:requirements_lock_3_12.txt",
+)
+use_repo(pip, "federated_language_executor_pypi")

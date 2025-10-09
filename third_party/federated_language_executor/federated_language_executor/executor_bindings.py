@@ -1,0 +1,88 @@
+# Copyright 2021, The TensorFlow Federated Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""Python interface to C++ Executor implementations."""
+
+from collections.abc import Mapping
+
+import federated_language
+from federated_language_executor import data_conversions
+from federated_language_executor import executor_bindings_cc
+
+# Import classes.
+OwnedValueId = executor_bindings_cc.OwnedValueId
+Executor = executor_bindings_cc.Executor
+
+# Import executor constructors.
+create_reference_resolving_executor = (
+    executor_bindings_cc.create_reference_resolving_executor
+)
+create_composing_executor = executor_bindings_cc.create_composing_executor
+create_sequence_executor = executor_bindings_cc.create_sequence_executor
+
+# Import executor constructor helpers.
+create_insecure_grpc_channel = executor_bindings_cc.create_insecure_grpc_channel
+GRPCChannel = executor_bindings_cc.GRPCChannelInterface
+
+
+# Wrap any construction requiring cardinalities arguments to convert placement
+# literals to strings.
+def create_federating_executor(
+    inner_server_executor: executor_bindings_cc.Executor,
+    inner_client_executor: executor_bindings_cc.Executor,
+    cardinalities: Mapping[federated_language.framework.PlacementLiteral, int],
+) -> executor_bindings_cc.Executor:
+  """Constructs a FederatingExecutor with a specified placement."""
+  uri_cardinalities = (
+      data_conversions.convert_cardinalities_dict_to_string_keyed(cardinalities)
+  )
+  return executor_bindings_cc.create_federating_executor(
+      inner_server_executor, inner_client_executor, uri_cardinalities
+  )
+
+
+def create_remote_executor(
+    channel: GRPCChannel,
+    cardinalities: Mapping[federated_language.framework.PlacementLiteral, int],
+) -> executor_bindings_cc.Executor:
+  """Constructs a RemoteExecutor proxying service on `channel`."""
+  uri_cardinalities = (
+      data_conversions.convert_cardinalities_dict_to_string_keyed(cardinalities)
+  )
+  return executor_bindings_cc.create_remote_executor(channel, uri_cardinalities)
+
+
+def create_streaming_remote_executor(
+    channel: GRPCChannel,
+    cardinalities: Mapping[federated_language.framework.PlacementLiteral, int],
+) -> executor_bindings_cc.Executor:
+  """Constructs a StreamingRemoteExecutor proxying service on `channel`."""
+  uri_cardinalities = (
+      data_conversions.convert_cardinalities_dict_to_string_keyed(cardinalities)
+  )
+  return executor_bindings_cc.create_streaming_remote_executor(
+      channel, uri_cardinalities
+  )
+
+
+def create_composing_child(
+    executor: executor_bindings_cc.Executor,
+    cardinalities: Mapping[federated_language.framework.PlacementLiteral, int],
+) -> executor_bindings_cc.Executor:
+  """Constructs a ComposingChild with specified cardinalities."""
+  uri_cardinalities = (
+      data_conversions.convert_cardinalities_dict_to_string_keyed(cardinalities)
+  )
+  return executor_bindings_cc.create_composing_child(
+      executor, uri_cardinalities
+  )

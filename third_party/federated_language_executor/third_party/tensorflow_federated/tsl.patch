@@ -1,0 +1,37 @@
+# Remove usage of tsl.
+#
+# This patch was created manually.
+
+diff --git tensorflow_federated/cc/core/impl/executors/executor.h tensorflow_federated/cc/core/impl/executors/executor.h
+index 4a41482ae..6cc5abb22 100644
+--- tensorflow_federated/cc/core/impl/executors/executor.h
++++ tensorflow_federated/cc/core/impl/executors/executor.h
+@@ -38,7 +38,6 @@ limitations under the License
+ #include "absl/utility/utility.h"
+ #include "federated_language/proto/computation.pb.h"
+ #include "federated_language_executor/executor.pb.h"
+-#include "tensorflow/tsl/profiler/lib/traceme.h"
+ #include "tensorflow_federated/cc/core/impl/executors/status_macros.h"
+ 
+ namespace tensorflow_federated {
+@@ -265,17 +264,9 @@ class ExecutorBase : public Executor,
+ 
+  protected:
+   // Logs the current method and records its trace to the TensorFlow profiler.
+-  std::optional<tsl::profiler::TraceMe> Trace(const char* method_name) {
+-    bool enabled = VLOG_IS_ON(1) || tsl::profiler::TraceMe::Active();
+-    if (!enabled) {
+-      return std::nullopt;
+-    }
+-    std::string path = absl::StrCat(ExecutorName(), "::", method_name);
+-    absl::string_view path_view(path);
+-    VLOG(1) << path_view;
+-    // Safe to pass in a view here: `TraceMe` internally copies to an owned
+-    // `std::string`.
+-    return std::make_optional<tsl::profiler::TraceMe>(path_view);
++  int Trace(const char* method_name) {
++    VLOG(1) << method_name;
++    return 0;
+   }
+ 
+   // Clears all currently tracked values from the executor.
