@@ -1,0 +1,17 @@
+# Python development requirements.
+#
+# IMPORTANT: If you add or update a dependency and it is required by the
+# `federated-language-executor` package, also add or update the dependency in
+# the `pyproject.toml` configuration.
+#
+# See https://packaging.python.org/en/latest/specifications/version-specifiers/
+# for more information.
+
+absl-py~=1.0
+dm-tree~=0.1.8
+federated_language~=0.5.1
+grpcio~=1.46
+numpy~=2.0
+portpicker~=1.6
+protobuf~=5.29
+typing-extensions~=4.5
