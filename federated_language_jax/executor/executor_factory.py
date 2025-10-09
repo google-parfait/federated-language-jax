@@ -21,9 +21,7 @@ from typing import Optional
 from absl import logging
 import cachetools
 import federated_language
-
-from tensorflow_federated.cc.core.impl.executors import executor_bindings
-from tensorflow_federated.python.core.impl.executors import cpp_to_python_executor
+import federated_language_executor
 
 
 # Users likely do not intend to run 4 or more TensorFlow functions sequentially;
@@ -45,7 +43,7 @@ class CPPExecutorFactory(federated_language.framework.ExecutorFactory):
       self,
       executor_fn: Callable[
           [federated_language.framework.CardinalitiesType],
-          executor_bindings.Executor,
+          federated_language_executor.Executor,
       ],
       executor_cache_size: int = 5,
   ):
@@ -60,7 +58,7 @@ class CPPExecutorFactory(federated_language.framework.ExecutorFactory):
     if cardinalities_key not in self._executors:
       cpp_executor = self._executor_fn(cardinalities)
       futures_executor = concurrent.futures.ThreadPoolExecutor(max_workers=None)
-      executor = cpp_to_python_executor.CppToPythonExecutorBridge(
+      executor = federated_language_executor.CppToPythonExecutorBridge(
           cpp_executor, futures_executor
       )
       self._executors[cardinalities_key] = executor
@@ -115,9 +113,11 @@ def local_executor_factory(
     *,
     default_num_clients: int = 0,
     max_concurrent_computation_calls: int = -1,
-    leaf_executor_fn: Optional[Callable[[int], executor_bindings.Executor]],
+    leaf_executor_fn: Optional[
+        Callable[[int], federated_language_executor.Executor]
+    ],
     client_leaf_executor_fn: Optional[
-        Callable[[int], executor_bindings.Executor]
+        Callable[[int], federated_language_executor.Executor]
     ] = None,
 ) -> federated_language.framework.ExecutorFactory:
   """Local ExecutorFactory backed by C++ Executor bindings."""
@@ -125,7 +125,7 @@ def local_executor_factory(
 
   def _executor_fn(
       cardinalities: federated_language.framework.CardinalitiesType,
-  ) -> executor_bindings.Executor:
+  ) -> federated_language_executor.Executor:
     if cardinalities.get(federated_language.CLIENTS) is None:
       cardinalities[federated_language.CLIENTS] = default_num_clients
     num_clients = cardinalities[federated_language.CLIENTS]
@@ -144,7 +144,7 @@ def local_executor_factory(
 
     server_leaf_executor = leaf_executor_fn(max_concurrent_computation_calls)
     sub_federating_reference_resolving_server_executor = (
-        executor_bindings.create_reference_resolving_executor(
+        federated_language_executor.create_reference_resolving_executor(
             server_leaf_executor
         )
     )
@@ -158,19 +158,21 @@ def local_executor_factory(
       )
 
       sub_federating_reference_resolving_client_executor = (
-          executor_bindings.create_reference_resolving_executor(
+          federated_language_executor.create_reference_resolving_executor(
               client_leaf_executor
           )
       )
 
-    cardinalities = {k.uri: v for k, v in cardinalities.items()}
-    federating_ex = executor_bindings.create_federating_executor(
+    cardinalities = {k: v for k, v in cardinalities.items()}
+    federating_ex = federated_language_executor.create_federating_executor(
         sub_federating_reference_resolving_server_executor,
         sub_federating_reference_resolving_client_executor,
         cardinalities,
     )
     top_level_reference_resolving_ex = (
-        executor_bindings.create_reference_resolving_executor(federating_ex)
+        federated_language_executor.create_reference_resolving_executor(
+            federating_ex
+        )
     )
     return top_level_reference_resolving_ex
 

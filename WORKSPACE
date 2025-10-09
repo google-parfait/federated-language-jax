@@ -59,6 +59,7 @@ http_archive(
     name = "federated_language",
     patches = [
         "//third_party/federated_language:python_toolchain.patch",
+        "@federated_language_executor//third_party/federated_language:structure_visibility.patch",
     ],
     repo_mapping = {
         "@federated_language_pypi": "@federated_language_jax_pypi",
@@ -70,27 +71,36 @@ http_archive(
 )
 
 http_archive(
+    name = "federated_language_executor",
+    repo_mapping = {
+        "@federated_language_executor_pypi": "@federated_language_jax_pypi",
+    },
+    # sha256 = "aaa33158683cb2ab8dd34c4696a993f527d5b941ae1a30da404d3a18a880197a",
+    strip_prefix = "federated-language-jax-cl-817054260/third_party/federated_language_executor",
+    url = "https://github.com/google-parfait/federated-language-jax/archive/refs/heads/cl/817054260.zip",
+)
+
+http_archive(
     name = "googletest",
     sha256 = "65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c",
     strip_prefix = "googletest-1.17.0",
     url = "https://github.com/google/googletest/archive/refs/tags/v1.17.0.tar.gz",
 )
 
-# TODO: b/417987844 - Federated Language JAX should not depend on TFF.
+# TODO: b/417987844 - Federated Language should not depend on TFF.
 http_archive(
     name = "org_tensorflow_federated",
     patches = [
         "//third_party/tensorflow_federated:bazel_deps.patch",
-        "//third_party/tensorflow_federated:cpp_to_python_executor_visibility.patch",
         "//third_party/tensorflow_federated:protobuf_matchers.patch",
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
         "@com_google_googletest": "@googletest",
     },
-    sha256 = "eed2e0ad5cd565c238fa1e0ddeb73bcdfeb627c7813c3f2cf3f8d40fcbcfa25b",
-    strip_prefix = "tensorflow-federated-126f6c7fd4695fa5cee77bd34efe77f78330fb26",
-    url = "https://github.com/google-parfait/tensorflow-federated/archive/126f6c7fd4695fa5cee77bd34efe77f78330fb26.tar.gz",
+    # sha256 = "9d1f81201abf188773d0cd06073c5ae0dc41725f27bd00a37383eaa8c5780af0",
+    strip_prefix = "tensorflow-federated-cl-817053130",
+    url = "https://github.com/google-parfait/tensorflow-federated/archive/refs/heads/cl/817053130.zip",
 )
 
 http_archive(

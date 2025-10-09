@@ -8,9 +8,6 @@
 # buildozer \
 #     'remove deps @federated_language//federated_language/common_libs:structure' \
 #     //tensorflow_federated/python/common_libs:structure
-# buildozer \
-#     'add deps @federated_language_jax_pypi//grpcio' \
-#     //tensorflow_federated/python/core/impl/executors:executors_errors
 # find "." -type f -print0 | xargs -0 \
 #     sed --regexp-extended --in-place \
 #     -e 's/#include "third_party\/eigen3\/Eigen\//#include "Eigen\//g' \
@@ -21,7 +18,7 @@
 # ```
 
 diff --git examples/custom_data_backend/BUILD examples/custom_data_backend/BUILD
-index c288380dd..31727fe59 100644
+index 2a43a32fc..669f26d49 100644
 --- examples/custom_data_backend/BUILD
 +++ examples/custom_data_backend/BUILD
 @@ -1,4 +1,5 @@
@@ -41,7 +38,7 @@ index 74dc8e509..b90d01cad 100644
  py_library(
      name = "data_sources",
 diff --git tensorflow_federated/cc/core/impl/aggregation/core/BUILD tensorflow_federated/cc/core/impl/aggregation/core/BUILD
-index 639f4e40c..2cfdebbd8 100644
+index 43d81952a..6758e3de6 100644
 --- tensorflow_federated/cc/core/impl/aggregation/core/BUILD
 +++ tensorflow_federated/cc/core/impl/aggregation/core/BUILD
 @@ -12,11 +12,11 @@
@@ -200,50 +197,33 @@ index 6ec2e8373..3b188a3e4 100644
  #include "tensorflow_federated/cc/core/impl/executors/composing_executor.h"
  #include "tensorflow_federated/cc/core/impl/executors/executor.h"
 diff --git tensorflow_federated/cc/core/impl/executors/BUILD tensorflow_federated/cc/core/impl/executors/BUILD
-index b5089ac7a..700fd9d3c 100644
+index c9053adae..98a19aecf 100644
 --- tensorflow_federated/cc/core/impl/executors/BUILD
 +++ tensorflow_federated/cc/core/impl/executors/BUILD
 @@ -331,7 +331,7 @@ cc_library(
-         "@com_google_absl//absl/types:span",
          "@com_google_absl//absl/utility",
          "@federated_language//federated_language/proto:computation_cc_proto",
+         "@federated_language_executor//federated_language_executor:executor_cc_proto",
 -        "@org_tensorflow//tensorflow/tsl/profiler/lib:traceme",
 +        "@tsl//tsl/profiler/lib:traceme",
      ],
  )
  
 diff --git tensorflow_federated/cc/core/impl/executors/executor.h tensorflow_federated/cc/core/impl/executors/executor.h
-index 7e875dc74..88738afa0 100644
+index 4a41482ae..a693e6d83 100644
 --- tensorflow_federated/cc/core/impl/executors/executor.h
 +++ tensorflow_federated/cc/core/impl/executors/executor.h
-@@ -37,7 +37,7 @@ limitations under the License
- #include "absl/types/span.h"
+@@ -38,7 +38,7 @@ limitations under the License
  #include "absl/utility/utility.h"
  #include "federated_language/proto/computation.pb.h"
+ #include "federated_language_executor/executor.pb.h"
 -#include "tensorflow/tsl/profiler/lib/traceme.h"
 +#include "tsl/profiler/lib/traceme.h"
  #include "tensorflow_federated/cc/core/impl/executors/status_macros.h"
- #include "tensorflow_federated/proto/v0/executor.pb.h"
  
-diff --git tensorflow_federated/cc/core/impl/executors/executor_bindings.cc tensorflow_federated/cc/core/impl/executors/executor_bindings.cc
-index facf67dd0..cef09bd2c 100644
---- tensorflow_federated/cc/core/impl/executors/executor_bindings.cc
-+++ tensorflow_federated/cc/core/impl/executors/executor_bindings.cc
-@@ -31,9 +31,9 @@ limitations under the License
- #include "absl/status/status.h"
- #include "absl/status/statusor.h"
- #include "absl/strings/str_cat.h"
--#include "include/grpcpp/impl/channel_interface.h"
--#include "include/grpcpp/security/credentials.h"
--#include "include/grpcpp/support/channel_arguments.h"
-+#include "grpcpp/impl/codegen/channel_interface.h"
-+#include "grpcpp/security/credentials.h"
-+#include "grpcpp/support/channel_arguments.h"
- #include "federated_language/proto/computation.pb.h"
- #include "include/pybind11/cast.h"
- #include "include/pybind11/detail/common.h"
+ namespace tensorflow_federated {
 diff --git tensorflow_federated/cc/core/impl/executors/executor_service.cc tensorflow_federated/cc/core/impl/executors/executor_service.cc
-index 12fb26078..713bf6dad 100644
+index 83f506e83..66a75e0b1 100644
 --- tensorflow_federated/cc/core/impl/executors/executor_service.cc
 +++ tensorflow_federated/cc/core/impl/executors/executor_service.cc
 @@ -29,8 +29,8 @@ limitations under the License
@@ -255,10 +235,10 @@ index 12fb26078..713bf6dad 100644
 +#include "grpcpp/server_context.h"
 +#include "grpcpp/support/status.h"
  #include "federated_language/proto/computation.pb.h"
+ #include "federated_language_executor/executor.pb.h"
  #include "tensorflow_federated/cc/core/impl/executors/cardinalities.h"
- #include "tensorflow_federated/cc/core/impl/executors/executor.h"
 diff --git tensorflow_federated/cc/core/impl/executors/executor_service.h tensorflow_federated/cc/core/impl/executors/executor_service.h
-index 29b35be4a..c0ddb3036 100644
+index 820b10abb..50439c4ef 100644
 --- tensorflow_federated/cc/core/impl/executors/executor_service.h
 +++ tensorflow_federated/cc/core/impl/executors/executor_service.h
 @@ -28,8 +28,8 @@ limitations under the License
@@ -270,10 +250,10 @@ index 29b35be4a..c0ddb3036 100644
 +#include "grpcpp/grpcpp.h"
 +#include "grpcpp/support/status.h"
  #include "federated_language/proto/computation.pb.h"
- #include "tensorflow_federated/cc/core/impl/executors/cardinalities.h"
- #include "tensorflow_federated/cc/core/impl/executors/executor.h"
+ #include "federated_language_executor/executor.grpc.pb.h"
+ #include "federated_language_executor/executor.pb.h"
 diff --git tensorflow_federated/cc/core/impl/executors/executor_service_test.cc tensorflow_federated/cc/core/impl/executors/executor_service_test.cc
-index c881a7fbd..7cc528087 100644
+index 6313caaa8..dca53090b 100644
 --- tensorflow_federated/cc/core/impl/executors/executor_service_test.cc
 +++ tensorflow_federated/cc/core/impl/executors/executor_service_test.cc
 @@ -28,8 +28,8 @@ limitations under the License
@@ -285,10 +265,10 @@ index c881a7fbd..7cc528087 100644
 +#include "grpcpp/grpcpp.h"
 +#include "grpcpp/support/status.h"
  #include "federated_language/proto/computation.pb.h"
+ #include "federated_language_executor/executor.pb.h"
  #include "tensorflow_federated/cc/core/impl/executors/cardinalities.h"
- #include "tensorflow_federated/cc/core/impl/executors/executor.h"
 diff --git tensorflow_federated/cc/core/impl/executors/mock_grpc.h tensorflow_federated/cc/core/impl/executors/mock_grpc.h
-index c59d9b012..4d68da34b 100644
+index 43ee4c715..4831d5b08 100644
 --- tensorflow_federated/cc/core/impl/executors/mock_grpc.h
 +++ tensorflow_federated/cc/core/impl/executors/mock_grpc.h
 @@ -20,10 +20,10 @@ limitations under the License
@@ -303,11 +283,11 @@ index c59d9b012..4d68da34b 100644
 +#include "grpcpp/security/credentials.h"
 +#include "grpcpp/security/server_credentials.h"
 +#include "grpcpp/support/status.h"
- #include "tensorflow_federated/proto/v0/executor.grpc.pb.h"
- #include "tensorflow_federated/proto/v0/executor.pb.h"
+ #include "federated_language_executor/executor.grpc.pb.h"
+ #include "federated_language_executor/executor.pb.h"
  
 diff --git tensorflow_federated/cc/core/impl/executors/remote_executor.cc tensorflow_federated/cc/core/impl/executors/remote_executor.cc
-index 3ebd1ac67..0f087bc7f 100644
+index d836a925a..4acb4f7f8 100644
 --- tensorflow_federated/cc/core/impl/executors/remote_executor.cc
 +++ tensorflow_federated/cc/core/impl/executors/remote_executor.cc
 @@ -28,8 +28,8 @@ limitations under the License
@@ -319,10 +299,10 @@ index 3ebd1ac67..0f087bc7f 100644
 +#include "grpcpp/grpcpp.h"
 +#include "grpcpp/support/status.h"
  #include "federated_language/proto/computation.pb.h"
- #include "tensorflow_federated/cc/core/impl/executors/cardinalities.h"
- #include "tensorflow_federated/cc/core/impl/executors/executor.h"
+ #include "federated_language_executor/executor.grpc.pb.h"
+ #include "federated_language_executor/executor.pb.h"
 diff --git tensorflow_federated/cc/core/impl/executors/remote_executor.h tensorflow_federated/cc/core/impl/executors/remote_executor.h
-index 619deb5e5..254a530a7 100644
+index c46d610e3..12f8c7c22 100644
 --- tensorflow_federated/cc/core/impl/executors/remote_executor.h
 +++ tensorflow_federated/cc/core/impl/executors/remote_executor.h
 @@ -18,7 +18,7 @@ limitations under the License
@@ -331,11 +311,11 @@ index 619deb5e5..254a530a7 100644
  
 -#include "include/grpcpp/grpcpp.h"
 +#include "grpcpp/grpcpp.h"
+ #include "federated_language_executor/executor.grpc.pb.h"
  #include "tensorflow_federated/cc/core/impl/executors/cardinalities.h"
  #include "tensorflow_federated/cc/core/impl/executors/executor.h"
- #include "tensorflow_federated/proto/v0/executor.grpc.pb.h"
 diff --git tensorflow_federated/cc/core/impl/executors/remote_executor_test.cc tensorflow_federated/cc/core/impl/executors/remote_executor_test.cc
-index 0f632bf37..e33a61a94 100644
+index b78872ca7..f5aa6253e 100644
 --- tensorflow_federated/cc/core/impl/executors/remote_executor_test.cc
 +++ tensorflow_federated/cc/core/impl/executors/remote_executor_test.cc
 @@ -31,10 +31,10 @@ limitations under the License
@@ -350,9 +330,9 @@ index 0f632bf37..e33a61a94 100644
 +#include "grpcpp/create_channel.h"
 +#include "grpcpp/security/credentials.h"
 +#include "grpcpp/support/status.h"
+ #include "federated_language_executor/executor.grpc.pb.h"
+ #include "federated_language_executor/executor.pb.h"
  #include "tensorflow_federated/cc/core/impl/executors/cardinalities.h"
- #include "tensorflow_federated/cc/core/impl/executors/executor.h"
- #include "tensorflow_federated/cc/core/impl/executors/mock_grpc.h"
 diff --git tensorflow_federated/cc/core/impl/executors/status_conversion.cc tensorflow_federated/cc/core/impl/executors/status_conversion.cc
 index 43f1b4001..554191229 100644
 --- tensorflow_federated/cc/core/impl/executors/status_conversion.cc
@@ -380,7 +360,7 @@ index 1ec230885..1fbf6a87f 100644
  namespace tensorflow_federated {
  
 diff --git tensorflow_federated/cc/core/impl/executors/streaming_remote_executor.cc tensorflow_federated/cc/core/impl/executors/streaming_remote_executor.cc
-index 29627ee07..30824671a 100644
+index dad1183b2..fbacfe276 100644
 --- tensorflow_federated/cc/core/impl/executors/streaming_remote_executor.cc
 +++ tensorflow_federated/cc/core/impl/executors/streaming_remote_executor.cc
 @@ -35,8 +35,8 @@ limitations under the License
@@ -392,10 +372,10 @@ index 29627ee07..30824671a 100644
 +#include "grpcpp/grpcpp.h"
 +#include "grpcpp/support/status.h"
  #include "federated_language/proto/computation.pb.h"
- #include "tensorflow_federated/cc/core/impl/executors/cardinalities.h"
- #include "tensorflow_federated/cc/core/impl/executors/executor.h"
+ #include "federated_language_executor/executor.grpc.pb.h"
+ #include "federated_language_executor/executor.pb.h"
 diff --git tensorflow_federated/cc/core/impl/executors/streaming_remote_executor.h tensorflow_federated/cc/core/impl/executors/streaming_remote_executor.h
-index 5a705c7c7..d451bd2ad 100644
+index 748ed2b14..8734edee4 100644
 --- tensorflow_federated/cc/core/impl/executors/streaming_remote_executor.h
 +++ tensorflow_federated/cc/core/impl/executors/streaming_remote_executor.h
 @@ -18,7 +18,7 @@ limitations under the License
@@ -404,11 +384,11 @@ index 5a705c7c7..d451bd2ad 100644
  
 -#include "include/grpcpp/grpcpp.h"
 +#include "grpcpp/grpcpp.h"
+ #include "federated_language_executor/executor.grpc.pb.h"
  #include "tensorflow_federated/cc/core/impl/executors/cardinalities.h"
  #include "tensorflow_federated/cc/core/impl/executors/executor.h"
- #include "tensorflow_federated/proto/v0/executor.grpc.pb.h"
 diff --git tensorflow_federated/cc/core/impl/executors/streaming_remote_executor_test.cc tensorflow_federated/cc/core/impl/executors/streaming_remote_executor_test.cc
-index dd2e39828..e9282bcc4 100644
+index 09a91bc62..d4dfaee4a 100644
 --- tensorflow_federated/cc/core/impl/executors/streaming_remote_executor_test.cc
 +++ tensorflow_federated/cc/core/impl/executors/streaming_remote_executor_test.cc
 @@ -38,7 +38,7 @@ limitations under the License
@@ -419,7 +399,7 @@ index dd2e39828..e9282bcc4 100644
 +#include "grpcpp/support/status.h"
  #include "federated_language/proto/computation.pb.h"
  #include "federated_language/proto/data_type.pb.h"
- #include "tensorflow_federated/cc/core/impl/executors/cardinalities.h"
+ #include "federated_language_executor/executor.grpc.pb.h"
 diff --git tensorflow_federated/cc/simulation/servers.cc tensorflow_federated/cc/simulation/servers.cc
 index c0e45fbbb..d98cf6935 100644
 --- tensorflow_federated/cc/simulation/servers.cc
@@ -478,20 +458,6 @@ index aae506006..956dcff27 100644
  
  namespace tensorflow_federated {
  namespace internal_status {
-diff --git tensorflow_federated/proto/v0/BUILD tensorflow_federated/proto/v0/BUILD
-index 18c87d39c..c0b88188d 100644
---- tensorflow_federated/proto/v0/BUILD
-+++ tensorflow_federated/proto/v0/BUILD
-@@ -1,7 +1,8 @@
- load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
--load("@com_github_grpc_grpc//bazel:python_rules.bzl", "py_grpc_library", "py_proto_library")
-+load("@com_github_grpc_grpc//bazel:python_rules.bzl", "py_grpc_library")
- load("@rules_cc//cc:defs.bzl", "cc_proto_library")
- load("@rules_python//python:defs.bzl", "py_library")
-+load("@rules_python//python:proto.bzl", "py_proto_library")
- 
- package(
-     default_applicable_licenses = ["//:package_license"],
 diff --git tensorflow_federated/python/common_libs/BUILD tensorflow_federated/python/common_libs/BUILD
 index 2a52b4516..64f4f086f 100644
 --- tensorflow_federated/python/common_libs/BUILD
@@ -506,19 +472,3 @@ index 2a52b4516..64f4f086f 100644
 -    ],
 +    deps = [":deprecation"],
  )
-diff --git tensorflow_federated/python/core/impl/executors/BUILD tensorflow_federated/python/core/impl/executors/BUILD
-index 157eea118..a9ee41e17 100644
---- tensorflow_federated/python/core/impl/executors/BUILD
-+++ tensorflow_federated/python/core/impl/executors/BUILD
-@@ -143,7 +143,10 @@ py_test(
- py_library(
-     name = "executors_errors",
-     srcs = ["executors_errors.py"],
--    deps = ["@federated_language//federated_language"],
-+    deps = [
-+        "@federated_language//federated_language",
-+        "@federated_language_jax_pypi//grpcio",
-+    ],
- )
- 
- py_library(
