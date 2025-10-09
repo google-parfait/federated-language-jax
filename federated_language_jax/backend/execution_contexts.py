@@ -14,19 +14,21 @@
 """Execution contexts for the XLA backend."""
 
 import federated_language
+import federated_language_executor
 from federated_language_jax.computation import jax_computation
 from federated_language_jax.executor import executor_factory
 from federated_language_jax.executor import xla_bindings
-from tensorflow_federated.cc.core.impl.executors import executor_bindings
 
 
 def _create_xla_backend_execution_stack(max_concurrent_computation_calls):
   del max_concurrent_computation_calls  # Unused.
   xla_executor = xla_bindings.create_xla_executor()
   reference_resolving_executor = (
-      executor_bindings.create_reference_resolving_executor(xla_executor)
+      federated_language_executor.create_reference_resolving_executor(
+          xla_executor
+      )
   )
-  return executor_bindings.create_sequence_executor(
+  return federated_language_executor.create_sequence_executor(
       reference_resolving_executor
   )
 
