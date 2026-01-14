@@ -17,6 +17,7 @@ limitations under the License.
 // interface in Python.
 
 #include "federated_language/proto/computation.pb.h"
+#include "federated_language_executor/executor.pb.h"
 #include "federated_language_jax/executor/xla_executor.h"
 #include "include/pybind11/detail/common.h"
 #include "include/pybind11/pybind11.h"
@@ -25,7 +26,6 @@ limitations under the License.
 #include "pybind11_abseil/absl_casters.h"
 #include "pybind11_abseil/status_casters.h"
 #include "pybind11_protobuf/native_proto_caster.h"
-#include "tensorflow_federated/proto/v0/executor.pb.h"
 
 namespace federated_language_jax {
 
@@ -45,9 +45,7 @@ PYBIND11_MODULE(xla_bindings, m) {
 
   // IMPORTANT: The binding defined in this module are dependent on the binding
   // defined in the `executor_bindings` module.
-  py::module::import(
-      "tensorflow_federated.cc.core.impl.executors.executor_bindings"
-  );
+  py::module::import("federated_language_executor.executor_bindings_cc");
 
   m.doc() = "Bindings for the C++ ";
 
