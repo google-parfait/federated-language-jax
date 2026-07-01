@@ -142,7 +142,7 @@ def local_executor_factory(
           expected_concurrency_factor,
       )
 
-    server_leaf_executor = leaf_executor_fn(max_concurrent_computation_calls)
+    server_leaf_executor = leaf_executor_fn(max_concurrent_computation_calls)  # pyrefly: ignore[not-callable]
     sub_federating_reference_resolving_server_executor = (
         executor_bindings.create_reference_resolving_executor(
             server_leaf_executor
@@ -163,7 +163,7 @@ def local_executor_factory(
           )
       )
 
-    cardinalities = {k.uri: v for k, v in cardinalities.items()}
+    cardinalities = {k.uri: v for k, v in cardinalities.items()}  # pyrefly: ignore[bad-assignment]
     federating_ex = executor_bindings.create_federating_executor(
         sub_federating_reference_resolving_server_executor,
         sub_federating_reference_resolving_client_executor,
