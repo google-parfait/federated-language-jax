@@ -117,18 +117,18 @@ def _remove_struct_element_names_from_tff_type(type_spec: _T) -> _T:
     TypeError: if arg is of the wrong type.
   """
   if type_spec is None:
-    return None
+    return None  # pyrefly: ignore[bad-return]
   if isinstance(type_spec, federated_language.FunctionType):
-    return federated_language.FunctionType(
+    return federated_language.FunctionType(  # pyrefly: ignore[bad-return]
         _remove_struct_element_names_from_tff_type(type_spec.parameter),  # pytype: disable=wrong-arg-types
         _remove_struct_element_names_from_tff_type(type_spec.result),  # pytype: disable=wrong-arg-types
     )
   if isinstance(type_spec, federated_language.TensorType):
     return type_spec
-  return federated_language.StructType([
+  return federated_language.StructType([  # pyrefly: ignore[bad-return]
       (
           None,
-          _remove_struct_element_names_from_tff_type(
+          _remove_struct_element_names_from_tff_type(  # pyrefly: ignore[bad-specialization]
               v  # pytype: disable=wrong-arg-types
           ),
       )
@@ -165,7 +165,7 @@ def create_xla_tff_computation(
       list(range(count)), type_spec.result
   )
   reconstructed_type = _xla_computation_and_bindings_to_tff_type(
-      xla_computation, parameter_binding, result_binding
+      xla_computation, parameter_binding, result_binding  # pyrefly: ignore[bad-argument-type]
   )
   expected_type = _remove_struct_element_names_from_tff_type(type_spec)
   if not reconstructed_type.is_equivalent_to(expected_type):

@@ -130,15 +130,15 @@ def _tff_type_to_xla_serializer_arg(
       if issubclass(container_cls, _NamedTuple):
         result = container_cls(**dict(elements))  # pylint: disable=too-many-function-args
       elif issubclass(container_cls, Mapping):
-        result = container_cls(elements)  # pylint: disable=too-many-function-args
+        result = container_cls(elements)  # pylint: disable=too-many-function-args  # pyrefly: ignore[bad-argument-count]
       elif issubclass(container_cls, Sequence):
-        result = container_cls([x for _, x in elements])  # pylint: disable=too-many-function-args
+        result = container_cls([x for _, x in elements])  # pylint: disable=too-many-function-args  # pyrefly: ignore[bad-argument-count]
       else:
         raise NotImplementedError(
             f'Unexpected container_cls found: {type(container_cls)}.'
         )
 
-      return result, next_unused_tensor_index
+      return result, next_unused_tensor_index  # pyrefly: ignore[bad-return]
     else:
       raise TypeError(
           'Can only construct an XLA serializer for TFF types '
@@ -194,7 +194,7 @@ def serialize_jax_computation(
   """
 
   if parameter_type is not None:
-    parameter_type = federated_language.to_type(parameter_type)
+    parameter_type = federated_language.to_type(parameter_type)  # pyrefly: ignore[bad-assignment]
     packed_arg = _tff_type_to_xla_serializer_arg(parameter_type)
   else:
     packed_arg = None
