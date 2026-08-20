@@ -110,7 +110,7 @@ def _jax_wrapper_fn(
 
   context_stack = federated_language.framework.get_context_stack()
   comp_pb, extra_type_spec = jax_serialization.serialize_jax_computation(
-      fn, parameter_type, context_stack
+      fn, parameter_type, context_stack  # pyrefly: ignore[bad-argument-type]
   )
   return federated_language.framework.ConcreteComputation(
       computation_proto=comp_pb,
