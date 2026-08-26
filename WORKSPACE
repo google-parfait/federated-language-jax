@@ -64,9 +64,9 @@ http_archive(
         "@federated_language_pypi": "@federated_language_jax_pypi",
         "@protobuf": "@com_google_protobuf",
     },
-    sha256 = "dd767b67d054d8ab14e62a16edad376e25610f2edc5b78ccf41b473ded5662d4",
-    strip_prefix = "federated-language-0.5.2",
-    url = "https://github.com/google-parfait/federated-language/archive/refs/tags/v0.5.2.tar.gz",
+    sha256 = "d99f3a4cc88f816391777fc53cdc094d9abd72bdd7a6fe2bdccfa43235f351db",
+    strip_prefix = "federated-language-0.5.4",
+    url = "https://github.com/google-parfait/federated-language/archive/refs/tags/v0.5.4.tar.gz",
 )
 
 http_archive(
@@ -221,7 +221,10 @@ load("@xla//third_party/py:python_init_repositories.bzl", "python_init_repositor
 
 python_init_repositories(
     requirements = {
+        "3.10": "//:requirements_lock_3_10.txt",
+        "3.11": "//:requirements_lock_3_11.txt",
         "3.12": "//:requirements_lock_3_12.txt",
+        "3.13": "//:requirements_lock_3_13.txt",
     },
 )
 

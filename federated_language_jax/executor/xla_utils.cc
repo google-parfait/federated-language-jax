@@ -18,6 +18,7 @@ limitations under the License.
 #include <algorithm>
 #include <complex>
 #include <cstdint>
+#include <cstring>
 
 #include "absl/log/log.h"
 #include "absl/status/status.h"
@@ -327,6 +328,24 @@ static void CopyFromRepeatedField(const google::protobuf::RepeatedField<int32_t>
 
 absl::StatusOr<xla::Literal> LiteralFromArray(
     const federated_language::Array& array_pb) {
+  if (array_pb.has_content()) {
+    const xla::Shape shape =
+        TFF_TRY(ShapeFromArrayShape(array_pb.dtype(), array_pb.shape()));
+    xla::Literal literal(shape);
+    if (array_pb.content().size() != literal.size_bytes()) {
+      return absl::InvalidArgumentError(
+          absl::StrCat("Array content size (", array_pb.content().size(),
+                       " bytes) does not match expected literal size (",
+                       literal.size_bytes(), " bytes)."));
+    }
+    char* dest = static_cast<char*>(literal.untyped_data());
+    for (absl::string_view chunk : array_pb.content().Chunks()) {
+      std::memcpy(dest, chunk.data(), chunk.size());
+      dest += chunk.size();
+    }
+    return literal;
+  }
+
   switch (array_pb.kind_case()) {
     case federated_language::Array::kBoolList: {
       xla::Literal literal(TFF_TRY(ShapeFromArrayShape(
