@@ -52,9 +52,9 @@ dm-tree==0.1.10 \
     # via
     #   -r requirements.in
     #   federated-language
-federated-language==0.5.3 \
-    --hash=sha256:997773d3a3e04d93207caf7f0496285aa0a27305d82c451492feb937b0b777da \
-    --hash=sha256:a97cfab53d6b08c4038b6d71c519adbb054da41f3253fd83d3a60d29562c2edc
+federated-language==0.5.4 \
+    --hash=sha256:b38f92938f013dc67e34cb2510069a99a8af425013194473dbb0472ef904be02 \
+    --hash=sha256:c831cf499c4ee08b839967855c197591fb6c85466db4b06e6128b92f1b8e6b1e
     # via -r requirements.in
 grpcio==1.80.0 \
     --hash=sha256:00168469238b022500e486c1c33916acf2f2a9b2c022202cf8a1885d2e3073c1 \

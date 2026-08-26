@@ -1,0 +1,15 @@
+# Update visibility for the `structure` target.
+#
+# This patch was created manually.
+
+diff --git federated_language/common_libs/BUILD federated_language/common_libs/BUILD
+--- federated_language/common_libs/BUILD
++++ federated_language/common_libs/BUILD
+@@ -102,6 +102,7 @@
+ py_library(
+     name = "structure",
+     srcs = ["structure.py"],
++    visibility = ["//visibility:public"],
+     deps = [
+         ":py_typecheck",
+         "@federated_language_pypi//attrs",
