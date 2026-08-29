@@ -1,20 +1,14 @@
 # Update visibility for the `cpp_to_python_executor` target.
 #
-# ```
-# buildozer \
-#     'add visibility //visibility:public' \
-#     //tensorflow_federated/python/core/impl/executors:cpp_to_python_executor
-# ```
-
 diff --git tensorflow_federated/python/core/impl/executors/BUILD tensorflow_federated/python/core/impl/executors/BUILD
-index a9ee41e17..712200cda 100644
+index 693ea3a..85f4468 100644
 --- tensorflow_federated/python/core/impl/executors/BUILD
 +++ tensorflow_federated/python/core/impl/executors/BUILD
-@@ -50,6 +50,7 @@ py_library(
-     tags = [
-         "nokokoro",  # b/193543632: C++ execution is not fully supported in OSS.
-     ],
+@@ -49,6 +49,7 @@ py_test(
+ 
+ py_library(
+     name = "cpp_to_python_executor",
 +    visibility = ["//visibility:public"],
+     srcs = ["cpp_to_python_executor.py"],
      deps = [
          ":executor_bindings",
-         ":executors_errors",
