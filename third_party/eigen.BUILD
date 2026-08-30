@@ -30,3 +30,9 @@ cc_library(
     includes = ["."],
     visibility = ["//visibility:public"],
 )
+
+alias(
+    name = "eigen3",
+    actual = ":eigen",
+    visibility = ["//visibility:public"],
+)

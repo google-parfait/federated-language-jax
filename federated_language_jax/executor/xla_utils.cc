@@ -18,11 +18,15 @@ limitations under the License.
 #include <algorithm>
 #include <complex>
 #include <cstdint>
+#include <cstring>
+#include <type_traits>
 
 #include "absl/log/log.h"
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
+#include "absl/strings/cord.h"
 #include "absl/strings/str_cat.h"
+#include "absl/strings/string_view.h"
 #include "absl/types/span.h"
 #include "google/protobuf/repeated_field.h"
 #include "federated_language/proto/array.pb.h"
@@ -325,8 +329,36 @@ static void CopyFromRepeatedField(const google::protobuf::RepeatedField<int32_t>
                  });
 }
 
+template <typename ContentT>
+void CopyContentToBuffer(const ContentT& content, char* dest) {
+  if constexpr (std::is_convertible_v<ContentT, absl::string_view>) {
+    absl::string_view sv(content);
+    std::memcpy(dest, sv.data(), sv.size());
+  } else {
+    for (absl::string_view chunk : content.Chunks()) {
+      std::memcpy(dest, chunk.data(), chunk.size());
+      dest += chunk.size();
+    }
+  }
+}
+
 absl::StatusOr<xla::Literal> LiteralFromArray(
     const federated_language::Array& array_pb) {
+  if (array_pb.has_content()) {
+    const xla::Shape shape =
+        TFF_TRY(ShapeFromArrayShape(array_pb.dtype(), array_pb.shape()));
+    xla::Literal literal(shape);
+    if (array_pb.content().size() != literal.size_bytes()) {
+      return absl::InvalidArgumentError(
+          absl::StrCat("Array content size (", array_pb.content().size(),
+                       " bytes) does not match expected literal size (",
+                       literal.size_bytes(), " bytes)."));
+    }
+    char* dest = static_cast<char*>(literal.untyped_data());
+    CopyContentToBuffer(array_pb.content(), dest);
+    return literal;
+  }
+
   switch (array_pb.kind_case()) {
     case federated_language::Array::kBoolList: {
       xla::Literal literal(TFF_TRY(ShapeFromArrayShape(

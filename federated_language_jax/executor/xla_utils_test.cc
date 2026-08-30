@@ -18,11 +18,13 @@ limitations under the License.
 #include <complex>
 #include <cstdint>
 #include <initializer_list>
+#include <vector>
 
 #include "googlemock/include/gmock/gmock.h"
 #include "googletest/include/gtest/gtest.h"
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
+#include "absl/strings/string_view.h"
 #include "Eigen/Core"
 #include "federated_language/proto/array.pb.h"
 #include "federated_language/proto/computation.pb.h"
@@ -583,6 +585,56 @@ TEST(LiteralFromArrayTest, TestReturnsLiteral_array) {
   const xla::Literal expected_literal =
       xla::LiteralUtil::CreateR2<int32_t>({{1, 2, 3}, {4, 5, 6}});
   EXPECT_EQ(actual_literal, expected_literal);
+}
+
+TEST(LiteralFromArrayTest, TestReturnsLiteral_content_float32) {
+  federated_language::Array array_pb;
+  array_pb.set_dtype(federated_language::DataType::DT_FLOAT);
+  array_pb.mutable_shape()->add_dim(2);
+  array_pb.mutable_shape()->add_dim(3);
+  const std::vector<float> values = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f};
+  array_pb.set_content(
+      absl::string_view(reinterpret_cast<const char*>(values.data()),
+                        values.size() * sizeof(float)));
+
+  const xla::Literal& actual_literal =
+      TFF_ASSERT_OK(LiteralFromArray(array_pb));
+
+  const xla::Literal expected_literal = xla::LiteralUtil::CreateR2<float>(
+      {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+  EXPECT_EQ(actual_literal, expected_literal);
+}
+
+TEST(LiteralFromArrayTest, TestReturnsLiteral_content_int32) {
+  federated_language::Array array_pb;
+  array_pb.set_dtype(federated_language::DataType::DT_INT32);
+  array_pb.mutable_shape()->add_dim(2);
+  array_pb.mutable_shape()->add_dim(2);
+  const std::vector<int32_t> values = {10, 20, 30, 40};
+  array_pb.set_content(
+      absl::string_view(reinterpret_cast<const char*>(values.data()),
+                        values.size() * sizeof(int32_t)));
+
+  const xla::Literal& actual_literal =
+      TFF_ASSERT_OK(LiteralFromArray(array_pb));
+
+  const xla::Literal expected_literal =
+      xla::LiteralUtil::CreateR2<int32_t>({{10, 20}, {30, 40}});
+  EXPECT_EQ(actual_literal, expected_literal);
+}
+
+TEST(LiteralFromArrayTest, TestFails_content_size_mismatch) {
+  federated_language::Array array_pb;
+  array_pb.set_dtype(federated_language::DataType::DT_FLOAT);
+  array_pb.mutable_shape()->add_dim(2);
+  const std::vector<float> values = {1.0f};
+  array_pb.set_content(
+      absl::string_view(reinterpret_cast<const char*>(values.data()),
+                        values.size() * sizeof(float)));
+
+  const absl::StatusOr<xla::Literal>& result = LiteralFromArray(array_pb);
+
+  EXPECT_EQ(result.status().code(), absl::StatusCode::kInvalidArgument);
 }
 
 TEST(LiteralFromArrayTest, TestFails_string) {
