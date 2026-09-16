@@ -16,14 +16,18 @@ name: Test Package
 
 on:  # yamllint disable-line rule:truthy
 
+  # TODO: b/417987844 - Enable testing the Python package once standalone wheel
+  # packaging without tensorflow_federated dependency and with xla_bindings
+  # extension module is supported. Currently, importing the installed package
+  # fails because tensorflow_federated is not bundled or listed in dependencies.
   # presubmit
-  pull_request:
-    branches:
-      - main
+  # pull_request:
+  #   branches:
+  #     - main
 
   # continuous
-  schedule:
-    - cron: '20 10 * * *'  # Every day at 10:20 UTC.
+  # schedule:
+  #   - cron: '20 10 * * *'  # Every day at 10:20 UTC.
 
   # workflow
   workflow_call:

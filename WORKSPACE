@@ -21,28 +21,19 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 #
 
 # Commit determined by:
-# https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/third_party/absl/workspace.bzl#L10
+# https://github.com/openxla/xla/blob/f73bbc1a0dd4bcbdacf6420bd0f517eb2d3fd177/third_party/absl/workspace.bzl#L25
 http_archive(
     name = "abseil-cpp",
     patch_args = ["-p1"],
     patches = [
-        "@xla//third_party/absl:nullability_macros.patch",
+        "@xla//third_party/absl:btree.patch",
+        "@xla//third_party/absl:build_dll.patch",
+        "@xla//third_party/absl:endian.patch",
+        "@xla//third_party/absl:raw_hash_set.patch",
     ],
-    sha256 = "a862ce94f77979ce36d2ca21ad3ca36b60838083392247b301b085a06d9f2b1a",
-    strip_prefix = "abseil-cpp-54fac219c4ef0bc379dfffb0b8098725d77ac81b",
-    url = "https://github.com/abseil/abseil-cpp/archive/54fac219c4ef0bc379dfffb0b8098725d77ac81b.tar.gz",
-)
-
-# Commit determined by:
-# https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/tsl_workspace2.bzl#L283
-http_archive(
-    name = "com_google_protobuf",
-    repo_mapping = {
-        "@com_google_absl": "@abseil-cpp",
-    },
-    sha256 = "7fce939b9b7181bd0bd157360e0cc88a8cabf01ac4efe4662494f56dd955d4c1",
-    strip_prefix = "protobuf-5.28.3",
-    url = "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v5.28.3.tar.gz",
+    sha256 = "6e1aee535473414164bf83e4ebc40240dec71a4701f8a642d906e95bea1aea0c",
+    strip_prefix = "abseil-cpp-20260526.0",
+    url = "https://github.com/abseil/abseil-cpp/archive/20260526.0.tar.gz",
 )
 
 # Commit determined by:
@@ -52,13 +43,17 @@ http_archive(
     build_file = "//third_party:eigen.BUILD",
     sha256 = "1a432ccbd597ea7b9faa1557b1752328d6adc1a3db8969f6fe793ff704be3bf0",
     strip_prefix = "eigen-4c38131a16803130b66266a912029504f2cf23cd",
-    url = "https://gitlab.com/libeigen/eigen/-/archive/4c38131a16803130b66266a912029504f2cf23cd/eigen-4c38131a16803130b66266a912029504f2cf23cd.tar.gz",
+    urls = [
+        "https://storage.googleapis.com/mirror.tensorflow.org/gitlab.com/libeigen/eigen/-/archive/4c38131a16803130b66266a912029504f2cf23cd/eigen-4c38131a16803130b66266a912029504f2cf23cd.tar.gz",
+        "https://gitlab.com/libeigen/eigen/-/archive/4c38131a16803130b66266a912029504f2cf23cd/eigen-4c38131a16803130b66266a912029504f2cf23cd.tar.gz",
+    ],
 )
 
 http_archive(
     name = "federated_language",
     patches = [
         "//third_party/federated_language:python_toolchain.patch",
+        "//third_party/federated_language:structure_visibility.patch",
     ],
     repo_mapping = {
         "@federated_language_pypi": "@federated_language_jax_pypi",
@@ -82,25 +77,30 @@ http_archive(
     patches = [
         "//third_party/tensorflow_federated:bazel_deps.patch",
         "//third_party/tensorflow_federated:cpp_to_python_executor_visibility.patch",
-        "//third_party/tensorflow_federated:protobuf_matchers.patch",
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
         "@com_google_googletest": "@googletest",
+        "@eigen": "@eigen",
     },
-    sha256 = "eed2e0ad5cd565c238fa1e0ddeb73bcdfeb627c7813c3f2cf3f8d40fcbcfa25b",
-    strip_prefix = "tensorflow-federated-126f6c7fd4695fa5cee77bd34efe77f78330fb26",
-    url = "https://github.com/google-parfait/tensorflow-federated/archive/126f6c7fd4695fa5cee77bd34efe77f78330fb26.tar.gz",
+    sha256 = "58a0c08290c3f701bdcb30581c95049f50fec26008686162370b558f76d31027",
+    strip_prefix = "tensorflow-federated-3f3e1dca6cb2256b2e20db90cf0298b1fbe1d6f8",
+    url = "https://github.com/google-parfait/tensorflow-federated/archive/3f3e1dca6cb2256b2e20db90cf0298b1fbe1d6f8.tar.gz",
 )
 
+# Commit determined by
+# https://github.com/openxla/xla/blob/f73bbc1a0dd4bcbdacf6420bd0f517eb2d3fd177/third_party/pybind11_abseil/workspace.bzl#L29
 http_archive(
     name = "pybind11_abseil",
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
     },
-    sha256 = "1496b112e86416e2dcf288569a3e7b64f3537f0b18132224f492266e9ff76c44",
-    strip_prefix = "pybind11_abseil-202402.0",
-    url = "https://github.com/pybind/pybind11_abseil/archive/refs/tags/v202402.0.tar.gz",
+    sha256 = "c6d0c6784e4d5681919731f1fa86e0b7cd010e770115bdb3a0285b3939ef2394",
+    strip_prefix = "pybind11_abseil-13d4f99d5309df3d5afa80fe2ae332d7a2a64c6b",
+    urls = [
+        "https://storage.googleapis.com/mirror.tensorflow.org/github.com/pybind/pybind11_abseil/archive/13d4f99d5309df3d5afa80fe2ae332d7a2a64c6b.tar.gz",
+        "https://github.com/pybind/pybind11_abseil/archive/13d4f99d5309df3d5afa80fe2ae332d7a2a64c6b.tar.gz",
+    ],
 )
 
 http_archive(
@@ -111,7 +111,7 @@ http_archive(
 )
 
 # Commit determined by
-# https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/workspace2.bzl#L152
+# https://github.com/openxla/xla/blob/f73bbc1a0dd4bcbdacf6420bd0f517eb2d3fd177/workspace2.bzl#L198
 http_archive(
     name = "pybind11_protobuf",
     repo_mapping = {
@@ -122,11 +122,23 @@ http_archive(
     url = "https://github.com/pybind/pybind11_protobuf/archive/f02a2b7653bc50eb5119d125842a3870db95d251.tar.gz",
 )
 
+# Commit determined by:
+# https://github.com/openxla/xla/blob/f73bbc1a0dd4bcbdacf6420bd0f517eb2d3fd177/third_party/riegeli/workspace.bzl#L22
 http_archive(
-    name = "rules_cc",
-    sha256 = "d62624b45e0912713dcd3b8e30ba6ae55418ed6bf99e6d135cd61b8addae312b",
-    strip_prefix = "rules_cc-0.1.2",
-    url = "https://github.com/bazelbuild/rules_cc/archive/refs/tags/0.1.2.tar.gz",
+    name = "riegeli",
+    patch_args = ["-p1"],
+    patches = [
+        "@xla//third_party/riegeli:layering_check.patch",
+    ],
+    repo_mapping = {
+        "@com_google_absl": "@abseil-cpp",
+    },
+    sha256 = "f63337f63f794ba9dc7dd281b20af3d036dfe0c1a5a4b7b8dc20b39f7e323b97",
+    strip_prefix = "riegeli-9f2744dc23e81d84c02f6f51244e9e9bb9802d57",
+    urls = [
+        "https://storage.googleapis.com/mirror.tensorflow.org/github.com/google/riegeli/archive/9f2744dc23e81d84c02f6f51244e9e9bb9802d57.tar.gz",
+        "https://github.com/google/riegeli/archive/9f2744dc23e81d84c02f6f51244e9e9bb9802d57.tar.gz",
+    ],
 )
 
 http_archive(
@@ -144,19 +156,72 @@ http_archive(
 )
 
 http_archive(
+    name = "remote_coverage_tools",
+    sha256 = "7006375f6756819b7013ca875eab70a541cf7d89142d9c511ed78ea4fefa38af",
+    urls = [
+        "https://storage.googleapis.com/bazel-mirror/bazel_coverage_output_generator/releases/coverage_output_generator-v2.6.zip",
+        "https://mirror.bazel.build/bazel_coverage_output_generator/releases/coverage_output_generator-v2.6.zip",
+    ],
+)
+
+http_archive(
     name = "xla",
+    patch_args = ["-p1"],
     patches = [
-        "//third_party/tsl:bazel_deps.patch",
-        "//third_party/xla:bazel_deps.patch",
-        "//third_party/xla:zlib.patch",
+        "//third_party/xla:workspace4.patch",
     ],
     repo_mapping = {
         "@com_google_absl": "@abseil-cpp",
         "@com_googlesource_code_re2": "@re2",
+        "@eigen_archive": "@eigen",
     },
-    sha256 = "83547a447618229991e1dff77a10c0770e9b3370b5ac3669c6823e90f22c6814",
-    strip_prefix = "xla-381088235cac2e4d438d87ada69cf92b13d798a2",
-    url = "https://github.com/openxla/xla/archive/381088235cac2e4d438d87ada69cf92b13d798a2.tar.gz",
+    sha256 = "77f34f7b925bdfe72d40f0f6ede96c55e3cf7e2599cd3e0da2f3046886b87557",
+    strip_prefix = "xla-f73bbc1a0dd4bcbdacf6420bd0f517eb2d3fd177",
+    url = "https://github.com/openxla/xla/archive/f73bbc1a0dd4bcbdacf6420bd0f517eb2d3fd177.tar.gz",
+)
+
+load("@xla//third_party:repo.bzl", "tf_http_archive")
+
+# Commit determined by:
+# https://github.com/openxla/xla/blob/f73bbc1a0dd4bcbdacf6420bd0f517eb2d3fd177/third_party/py/ml_dtypes/workspace.bzl#L25
+tf_http_archive(
+    name = "ml_dtypes_py",
+    build_file = "@xla//third_party/py/ml_dtypes:ml_dtypes_py.BUILD",
+    link_files = {
+        "@xla//third_party/py/ml_dtypes:ml_dtypes.BUILD": "ml_dtypes/BUILD.bazel",
+    },
+    repo_mapping = {
+        "@eigen_archive": "@eigen",
+    },
+    sha256 = "f6e5880666661351e6cd084ac4178ddc4dabcde7e9a73722981c0d1500cf5937",
+    strip_prefix = "ml_dtypes-00d98cd92ade342fef589c0470379abb27baebe9",
+    urls = [
+        "https://storage.googleapis.com/mirror.tensorflow.org/github.com/jax-ml/ml_dtypes/archive/00d98cd92ade342fef589c0470379abb27baebe9/ml_dtypes-00d98cd92ade342fef589c0470379abb27baebe9.tar.gz",
+        "https://github.com/jax-ml/ml_dtypes/archive/00d98cd92ade342fef589c0470379abb27baebe9/ml_dtypes-00d98cd92ade342fef589c0470379abb27baebe9.tar.gz",
+    ],
+)
+
+# Commit determined by:
+# https://github.com/openxla/xla/blob/f73bbc1a0dd4bcbdacf6420bd0f517eb2d3fd177/third_party/ducc/workspace.bzl#L21
+tf_http_archive(
+    name = "ducc",
+    build_file = "@xla//third_party/ducc:ducc.BUILD",
+    link_files = {
+        "@xla//third_party/ducc:ducc0_custom_lowlevel_threading.h": "google/ducc0_custom_lowlevel_threading.h",
+        "@xla//third_party/ducc:fft.h": "google/fft.h",
+        "@xla//third_party/ducc:fft.cc": "google/fft.cc",
+        "@xla//third_party/ducc:threading.cc": "google/threading.cc",
+        "@xla//third_party/ducc:threading.h": "google/threading.h",
+    },
+    repo_mapping = {
+        "@eigen_archive": "@eigen",
+    },
+    sha256 = "077cf4bd0bd7eddaa6649a024285fff96e2662c5e6f2fb6ed5c5771f9de093f3",
+    strip_prefix = "ducc-aa46a4c21e440b3d416c16eca3c96df19c74f316",
+    urls = [
+        "https://storage.googleapis.com/mirror.tensorflow.org/gitlab.mpcdf.mpg.de/mtr/ducc/-/archive/aa46a4c21e440b3d416c16eca3c96df19c74f316/ducc-aa46a4c21e440b3d416c16eca3c96df19c74f316.tar.gz",
+        "https://gitlab.mpcdf.mpg.de/mtr/ducc/-/archive/aa46a4c21e440b3d416c16eca3c96df19c74f316/ducc-aa46a4c21e440b3d416c16eca3c96df19c74f316.tar.gz",
+    ],
 )
 
 #
@@ -164,7 +229,7 @@ http_archive(
 #
 
 # Required by `org_tensorflow_federated` and `xla`; commit determined by
-# https://github.com/openxla/xla/blob/381088235cac2e4d438d87ada69cf92b13d798a2/tsl_workspace2.bzl#L339
+# https://github.com/openxla/xla/blob/f73bbc1a0dd4bcbdacf6420bd0f517eb2d3fd177/workspace2.bzl#L684
 http_archive(
     name = "com_github_grpc_grpc",
     patch_args = ["-p1"],
@@ -175,9 +240,9 @@ http_archive(
         "@com_google_absl": "@abseil-cpp",
         "@com_googlesource_code_re2": "@re2",
     },
-    sha256 = "afbc5d78d6ba6d509cc6e264de0d49dcd7304db435cbf2d630385bacf49e066c",
-    strip_prefix = "grpc-1.68.2",
-    url = "https://github.com/grpc/grpc/archive/refs/tags/v1.68.2.tar.gz",
+    sha256 = "41b695614b26652ff9e97ce50cfd4a6c7a3d45a9fe598d1454407746499bbf2c",
+    strip_prefix = "grpc-1.81.0",
+    url = "https://github.com/grpc/grpc/archive/refs/tags/v1.81.0.tar.gz",
 )
 
 # Required by `pybind11_bazel`.
@@ -213,11 +278,53 @@ load("@rules_shell//shell:repositories.bzl", "rules_shell_dependencies")
 rules_shell_dependencies()
 
 # Required by `xla`.
+load("@xla//:workspace4.bzl", "xla_workspace4")
+
+xla_workspace4()
+
+load("@xla//:workspace3.bzl", "xla_workspace3")
+
+xla_workspace3()
+
+load("@bazel_features//:deps.bzl", "bazel_features_deps")
+
+bazel_features_deps()
+
+# Initialize hermetic C++
+load("@rules_ml_toolchain//cc/deps:cc_toolchain_deps.bzl", "cc_toolchain_deps")
+
+cc_toolchain_deps()
+
+register_toolchains("@rules_ml_toolchain//cc:linux_x86_64_linux_x86_64")
+
+register_toolchains("@rules_ml_toolchain//cc:linux_x86_64_linux_x86_64_cuda")
+
+# Commit determined by:
+# https://github.com/openxla/xla/blob/f73bbc1a0dd4bcbdacf6420bd0f517eb2d3fd177/third_party/py/python_init_rules.bzl#L14
+http_archive(
+    name = "com_google_protobuf",
+    patch_args = ["-p1"],
+    patches = [
+        "@xla//third_party/protobuf:protobuf.patch",
+        "@xla//third_party/protobuf:protobuf_arena.patch",
+    ],
+    repo_mapping = {
+        "@com_google_absl": "@abseil-cpp",
+        "@protobuf_pip_deps": "@pypi",
+    },
+    sha256 = "6e09bbc950ba60c3a7b30280210cd285af8d7d8ed5e0a6ed101c72aff22e8d88",
+    strip_prefix = "protobuf-6.31.1",
+    urls = [
+        "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v6.31.1.zip",
+    ],
+)
+
+# Initialize hermetic Python
 load("@xla//third_party/py:python_init_rules.bzl", "python_init_rules")
 
 python_init_rules()
 
-load("@xla//third_party/py:python_init_repositories.bzl", "python_init_repositories")
+load("@rules_ml_toolchain//py:python_init_repositories.bzl", "python_init_repositories")
 
 python_init_repositories(
     requirements = {
@@ -228,17 +335,17 @@ python_init_repositories(
     },
 )
 
-load("@xla//third_party/py:python_init_toolchains.bzl", "python_init_toolchains")
+load("@rules_ml_toolchain//py:python_register_toolchain.bzl", "python_register_toolchain")
 
-python_init_toolchains()
+python_register_toolchain()
 
-load("@xla//:workspace4.bzl", "xla_workspace4")
+load("@rules_ml_toolchain//py:python_init_pip.bzl", "python_init_pip")
 
-xla_workspace4()
+python_init_pip()
 
-load("@xla//:workspace3.bzl", "xla_workspace3")
+load("@pypi//:requirements.bzl", "install_deps")
 
-xla_workspace3()
+install_deps()
 
 load("@xla//:workspace2.bzl", "xla_workspace2")
 
@@ -253,7 +360,7 @@ load("@xla//:workspace0.bzl", "xla_workspace0")
 xla_workspace0()
 
 load(
-    "@rules_ml_toolchain//third_party/gpus/cuda/hermetic:cuda_json_init_repository.bzl",
+    "@rules_ml_toolchain//gpu/cuda:cuda_json_init_repository.bzl",
     "cuda_json_init_repository",
 )
 
@@ -265,13 +372,19 @@ load(
     "CUDNN_REDISTRIBUTIONS",
 )
 load(
-    "@rules_ml_toolchain//third_party/gpus/cuda/hermetic:cuda_redist_init_repositories.bzl",
+    "@rules_ml_toolchain//gpu/cuda:cuda_redist_init_repositories.bzl",
     "cuda_redist_init_repositories",
     "cudnn_redist_init_repository",
 )
+load(
+    "@rules_ml_toolchain//gpu/cuda:cuda_redist_versions.bzl",
+    "REDIST_VERSIONS_TO_BUILD_TEMPLATES",
+)
+load("@xla//third_party/cccl:workspace.bzl", "CCCL_3_2_0_DIST_DICT", "CCCL_GITHUB_VERSIONS_TO_BUILD_TEMPLATES")
 
 cuda_redist_init_repositories(
-    cuda_redistributions = CUDA_REDISTRIBUTIONS,
+    cuda_redistributions = CUDA_REDISTRIBUTIONS | CCCL_3_2_0_DIST_DICT,
+    redist_versions_to_build_templates = REDIST_VERSIONS_TO_BUILD_TEMPLATES | CCCL_GITHUB_VERSIONS_TO_BUILD_TEMPLATES,
 )
 
 cudnn_redist_init_repository(
@@ -279,50 +392,61 @@ cudnn_redist_init_repository(
 )
 
 load(
-    "@rules_ml_toolchain//third_party/gpus/cuda/hermetic:cuda_configure.bzl",
+    "@rules_ml_toolchain//gpu/cuda:cuda_configure.bzl",
     "cuda_configure",
 )
 
 cuda_configure(name = "local_config_cuda")
 
 load(
-    "@rules_ml_toolchain//third_party/nccl/hermetic:nccl_redist_init_repository.bzl",
+    "@rules_ml_toolchain//gpu/nccl:nccl_redist_init_repository.bzl",
     "nccl_redist_init_repository",
 )
 
 nccl_redist_init_repository()
 
 load(
-    "@rules_ml_toolchain//third_party/nccl/hermetic:nccl_configure.bzl",
+    "@rules_ml_toolchain//gpu/nccl:nccl_configure.bzl",
     "nccl_configure",
 )
 
 nccl_configure(name = "local_config_nccl")
 
-#
-# CC Toolchains
-#
+load(
+    "@rules_ml_toolchain//gpu/nvshmem:nvshmem_json_init_repository.bzl",
+    "nvshmem_json_init_repository",
+)
 
-load("@rules_ml_toolchain//cc_toolchain/deps:cc_toolchain_deps.bzl", "cc_toolchain_deps")
+nvshmem_json_init_repository()
 
-cc_toolchain_deps()
+load(
+    "@nvshmem_redist_json//:distributions.bzl",
+    "NVSHMEM_REDISTRIBUTIONS",
+)
+load(
+    "@rules_ml_toolchain//gpu/nvshmem:nvshmem_redist_init_repository.bzl",
+    "nvshmem_redist_init_repository",
+)
 
-register_toolchains("@rules_ml_toolchain//cc_toolchain:lx64_lx64")
-
-register_toolchains("@rules_ml_toolchain//cc_toolchain:lx64_lx64_cuda")
+nvshmem_redist_init_repository(
+    nvshmem_redistributions = NVSHMEM_REDISTRIBUTIONS,
+)
 
 #
 # Python Dependencies
 #
 
+load("@rules_ml_toolchain//py:python_register_toolchain.bzl", "get_toolchain_name_per_python_version")
 load("@rules_python//python:pip.bzl", "pip_parse")
 
 pip_parse(
     name = "federated_language_jax_pypi",
-    python_interpreter_target = "@python_host//:python",
+    python_interpreter_target = "@{}_host//:python".format(
+        get_toolchain_name_per_python_version("python"),
+    ),
     requirements_lock = "//:requirements_lock_3_12.txt",
 )
 
-load("@federated_language_jax_pypi//:requirements.bzl", "install_deps")
+load("@federated_language_jax_pypi//:requirements.bzl", install_flang_deps = "install_deps")
 
-install_deps()
+install_flang_deps()

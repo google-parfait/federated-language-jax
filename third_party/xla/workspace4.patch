@@ -1,0 +1,21 @@
+diff --git a/workspace4.bzl b/workspace4.bzl
+index ee28620..d324812 100644
+--- a/workspace4.bzl
++++ b/workspace4.bzl
+@@ -21,7 +21,15 @@ load("//third_party:repo.bzl", "tf_vendored")
+ # buildifier: disable=unnamed-macro
+ def workspace():
+     # Declares @tsl
+-    tf_vendored(name = "tsl", path = "third_party/tsl")
++    tf_vendored(
++        name = "tsl",
++        path = "third_party/tsl",
++        repo_mapping = {
++            "@com_google_absl": "@abseil-cpp",
++            "@com_googlesource_code_re2": "@re2",
++            "@eigen_archive": "@eigen",
++        },
++    )
+ 
+ # Alias so it can be loaded without assigning to a different symbol to prevent
+ # shadowing previous loads and trigger a buildifier warning.
