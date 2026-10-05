@@ -120,8 +120,8 @@ def _remove_struct_element_names_from_tff_type(type_spec: _T) -> _T:
     return None  # pyrefly: ignore[bad-return]
   if isinstance(type_spec, federated_language.FunctionType):
     return federated_language.FunctionType(  # pyrefly: ignore[bad-return]
-        _remove_struct_element_names_from_tff_type(type_spec.parameter),  # pytype: disable=wrong-arg-types
-        _remove_struct_element_names_from_tff_type(type_spec.result),  # pytype: disable=wrong-arg-types
+        _remove_struct_element_names_from_tff_type(type_spec.parameter),  # pyrefly: ignore[bad-specialization]
+        _remove_struct_element_names_from_tff_type(type_spec.result),  # pyrefly: ignore[bad-specialization]
     )
   if isinstance(type_spec, federated_language.TensorType):
     return type_spec
@@ -129,7 +129,7 @@ def _remove_struct_element_names_from_tff_type(type_spec: _T) -> _T:
       (
           None,
           _remove_struct_element_names_from_tff_type(  # pyrefly: ignore[bad-specialization]
-              v  # pytype: disable=wrong-arg-types
+              v
           ),
       )
       for _, v in type_spec.items()
