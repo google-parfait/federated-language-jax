@@ -147,7 +147,7 @@ cc_test(
     args = ["--platform_name=gpu"],
     tags = [
         "manual",
-        "requires-gpu-nvidia",
+        "requires-gpu-sm90",
     ],
     deps = [
         ":platform_support",
