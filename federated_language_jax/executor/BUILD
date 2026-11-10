@@ -16,8 +16,8 @@ load("@local_config_cuda//cuda:build_defs.bzl", "if_cuda")
 load("@pybind11_bazel//:build_defs.bzl", "pybind_extension")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
-load("@rules_python//python:defs.bzl", "py_library")
 load("@xla//xla/tsl:tsl.bzl", "if_cuda_or_rocm", "if_with_tpu_support")
+load("//third_party/bazel_rules/rules_python/python:py_library.bzl", "py_library")
 
 package(
     default_applicable_licenses = ["//:package_license"],
@@ -32,6 +32,7 @@ licenses(["notice"])
 py_library(
     name = "executor",
     srcs = ["__init__.py"],
+    type_checking = True,
     visibility = ["//tools:__subpackages__"],
 )
 
@@ -39,6 +40,7 @@ py_library(
     name = "executor_factory",
     srcs = ["executor_factory.py"],
     data = ["@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:executor_bindings"],
+    type_checking = True,
     deps = [
         "@federated_language_jax_pypi//absl_py",
         "@federated_language_jax_pypi//cachetools",

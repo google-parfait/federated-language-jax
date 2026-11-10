@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@rules_python//python:defs.bzl", "py_library", "py_test")
+load("@rules_python//python:defs.bzl", "py_test")
+load("//third_party/bazel_rules/rules_python/python:py_library.bzl", "py_library")
 
 package(
     default_applicable_licenses = ["//:package_license"],
@@ -26,6 +27,7 @@ licenses(["notice"])
 py_library(
     name = "backend",
     srcs = ["__init__.py"],
+    type_checking = True,
     visibility = ["//tools:__subpackages__"],
 )
 
@@ -36,6 +38,7 @@ py_library(
         "//federated_language_jax/executor:xla_bindings",
         "@org_tensorflow_federated//tensorflow_federated/cc/core/impl/executors:executor_bindings",
     ],
+    type_checking = True,
     deps = [
         "//federated_language_jax/computation:jax_computation",
         "//federated_language_jax/executor:executor_factory",
